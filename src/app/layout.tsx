@@ -103,7 +103,9 @@ export default function RootLayout({
               "jobTitle": profile.role,
               "worksFor": {
                 "@type": "Organization",
-                "name": "Innolyze"
+                "name": "Innolyze",
+                "url": "https://www.innolyze.com", 
+                "logo": "https://www.innolyze.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.339d7fa4.png&w=1920&q=75" // ✅ Org Logo
               },
               "knowsAbout": ["Next.js", "React","TypeScript", "JavaScript", "Tailwind & CSS",  "Python", "FastAPI", "OpenAI Agents", "Full-Stack Development", "Graphic Design", "SEO"],
               "alumniOf": "GIAIC",
