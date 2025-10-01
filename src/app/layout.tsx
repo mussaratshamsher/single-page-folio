@@ -93,7 +93,7 @@ export default function RootLayout({
               "@type": "Person",
               "name": profile.name,
               "url": siteUrl,
-              "image": `${siteUrl}/logo.png`, // A professional headshot is best here
+              "image": `${siteUrl}/profile.jpg`, 
               "sameAs": [
                 profile.socials.linkedin,
                 profile.socials.twitter,
@@ -106,7 +106,14 @@ export default function RootLayout({
                 "name": "Innolyze"
               },
               "knowsAbout": ["Next.js", "React","TypeScript", "JavaScript", "Tailwind & CSS",  "Python", "FastAPI", "OpenAI Agents", "Full-Stack Development", "Graphic Design", "SEO"],
-              "alumniOf": "GIAIC"
+              "alumniOf": "GIAIC",
+              "email": `mailto:${profile.email}`,
+              "telephone": profile.phone,
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": profile.location
+              },
+              "description": profile.tagline,
             }),
           }}
         />
