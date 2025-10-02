@@ -29,8 +29,8 @@ export default function Contact() {
     return;
   }
 
-  if (wordCount < 15) {
-    alert("Message must be at least 15 words.");
+  if (wordCount < 10) {
+    alert("Message must be at least 10 words.");
     return;
   }
   if (wordCount > 250) {

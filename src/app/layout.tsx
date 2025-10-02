@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = "https://your-portfolio-domain.com"; 
+const siteUrl = "https://mussarat-web-dev.vercel.app/"; 
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

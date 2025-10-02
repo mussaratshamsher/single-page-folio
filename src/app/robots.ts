@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const siteUrl = "https://your-portfolio-domain.com"; 
+  const siteUrl = "https://mussarat-web-dev.vercel.app/"; 
 
   return {
     rules: {
