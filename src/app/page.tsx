@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import profile from "@/components/ui/PortfolioData";
 import Link from "next/link";
+import Contact from "@/components/ui/contact";
 
 
 export default function Home() {
@@ -202,8 +203,8 @@ export default function Home() {
     <CardContent className="relative z-10">
       <p className="text-sm text-slate-400">{p.desc}</p>
       <div className="mt-4 flex flex-wrap gap-2">
-        {p.tags.map((t) => (
-          <Badge key={t} variant="outline" className={section.badge}>
+        {p.tags.map((t, i) => (
+          <Badge key={`${p.title}-tag-${i}`} variant="outline" className={section.badge}>
             {t}
           </Badge>
         ))}
@@ -245,13 +246,15 @@ export default function Home() {
           {profile.skills.map((skill, i) => (
             <Badge key={`row1-${i}`} variant="secondary"
               className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
-              {skill} </Badge>
+                 {skill} 
+              </Badge>
           ))}
           {/* duplicate for seamless loop */}
           {profile.skills.map((skill, i) => (
             <Badge key={`row1-dup-${i}`} variant="secondary"
             className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
-              {skill} </Badge>
+                 {skill} 
+              </Badge>
           ))}
         </div>
       </div>
@@ -277,51 +280,7 @@ export default function Home() {
 </section>
 
       {/* CONTACT */}
-      <section id="contact" className="border-y border-white/5 bg-gradient-to-b from-slate-950 to-blue-950/20">
-        <div className="mx-auto max-w-6xl px-6 py-16 grid md:grid-cols-2 gap-8 items-start">
-          <div data-aos="fade-right">
-            <h2 className={`text-2xl md:text-3xl font-bold ${section.title}`}>Let’s build something great</h2>
-            <p className="mt-3 text-slate-300/90">Tell me a bit about your project and timeline. <br />
-             or visit our company website <Link href="https://www.innolyze.com/" target="_blank" className="text-emerald-300 ml-1 mr-1">ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒</Link>
-            to see our Services & detailed about and projects</p>
-            <div className="mt-6 space-y-3 text-sm text-slate-300">
-              <div className="flex items-center gap-2"><Mail className="w-4 h-4" /><a className="hover:underline" href={`mailto:${profile.email}`}>{profile.email}</a></div>
-              <div className="flex items-center gap-2"><Linkedin className="w-4 h-4" /><a className="hover:underline" href={profile.socials.linkedin} target="_blank" rel="noreferrer">LinkedIn</a></div>
-              <div className="flex items-center gap-2"><Facebook className="w-4 h-4" /><a className="hover:underline" href={profile.socials.facebook} target="_blank" rel="noreferrer">Facebook</a></div>
-              <div className="flex items-center gap-2"><Twitter className="w-4 h-4" /><a className="hover:underline" href={profile.socials.twitter} target="_blank" rel="noreferrer">Twitter</a></div>
-            </div>
-          </div>
-
-          <Card className={`${section.card} bg-slate-900/70`} data-aos="fade-left">
-            <CardContent className="pt-6">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const fd = new FormData(e.currentTarget as HTMLFormElement);
-                  const name = fd.get("name");
-                  const email = fd.get("email");
-                  alert(`Thanks ${name}! I will reply at ${email}.`);
-                  (e.currentTarget as HTMLFormElement).reset();
-                }}
-                className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium text-slate-200">Name</label>
-                  <input name="name" required className="mt-1 w-full rounded-xl border border-white/10 bg-slate-950/60 px-3 py-2 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40" />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-slate-200">Email</label>
-                  <input type="email" name="email" required className="mt-1 w-full rounded-xl border border-white/10 bg-slate-950/60 px-3 py-2 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40" />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-slate-200">Message</label>
-                  <textarea name="message" rows={5} required className="mt-1 w-full rounded-xl border border-white/10 bg-slate-950/60 px-3 py-2 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40" />
-                </div>
-                <Button type="submit" className="rounded-xl w-full bg-gradient-to-r from-emerald-500 to-cyan-400 text-slate-900 hover:opacity-90">Send Message</Button>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+      <Contact />
 
       {/* FOOTER */}
       <footer className="border-t border-white/5">

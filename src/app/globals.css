@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+html {
+  scroll-behavior: smooth;
+}
 
 /* Amazing hover underline effect for Navbar */
 .hover-underline {

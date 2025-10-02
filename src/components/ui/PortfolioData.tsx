@@ -70,17 +70,17 @@ const profile = {
     { title: "Python Website", tags: ["Python","Streamlit"], desc: "It is a dynamic Python web app built with Streamlit, to showcase interactive Python projects.",
      image:"/img12.png", link: "https://test-python-web.streamlit.app/" },
 
-    { title: "Logo Design", tags: ["Canva"], desc: "Designed a modern and versatile logo for my portfolio websit & SfarNama brand logo as an assignment.",
-     image:"", link: "" },
+    { title: "Logo Design", tags: ["Canva"], desc: "Designed a modern and versatile logo for my portfolio website & SafarNama brand logo as an assignment.",
+     image:"/logo", link: "" },
 
      { title: "Poster Design", tags: ["Canva"], desc: "Created eye-catching posters for events and promotions, enhancing visual communication.",
-     image:"", link: "" },
+     image:"/logo", link: "" },
 
      { title: "Keywords Research", tags: ["",""], desc: "",
-     image:"", link: "" },
+     image:"/logo", link: "" },
 
      { title: "page Speed Insights", tags: ["Lighthouse"], desc: "Improved website performance and loading times through detailed analysis and optimization strategies.",
-     image:"", link: "" },
+     image:"/logo", link: "" },
   ],
 };
 
