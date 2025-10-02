@@ -16,7 +16,6 @@ const geistMono = Geist_Mono({
 
 const siteUrl = "https://your-portfolio-domain.com"; 
 
-// ✅ Keep metadata clean
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
