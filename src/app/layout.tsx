@@ -23,7 +23,15 @@ export const metadata: Metadata = {
     template: `%s | ${profile.name}`,
   },
   icons: {
-    icon: "/logo.png",
+    icon: [
+      { url: "/logo.png" }, 
+      new URL("/logo.png", siteUrl),
+    ],
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+    other: [
+      { rel: "apple-touch-icon-precomposed", url: "/logo.png" },
+    ],
   },
   description: profile.tagline,
   keywords: [
@@ -43,7 +51,9 @@ export const metadata: Metadata = {
     description: profile.tagline,
     url: siteUrl,
     siteName: profile.name,
-    images: [`${siteUrl}/og-image.png`],
+    images: [
+      { url: `${siteUrl}/og-image.png`, alt: `${profile.name}'s Portfolio` },
+    ],
     locale: "en_US",
     type: "website",
   },
@@ -55,7 +65,9 @@ export const metadata: Metadata = {
     title: `${profile.name} | ${profile.role}`,
     description: profile.tagline,
     creator: "@MussaratShams",
-    images: [`${siteUrl}/og-image.png`],
+    images: [
+      { url: `${siteUrl}/og-image.png`, alt: `${profile.name}'s Portfolio` },
+    ],
   },
   robots: {
     index: true,
