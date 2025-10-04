@@ -23,15 +23,10 @@ export const metadata: Metadata = {
     template: `%s | ${profile.name}`,
   },
   icons: {
-    icon: [
-      { url: "/logo.png" }, 
-      new URL("/logo.png", siteUrl),
-    ],
-    shortcut: "/logo.png",
-    apple: "/logo.png",
-    other: [
-      { rel: "apple-touch-icon-precomposed", url: "/logo.png" },
-    ],
+    icon: "/logo.png", 
+    apple: "/logo.png", 
+    shortcut: "/logo.png", 
+    other: [ { rel: 'apple-touch-icon-precomposed', url: '/logo.png' } ]
   },
   description: profile.tagline,
   keywords: [
@@ -52,7 +47,7 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: profile.name,
     images: [
-      { url: `${siteUrl}/og-image.png`, alt: `${profile.name}'s Portfolio` },
+      { url: "/og-image.png", alt: `${profile.name}'s Portfolio` },
     ],
     locale: "en_US",
     type: "website",
@@ -66,7 +61,7 @@ export const metadata: Metadata = {
     description: profile.tagline,
     creator: "@MussaratShams",
     images: [
-      { url: `${siteUrl}/og-image.png`, alt: `${profile.name}'s Portfolio` },
+      { url: "/og-image.png", alt: `${profile.name}'s Portfolio` },
     ],
   },
   robots: {
@@ -94,7 +89,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="!scroll-smooth">
-      <head>
+      {/* <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -103,7 +98,7 @@ export default function RootLayout({
               "@type": "Person",
               "name": profile.name,
               "url": siteUrl,
-              "image": `${siteUrl}/profile.jpg`,
+              "image": `${siteUrl}/img.jpg`,
               "sameAs": [
                 profile.socials.linkedin,
                 profile.socials.twitter,
@@ -137,7 +132,7 @@ export default function RootLayout({
             }),
           }}
         />
-      </head>
+      </head> */}
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
