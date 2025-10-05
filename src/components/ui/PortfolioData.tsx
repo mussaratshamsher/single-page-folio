@@ -1,6 +1,7 @@
 
 import {
-  Code2,Server,Database, Sparkles, Laptop, Rocket, Palette, Search, Layers} from "lucide-react";
+  Code2,Server,Database, Sparkles, Laptop, Rocket, Palette, Search, Layers, PenTool,
+} from "lucide-react";
 
 const profile = {
   name: "Mussarat Shamsher",
@@ -24,14 +25,16 @@ const profile = {
     { icon: <Database className="w-5 h-5" />, title: "Data Layer", desc: "Integration • Sanity CMS " },
     { icon: <Code2 className="w-5 h-5" />, title: "Template Clone", desc: "I convert Figma and template designs into pixel-perfect, responsive, functional websites."},
     { icon: <Rocket className="w-5 h-5" />, title: "Web Redesign & Maintenance",desc: "I modernize outdated websites, improve performance, and provide long-term support."},
-    { icon: <Search className="w-5 h-5" />, title: "SEO Optimization", desc: "Technical SEO • On/Off-Page SEO • Keywords Research • Personal/Desired Branding • Content Strategy" },
+    { icon: <Search className="w-5 h-5" />, title: "SEO Optimization", desc: "Technical SEO • On/Off-Page SEO • Keywords Research • Personal/Product Branding • Content Strategy" },
+    { icon: <PenTool className="w-5 h-5" />, title: "Content Writing", desc: "SEO-friendly Articles • Web content • Blogs • Technical Documentation • Product Descriptions" },
     { icon: <Palette className="w-5 h-5" />, title: "Graphic Design", desc: "Logos • Branding • UI Mockups" },
     { icon: <Laptop className="w-5 h-5" />, title: "Streamlit/Chainlit Apps", desc: "Data Apps • Dashboards • AI Integrations" },
   ],
   skills: [
     "Next.js", "HTML", "CSS", "JavaScript", "TypeScript","Tailwind","shadcn/ui", "daisyUI", "Framer Motion","AOS", "swiper-js",
     "Python","FastAPI","Python","OpenAI sdk","Sanity CMS","Stripe","OAuth","Clerk","Netlify","Vercel","Railway","Streamlit","Agents sdk",
-    "Git","GitHub","Canva", "Adobe Illustrator" ,"Adobe Photoshop","GIMP"
+    "Git","GitHub","Canva", "Adobe Illustrator" ,"Adobe Photoshop","GIMP", "Ubersuggest", "Semrush", "Google Trends", "Keyword.io", 
+    "mongols", "Schema Generator", "google analytics","Lighthouse", "Page Speed Insights", "SEO Quake"
   ],
   projects: [
     { title: "Furniro", tags: ["Next.js","tailwind","shadcn/ui","clerk","stripe"],desc: "Furniture webiste-full stack application with dark/light theme, authentication and stripe integration", 
@@ -79,11 +82,11 @@ const profile = {
      { title: "Business Card & Branding", tags: ["Canva"], desc: "Crafted professional business cards and branding materials to establish a strong corporate identity.",
      image:"/b-card.png", link: "https://drive.google.com/drive/folders/1QTqR1Cp1xlrjNkjkM0pVr_IYeNKp1BZX?usp=drive_link" },
 
-     { title: "Keywords Research", tags: ["Semrush, Keyword.io, mongols, google analytics",""], desc: "researched and analyzed keywords to improve website SEO and content strategy.",
+     { title: "Keywords Research", tags: ["Semrush, Keyword.io, mongols, google trends",""], desc: "researched and analyzed keywords to improve website SEO and content strategy.",
      image:"/keywords.png", link: "" },
 
      { title: "page Speed Insights", tags: ["Lighthouse"], desc: "Improved website performance and loading times through detailed analysis and optimization strategies.",
-     image:"/logo", link: "https://mussarat-web-dev.vercel.app/" },
+     image:"/speed.png", link: "https://pagespeed.web.dev/analysis/https-mussarat-web-dev-vercel-app/g1uiyqbiz3?hl=en-US&form_factor=mobile" },
   ],
 };
 
