@@ -288,12 +288,12 @@ export default function Home() {
           <p>© {new Date().getFullYear()} {profile.name}. All rights reserved.  
           <Link href="https://www.innolyze.com/" target="_blank">Visit our company  
            <span className="text-emerald-300 ml-1">ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒</span> </Link></p>
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <a href={profile.socials.twitter} target="_blank" rel="noreferrer" className="hover:text-slate-200 inline-flex items-center gap-1"><Twitter className="w-4 h-4" /> Twitter</a>
             <a href={profile.socials.linkedin} target="_blank" rel="noreferrer" className="hover:text-slate-200 inline-flex items-center gap-1"><Linkedin className="w-4 h-4" /> LinkedIn</a>
             <a href={profile.socials.facebook} target="_blank" rel="noreferrer" className="hover:text-slate-200 inline-flex items-center gap-1"><Facebook className="w-4 h-4" /> Facebook</a>
             <a href={`mailto:${profile.email}`} className="hover:text-slate-200 inline-flex items-center gap-1"><Mail className="w-4 h-4" /> Email</a>
-          </div>
+          </div> */}
         </div>
       </footer>
     </main>

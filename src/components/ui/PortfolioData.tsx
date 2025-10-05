@@ -46,8 +46,8 @@ const profile = {
     { title: "Figma to code", tags: ["Next.js","tailwind","shadcn/ui"], desc: "clone of Ecommerce Figma tempelate built in one day only.",
       image:"/img6.png", link: "https://figma-assign-ecommerce.vercel.app/" }, 
 
-    { title: "Personal Portfolio", tags: ["Next.js","Tailwind","JavaScript","shadcn/ui"], desc: "Showcasing my projects, skills, and services.",
-      image:"/img4.png", link: "https://portfolio-mussarat-shamsher.vercel.app/" },
+    // { title: "Personal Portfolio", tags: ["Next.js","Tailwind","JavaScript","shadcn/ui"], desc: "Showcasing my projects, skills, and services.",
+    //   image:"/img4.png", link: "https://portfolio-mussarat-shamsher.vercel.app/" },
 
     { title: "Hire developers", tags: ["Next.js","tailwind","shadcn/ui"],desc: "Guided tests, knowledge flows, and insights export.",
       image:"/img5.png", link: "https://hiredevelopers-hiredev.vercel.app" },
@@ -64,23 +64,26 @@ const profile = {
     { title: "QR Code Generator", tags: ["Python","Streamlit"], desc: "Batch QR creation with branding + export.",
       image:"/img10.png", link: "https://mussarat-qr-code-generator.streamlit.app/" },
 
-    { title: "Mystery Adventure", tags: ["Python","Streamlit"], desc: "An interactive mystery-adventure puzzle built with Streamlit, guiding users through coded challenges and narrative twists.", 
-     image:"/img11.png", link: "https://pythonchallange-mystery-adventure.streamlit.app/" },
+    // { title: "Mystery Adventure", tags: ["Python","Streamlit"], desc: "An interactive mystery-adventure puzzle built with Streamlit, guiding users through coded challenges and narrative twists.", 
+    //  image:"/img11.png", link: "https://pythonchallange-mystery-adventure.streamlit.app/" },
 
     { title: "Python Website", tags: ["Python","Streamlit"], desc: "It is a dynamic Python web app built with Streamlit, to showcase interactive Python projects.",
      image:"/img12.png", link: "https://test-python-web.streamlit.app/" },
 
     { title: "Logo Design", tags: ["Canva"], desc: "Designed a modern and versatile logo for my portfolio website & SafarNama brand logo as an assignment.",
-     image:"/logo", link: "" },
+     image:"/logo-design.png", link: "https://drive.google.com/drive/folders/1jT-QZFw4LboKhop-hbSW1NuMu44qIQaI?usp=drive_link" },
 
      { title: "Poster Design", tags: ["Canva"], desc: "Created eye-catching posters for events and promotions, enhancing visual communication.",
-     image:"/logo", link: "" },
+     image:"/scam.png", link: "https://drive.google.com/drive/folders/1W4dRB-lReAak_brA_AIH2PpO5Ua6D927?usp=drive_link" },
 
-     { title: "Keywords Research", tags: ["",""], desc: "",
-     image:"/logo", link: "" },
+     { title: "Business Card & Branding", tags: ["Canva"], desc: "Crafted professional business cards and branding materials to establish a strong corporate identity.",
+     image:"/b-card.png", link: "https://drive.google.com/drive/folders/1QTqR1Cp1xlrjNkjkM0pVr_IYeNKp1BZX?usp=drive_link" },
+
+     { title: "Keywords Research", tags: ["Semrush, Keyword.io, mongols, google analytics",""], desc: "researched and analyzed keywords to improve website SEO and content strategy.",
+     image:"/keywords.png", link: "" },
 
      { title: "page Speed Insights", tags: ["Lighthouse"], desc: "Improved website performance and loading times through detailed analysis and optimization strategies.",
-     image:"/logo", link: "" },
+     image:"/logo", link: "https://mussarat-web-dev.vercel.app/" },
   ],
 };
 
