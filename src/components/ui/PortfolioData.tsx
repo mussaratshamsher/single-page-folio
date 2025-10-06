@@ -82,8 +82,12 @@ const profile = {
      { title: "Business Card & Branding", tags: ["Canva"], desc: "Crafted professional business cards and branding materials to establish a strong corporate identity.",
      image:"/b-card.png", link: "https://drive.google.com/drive/folders/1QTqR1Cp1xlrjNkjkM0pVr_IYeNKp1BZX?usp=drive_link" },
 
+     { title: "Content Writing", tags: ["SEO Writing","Blog Writing","Article Writing","Technical Writing","Creative Writing",
+    "Keyword Optimization","Content Strategy","Product Descriptions"], desc: "Writes SEO-friendly articles and web content to boost online presence and engagement.",
+     image:"/keywords.png", link: "https://medium.com/@innolyze" },
+
      { title: "Keywords Research", tags: ["Semrush, Keyword.io, mongols, google trends",""], desc: "researched and analyzed keywords to improve website SEO and content strategy.",
-     image:"/keywords.png", link: "" },
+     image:"/keywords.png", link: "https://drive.google.com/drive/folders/1fjbVim4RppMEuhBDufBKVX5FFDZq10WG?usp=drive_link" },
 
      { title: "page Speed Insights", tags: ["Lighthouse"], desc: "Improved website performance and loading times through detailed analysis and optimization strategies.",
      image:"/speed.png", link: "https://pagespeed.web.dev/analysis/https-mussarat-web-dev-vercel-app/g1uiyqbiz3?hl=en-US&form_factor=mobile" },
