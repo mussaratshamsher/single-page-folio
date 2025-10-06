@@ -34,7 +34,7 @@ const profile = {
     "Next.js", "HTML", "CSS", "JavaScript", "TypeScript","Tailwind","shadcn/ui", "daisyUI", "Framer Motion","AOS", "swiper-js",
     "Python","FastAPI","Python","OpenAI sdk","Sanity CMS","Stripe","OAuth","Clerk","Netlify","Vercel","Railway","Streamlit","Agents sdk",
     "Git","GitHub","Canva", "Adobe Illustrator" ,"Adobe Photoshop","GIMP", "Ubersuggest", "Semrush", "Google Trends", "Keyword.io", 
-    "mongols", "Schema Generator", "google analytics","Lighthouse", "Page Speed Insights", "SEO Quake"
+    "mongols", "Schema Generator", "google analytics","Lighthouse", "Page Speed Insights", "SEO Quake", "Google Analytics"
   ],
   projects: [
     { title: "Furniro", tags: ["Next.js","tailwind","shadcn/ui","clerk","stripe"],desc: "Furniture webiste-full stack application with dark/light theme, authentication and stripe integration", 
