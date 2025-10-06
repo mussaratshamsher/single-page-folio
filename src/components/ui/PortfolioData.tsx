@@ -84,7 +84,7 @@ const profile = {
 
      { title: "Content Writing", tags: ["SEO Writing","Blog Writing","Article Writing","Technical Writing","Creative Writing",
     "Keyword Optimization","Content Strategy","Product Descriptions"], desc: "Writes SEO-friendly articles and web content to boost online presence and engagement.",
-     image:"/keywords.png", link: "https://medium.com/@innolyze" },
+     image:"/content.png", link: "https://medium.com/@innolyze" },
 
      { title: "Keywords Research", tags: ["Semrush, Keyword.io, mongols, google trends",""], desc: "researched and analyzed keywords to improve website SEO and content strategy.",
      image:"/keywords.png", link: "https://drive.google.com/drive/folders/1fjbVim4RppMEuhBDufBKVX5FFDZq10WG?usp=drive_link" },
