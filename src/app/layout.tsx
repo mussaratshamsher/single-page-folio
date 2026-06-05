@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "aos/dist/aos.css";
 import profile from "@/components/ui/PortfolioData";
+import Navbar from "@/components/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -89,53 +89,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="!scroll-smooth">
-      {/* <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              "name": profile.name,
-              "url": siteUrl,
-              "image": `${siteUrl}/img.jpg`,
-              "sameAs": [
-                profile.socials.linkedin,
-                profile.socials.twitter,
-                profile.socials.facebook,
-                "https://github.com/mussaratshamsher"
-              ],
-              "jobTitle": profile.role,
-              "worksFor": {
-                "@type": "Organization",
-                "name": "Innolyze",
-                "url": "https://www.innolyze.com",
-                "logo": "https://www.innolyze.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.339d7fa4.png&w=1920&q=75"
-              },
-              "knowsAbout": [
-                "Next.js",
-                "React",
-                "TypeScript",
-                "JavaScript",
-                "Tailwind & CSS",
-                "Python",
-                "FastAPI",
-                "OpenAI Agents",
-                "Full-Stack Development",
-                "Graphic Design",
-                "SEO"
-              ],
-              "alumniOf": "GIAIC",
-              "email": `mailto:${profile.email}`,
-              "telephone": profile.phone,
-              "description": profile.tagline,
-            }),
-          }}
-        />
-      </head> */}
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Navbar />
         {children}
       </body>
     </html>

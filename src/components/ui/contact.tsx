@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Mail, Linkedin, Facebook, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -75,7 +76,7 @@ export default function Contact() {
     >
       <div className="mx-auto max-w-6xl px-6 py-16 grid md:grid-cols-2 gap-8 items-start">
         {/* Left side - Info */}
-        <div data-aos="fade-right">
+        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
           <h2 className="text-2xl md:text-3xl font-bold">Let’s build something great</h2>
           <p className="mt-3 text-slate-300/90">
             Tell me a bit about your project and timeline. <br />
@@ -103,37 +104,39 @@ export default function Contact() {
                 target="_blank" rel="noreferrer"> Twitter </a>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right side - Form */}
-        <Card className="bg-slate-900/70" data-aos="fade-left">
-          <CardContent className="pt-6">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="text-sm font-medium text-slate-200">Name</label>
-                <input name="name" value={formData.name}
-                 onChange={handleChange} required className="mt-1 w-full rounded-xl border 
-    border-white/10 bg-slate-950/60 px-3 py-2 text-slate-100 focus:ring-2 focus:ring-emerald-500/40"/>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-slate-200">Email</label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange}
-              required className="mt-1 w-full rounded-xl border border-white/10 
-    bg-slate-950/60 px-3 py-2 text-slate-100 focus:ring-2 focus:ring-emerald-500/40" />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-slate-200">Message</label>
-                <textarea name="message" rows={4} value={formData.message} onChange={handleChange}
+        <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+          <Card className="bg-slate-900/70">
+            <CardContent className="pt-6">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-slate-200">Name</label>
+                  <input name="name" value={formData.name}
+                   onChange={handleChange} required className="mt-1 w-full rounded-xl border 
+      border-white/10 bg-slate-950/60 px-3 py-2 text-slate-100 focus:ring-2 focus:ring-emerald-500/40"/>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-slate-200">Email</label>
+                  <input type="email" name="email" value={formData.email} onChange={handleChange}
                 required className="mt-1 w-full rounded-xl border border-white/10 
-    bg-slate-950/60 px-3 py-2 text-slate-100 focus:ring-2 focus:ring-emerald-500/40"/>
-              </div> 
-              <Button type="submit" className="rounded-xl w-full 
-    bg-gradient-to-r from-emerald-500 to-cyan-400 text-slate-900 hover:opacity-90"
-                disabled={loading}> {loading ? "Sending..." : "Send Message"}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+      bg-slate-950/60 px-3 py-2 text-slate-100 focus:ring-2 focus:ring-emerald-500/40" />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-slate-200">Message</label>
+                  <textarea name="message" rows={4} value={formData.message} onChange={handleChange}
+                  required className="mt-1 w-full rounded-xl border border-white/10 
+      bg-slate-950/60 px-3 py-2 text-slate-100 focus:ring-2 focus:ring-emerald-500/40"/>
+                </div> 
+                <Button type="submit" className="rounded-xl w-full 
+      bg-gradient-to-r from-emerald-500 to-cyan-400 text-slate-900 hover:opacity-90"
+                  disabled={loading}> {loading ? "Sending..." : "Send Message"}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
     </section>
   );
