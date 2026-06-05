@@ -27,8 +27,19 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
       className="h-full"
     >
       <Card className={`${section.card} ${className}`}>
-        {/* Project Image Container */}
-        <div className="relative h-52 w-full overflow-hidden">
+        {/* Mobile Background Image (Older Version Style) */}
+        <div className="absolute inset-0 md:hidden pointer-events-none">
+          <Image 
+            src={project.image} 
+            alt={project.title} 
+            fill 
+            className="object-cover opacity-15"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent" />
+        </div>
+
+        {/* Desktop Image Container (Modern Style) */}
+        <div className="hidden md:block relative h-52 w-full overflow-hidden">
           <Image 
             src={project.image} 
             alt={project.title} 
@@ -39,7 +50,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent opacity-60" />
           <div className="absolute inset-0 bg-emerald-500/5 group-hover:bg-transparent transition-colors duration-500" />
           
-          {/* Floating Badge (Mobile only/Top right) */}
+          {/* Floating Badge (Desktop) */}
           <div className="absolute top-4 right-4 flex gap-2">
             {project.tags.slice(0, 1).map((t, i) => (
               <Badge key={i} className="bg-emerald-500 text-slate-950 border-none font-bold text-[10px]">
@@ -49,13 +60,13 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
           </div>
         </div>
 
-        <CardHeader className="pt-6 pb-2">
+        <CardHeader className="pt-6 pb-2 relative z-10">
           <CardTitle className="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors duration-300">
             {project.title}
           </CardTitle>
         </CardHeader>
         
-        <CardContent className="flex-grow flex flex-col px-6">
+        <CardContent className="flex-grow flex flex-col px-6 relative z-10">
           <p className="text-sm text-slate-400 line-clamp-2 mb-6 group-hover:text-slate-300 transition-colors">
             {project.desc}
           </p>
