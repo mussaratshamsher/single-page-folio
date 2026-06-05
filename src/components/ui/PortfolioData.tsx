@@ -2,7 +2,7 @@ import {
   Code2,Server,Database, Sparkles, Laptop, Rocket, Palette, Search, Layers, PenTool,
 } from "lucide-react";
 
-interface Project {
+export interface Project {
   slug: string;
   title: string;
   tags: string[];
@@ -14,7 +14,7 @@ interface Project {
   solution?: string;
 }
 
-interface Profile {
+export interface Profile {
   name: string;
   role: string;
   tagline: string;

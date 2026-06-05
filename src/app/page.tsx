@@ -161,34 +161,38 @@ functional, and impactful. With additional expertise in graphic design and SEO, 
         </div>
       </section>
 
-      {/* PROJECTS (alternating image cards) */}
+      {/* PROJECTS (Responsive Grid) */}
       <section id="projects" className="relative">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-blue-950/30 to-transparent" />
-        <div className="mx-auto max-w-6xl px-6 py-16">
-          <motion.h2 className={`text-2xl md:text-3xl font-bold ${section.title}`} {...fadeIn}>Featured Projects</motion.h2>
-          <div className="mt-10 relative">
-            <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-emerald-500/40 via-white/10 to-transparent" />
-            <div className="space-y-10">
-              {profile.projects.slice(0, 3).map((p, idx) => (
-                <motion.div key={p.title} className={`grid md:grid-cols-2 gap-6 items-stretch ${idx % 2 === 0 ? '' : 'md:grid-flow-dense'}`}
-                  initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: idx * 0.08 }}>
-                  <div className={`md:col-start-1 ${idx % 2 !== 0 ? 'md:col-start-2' : ''}`}>
-                    <ProjectCard project={p} />
-                  </div>
-                  {/* image column  */}
-                  <div className={`hidden md:block ${idx % 2 === 0 ? 'md:col-start-2' : 'md:col-start-1'}`}>
-                    <div className="relative h-64 w-full rounded-2xl overflow-hidden border border-emerald-500/20">
-                      <Image src={p.image} alt={p.title} fill className="scale-90 rounded-2xl hover:scale-100 ease-in-out duration-900"/>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-              <div className="mt-10 text-center">
-                 <Button asChild className="rounded-xl bg-slate-900 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/10">
-                    <Link href="/projects">View All Projects <ChevronRight className="w-4 h-4 ml-1" /></Link>
-                 </Button>
-              </div>
+        <div className="mx-auto max-w-6xl px-6 py-20">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+              <motion.h2 className={`text-3xl md:text-4xl font-extrabold ${section.title}`} {...fadeIn}>
+                Featured Works
+              </motion.h2>
+              <motion.p className="mt-4 text-slate-400 max-w-xl" {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.1 }}>
+                A selection of my recent projects, from autonomous agents to enterprise web systems.
+              </motion.p>
             </div>
+            <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.2 }}>
+              <Button asChild className="rounded-xl bg-slate-900 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/10 transition-all shadow-lg shadow-emerald-500/5">
+                <Link href="/projects">View All Projects <ChevronRight className="w-4 h-4 ml-1" /></Link>
+              </Button>
+            </motion.div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {profile.projects.slice(0, 6).map((p, idx) => (
+              <motion.div
+                key={p.slug}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+              >
+                <ProjectCard project={p} />
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
