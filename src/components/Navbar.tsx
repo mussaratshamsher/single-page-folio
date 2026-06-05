@@ -60,7 +60,7 @@ export default function Navbar() {
         damping: 30
       }
     }
-  };
+  } as const;
 
   const navLinkVariants = {
     closed: { opacity: 0, y: 10 },
@@ -71,7 +71,7 @@ export default function Navbar() {
         delay: 0.1 + i * 0.1
       }
     })
-  };
+  } as const;
 
   return (
     <>
