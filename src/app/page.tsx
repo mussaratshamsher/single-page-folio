@@ -1,20 +1,23 @@
 'use client';
 
-import React from "react";
-import { motion } from "framer-motion";
-import {Mail,Linkedin,ChevronRight,Phone,MapPin,ExternalLink,Download,
-  Rocket,Layers, ShieldCheck, Laptop, Facebook,Twitter} from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Mail, Linkedin, ChevronRight, Phone, MapPin, ExternalLink, Download,
+  Rocket, Layers, ShieldCheck, Laptop, Facebook, Twitter, Search, Sparkles
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
 import profile from "@/components/ui/PortfolioData";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import Link from "next/link";
 import Contact from "@/components/ui/contact";
 
-
 export default function Home() {
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [viewAllMobile, setViewAllMobile] = useState(false);
+
   const section = {
     title: "text-emerald-300 tracking-tight",
     sub: "text-slate-300/80",
@@ -28,6 +31,18 @@ export default function Home() {
     viewport: { once: true, margin: "-40px" },
     transition: { duration: 0.7, ease: [0.25, 1, 0.5, 1] }
   } as const;
+
+  const tags = useMemo(() => {
+    const tagSet = new Set<string>();
+    profile.projects.forEach(p => p.tags.slice(0, 1).forEach(t => tagSet.add(t)));
+    return Array.from(tagSet).slice(0, 6);
+  }, []);
+
+  const filteredProjects = useMemo(() => {
+    return profile.projects
+      .filter(p => !selectedTag || p.tags.includes(selectedTag))
+      .slice(0, 5);
+  }, [selectedTag]);
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100 selection:bg-emerald-400/30 overflow-hidden">
@@ -71,33 +86,32 @@ export default function Home() {
           </motion.div>
         </div>
         {/* Right Visual: stacked stat cards with AOS replacement */}
-<motion.div className="relative" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-  <div className="grid grid-cols-2 gap-4">
-    {[ 
-      { icon: Rocket, title: "Performance", desc: "Core Web Vitals" }, 
-      { icon: ShieldCheck, title: "Quality", desc: "Testing & Type Safety" }, 
-      { icon: Layers, title: "Scalability", desc: "APIs, Caching" }, 
-      { icon: Laptop, title: "DX", desc: "Clean Architecture" }
-    ].map((item, i) => (
-      <motion.div
-        key={i}
-        className="p-5 rounded-2xl bg-slate-900/60 border border-emerald-500/20 backdrop-blur-xl hover:border-emerald-400/30 transition"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7, delay: i * 0.1 }}
-      >
-        <item.icon className="w-5 h-5 text-emerald-300" />
-        <div className="mt-2 font-semibold text-slate-200">{item.title}</div>
-        <div className="text-sm text-slate-400">{item.desc}</div>
-      </motion.div>
-    ))}
-  </div>
+        <motion.div className="relative" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[ 
+              { icon: Rocket, title: "Performance", desc: "Core Web Vitals" }, 
+              { icon: ShieldCheck, title: "Quality", desc: "Testing & Type Safety" }, 
+              { icon: Layers, title: "Scalability", desc: "APIs, Caching" }, 
+              { icon: Laptop, title: "DX", desc: "Clean Architecture" }
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                className="p-5 rounded-2xl bg-slate-900/60 border border-emerald-500/20 backdrop-blur-xl hover:border-emerald-400/30 transition"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: i * 0.1 }}
+              >
+                <item.icon className="w-5 h-5 text-emerald-300" />
+                <div className="mt-2 font-semibold text-slate-200">{item.title}</div>
+                <div className="text-sm text-slate-400">{item.desc}</div>
+              </motion.div>
+            ))}
+          </div>
 
-  {/* Floating orb with CSS animation */}
-  <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-emerald-500/20 blur-2xl float-orb" />
-</motion.div>
-
+          {/* Floating orb with CSS animation */}
+          <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-emerald-500/20 blur-2xl float-orb" />
+        </motion.div>
       </section>
 
       {/* ABOUT */}
@@ -108,12 +122,11 @@ export default function Home() {
             initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
             <h2 className={`text-2xl md:text-3xl font-bold ${section.title}`}>About</h2>
             <p className="mt-4 text-slate-300/90 leading-relaxed">
-I’m the Co-Founder of <Link href="https://www.innolyze.com/" target="_blank" className="text-emerald-300 hover:underline">ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒</Link>,
-and an Agentic AI Developer & Full-Stack Engineer passionate about building intelligent software that solves 
-real-world problems. I specialize in Next.js, Python, FastAPI, and modern AI technologies, creating scalable web applications and autonomous AI systems.
-From transforming Figma designs into pixel-perfect experiences to architecting AI-powered workflows, I enjoy turning ideas into products that are fast, 
-functional, and impactful. With additional expertise in graphic design and SEO, I focus on delivering solutions that not only work seamlessly but also provide exceptional user experiences.
-
+              I’m the Co-Founder of <Link href="https://www.innolyze.com/" target="_blank" className="text-emerald-300 hover:underline">ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒</Link>,
+              and an Agentic AI Developer & Full-Stack Engineer passionate about building intelligent software that solves 
+              real-world problems. I specialize in Next.js, Python, FastAPI, and modern AI technologies, creating scalable web applications and autonomous AI systems.
+              From transforming Figma designs into pixel-perfect experiences to architecting AI-powered workflows, I enjoy turning ideas into products that are fast, 
+              functional, and impactful. With additional expertise in graphic design and SEO, I focus on delivering solutions that not only work seamlessly but also provide exceptional user experiences.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Badge className="rounded-xl bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">Remote Friendly</Badge>
@@ -161,87 +174,185 @@ functional, and impactful. With additional expertise in graphic design and SEO, 
         </div>
       </section>
 
-      {/* PROJECTS (Responsive Grid) */}
+      {/* PROJECTS SECTION */}
       <section id="projects" className="relative">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-blue-950/30 to-transparent" />
-        <div className="mx-auto max-w-6xl px-6 py-20">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <motion.h2 className={`text-3xl md:text-4xl font-extrabold ${section.title}`} {...fadeIn}>
-                Featured Works
-              </motion.h2>
-              <motion.p className="mt-4 text-slate-400 max-w-xl" {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.1 }}>
-                A selection of my recent projects, from autonomous agents to enterprise web systems.
+              <motion.h2 className={`text-2xl md:text-4xl font-black ${section.title}`} {...fadeIn}>Selected Projects</motion.h2>
+              <motion.p className={`mt-2 max-w-xl ${section.sub}`} {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.05 }}>
+                A showcase of AI agents, intelligent systems, and high-performance web applications.
               </motion.p>
             </div>
-            <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.2 }}>
-              <Button asChild className="rounded-xl bg-slate-900 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/10 transition-all shadow-lg shadow-emerald-500/5">
-                <Link href="/projects">View All Projects <ChevronRight className="w-4 h-4 ml-1" /></Link>
-              </Button>
+            
+            {/* Filter Bar (Non-Sticky as requested) */}
+            <motion.div 
+              className="flex flex-wrap gap-2"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+            >
+              <button 
+                onClick={() => setSelectedTag(null)}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${!selectedTag ? 'bg-emerald-500 text-slate-950' : 'bg-slate-900 text-slate-400 border border-white/5 hover:border-emerald-500/30'}`}
+              >
+                All
+              </button>
+              {tags.map(t => (
+                <button 
+                  key={t}
+                  onClick={() => setSelectedTag(t)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${selectedTag === t ? 'bg-emerald-500 text-slate-950' : 'bg-slate-900 text-slate-400 border border-white/5 hover:border-emerald-500/30'}`}
+                >
+                  {t}
+                </button>
+              ))}
             </motion.div>
           </div>
+          
+          {/* Projects Display */}
+          <div className="mt-12 overflow-visible">
+            {/* Mobile: Hybrid Display */}
+            <div className="md:hidden">
+              {!viewAllMobile ? (
+                <div className="flex flex-col gap-8">
+                  {/* Horizontal Slider (First 3) */}
+                  <div className="flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory scrollbar-hide -mx-6 px-6">
+                    {filteredProjects.slice(0, 3).map((p, idx) => (
+                      <motion.div 
+                        key={p.title}
+                        className="min-w-[85vw] snap-center"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.4, delay: idx * 0.05 }}
+                      >
+                        <ProjectCard project={p} />
+                      </motion.div>
+                    ))}
+                  </div>
+                  
+                  {/* View All Button for Mobile Slider */}
+                  <Button 
+                    onClick={() => setViewAllMobile(true)}
+                    className="w-full py-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold hover:bg-emerald-500/20 transition-all"
+                  >
+                    View All Projects <ChevronRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </div>
+              ) : (
+                /* Full Vertical Stacking List */
+                <div className="flex flex-col gap-0 -mx-6 px-6">
+                  <AnimatePresence mode="popLayout">
+                    {filteredProjects.map((p, idx) => (
+                      <motion.div 
+                        key={p.title}
+                        className="sticky top-20 mb-10"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: idx * 0.1 }}
+                      >
+                        <ProjectCard project={p} />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                  
+                  {/* Collapse Button (Optional but professional) */}
+                  <Button 
+                    onClick={() => setViewAllMobile(false)}
+                    variant="ghost"
+                    className="mt-4 text-slate-500 text-xs uppercase tracking-widest font-bold"
+                  >
+                    Show Less
+                  </Button>
+                </div>
+              )}
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {profile.projects.slice(0, 6).map((p, idx) => (
-              <motion.div
-                key={p.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-              >
-                <ProjectCard project={p} />
-              </motion.div>
-            ))}
+            {/* Desktop: Refined Bento Grid */}
+            <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 auto-rows-[450px]">
+              <AnimatePresence mode="popLayout">
+                {filteredProjects.map((p, idx) => (
+                  <motion.div 
+                    key={p.title}
+                    layout
+                    className={`${idx === 0 ? 'md:col-span-2' : ''}`}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.5, delay: idx * 0.05 }}
+                  >
+                    <ProjectCard project={p} isFeatured={idx === 0} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
           </div>
+
+          <motion.div 
+            className="mt-16 text-center md:block"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            animate={viewAllMobile ? { height: 0, opacity: 0, overflow: "hidden", marginTop: 0 } : {}}
+          >
+             {/* Adjusted Button Height (Reduced from py-6) */}
+             {!viewAllMobile && (
+               <Button asChild className="group rounded-2xl bg-slate-900 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/10 px-10 py-4 h-auto text-base font-bold transition-all shadow-lg shadow-emerald-500/10 hidden md:inline-flex">
+                  <Link href="/projects" className="flex items-center gap-3">
+                    View All Projects 
+                    <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform text-emerald-400" />
+                  </Link>
+               </Button>
+             )}
+          </motion.div>
         </div>
       </section>
 
       {/* SKILLS cloud */}
-<section id="skills" className="border-t border-white/5">
-  <div className="mx-auto max-w-6xl px-6 py-16">
-    <h2 className="text-2xl md:text-3xl font-bold text-slate-100">Tech Arsenal</h2>
-    <p className="mt-2 text-slate-400">Tools I use frequently.</p>
+      <section id="skills" className="border-t border-white/5">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-100">Tech Arsenal</h2>
+          <p className="mt-2 text-slate-400">Tools I use frequently.</p>
 
-    <div className="mt-8 space-y-6">
-      {/* First row - left to right */}
-      <div className="overflow-hidden relative group">
-        <div className="flex gap-3 animate-marquee group-hover:[animation-play-state:paused]">
-          {profile.skills.map((skill, i) => (
-            <Badge key={`row1-${i}`} variant="secondary"
-              className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
-                 {skill} 
-              </Badge>
-          ))}
-          {/* duplicate for seamless loop */}
-          {profile.skills.map((skill, i) => (
-            <Badge key={`row1-dup-${i}`} variant="secondary"
-            className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
-                 {skill} 
-              </Badge>
-          ))}
-        </div>
-      </div>
+          <div className="mt-8 space-y-6">
+            {/* First row - left to right */}
+            <div className="overflow-hidden relative group">
+              <div className="flex gap-3 animate-marquee group-hover:[animation-play-state:paused]">
+                {profile.skills.map((skill, i) => (
+                  <Badge key={`row1-${i}`} variant="secondary"
+                    className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
+                       {skill} 
+                    </Badge>
+                ))}
+                {profile.skills.map((skill, i) => (
+                  <Badge key={`row1-dup-${i}`} variant="secondary"
+                  className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
+                       {skill} 
+                    </Badge>
+                ))}
+              </div>
+            </div>
 
-      {/* Second row - right to left */}
-      <div className="overflow-hidden relative group">
-        <div className="flex gap-3 animate-marquee-reverse group-hover:[animation-play-state:paused]">
-          {profile.skills.map((skill, i) => (
-            <Badge key={`row2-${i}`} variant="secondary"
-            className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
-              {skill} </Badge>
-          ))}
-          {/* duplicate for seamless loop */}
-          {profile.skills.map((skill, i) => (
-            <Badge key={`row2-dup-${i}`} variant="secondary"
-            className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
-              {skill} </Badge>
-          ))}
+            {/* Second row - right to left */}
+            <div className="overflow-hidden relative group">
+              <div className="flex gap-3 animate-marquee-reverse group-hover:[animation-play-state:paused]">
+                {profile.skills.map((skill, i) => (
+                  <Badge key={`row2-${i}`} variant="secondary"
+                  className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
+                    {skill} </Badge>
+                ))}
+                {profile.skills.map((skill, i) => (
+                  <Badge key={`row2-dup-${i}`} variant="secondary"
+                  className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
+                    {skill} </Badge>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* CONTACT */}
       <Contact />
@@ -252,12 +363,6 @@ functional, and impactful. With additional expertise in graphic design and SEO, 
           <p>© {new Date().getFullYear()} {profile.name}. All rights reserved.  
           <Link href="https://www.innolyze.com/" target="_blank">Visit our company  
            <span className="text-emerald-300 ml-1">ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒</span> </Link></p>
-          {/* <div className="flex items-center gap-4">
-            <a href={profile.socials.twitter} target="_blank" rel="noreferrer" className="hover:text-slate-200 inline-flex items-center gap-1"><Twitter className="w-4 h-4" /> Twitter</a>
-            <a href={profile.socials.linkedin} target="_blank" rel="noreferrer" className="hover:text-slate-200 inline-flex items-center gap-1"><Linkedin className="w-4 h-4" /> LinkedIn</a>
-            <a href={profile.socials.facebook} target="_blank" rel="noreferrer" className="hover:text-slate-200 inline-flex items-center gap-1"><Facebook className="w-4 h-4" /> Facebook</a>
-            <a href={`mailto:${profile.email}`} className="hover:text-slate-200 inline-flex items-center gap-1"><Mail className="w-4 h-4" /> Email</a>
-          </div> */}
         </div>
       </footer>
     </main>

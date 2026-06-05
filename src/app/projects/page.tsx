@@ -5,10 +5,33 @@ import { ProjectCard } from "@/components/ui/ProjectCard";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ChevronLeft, Search, SlidersHorizontal, Sparkles } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Suspense } from "react";
+import { Suspense, useRef } from "react";
+
+function ProjectStackCard({ project, index, total }: { project: any, index: number, total: number }) {
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start end", "start start"]
+  });
+
+  // Overlapping effect values for mobile
+  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.6, 1]);
+  
+  return (
+    <div ref={container} className="sticky top-24 md:static mb-12 md:mb-0 last:mb-0 h-[80vh] md:h-auto flex items-center justify-center">
+       <motion.div 
+         style={{ scale, opacity }}
+         className="w-full h-full md:h-auto"
+       >
+         <ProjectCard project={project} index={index} />
+       </motion.div>
+    </div>
+  );
+}
 
 function ProjectsContent() {
   const router = useRouter();
@@ -56,42 +79,39 @@ function ProjectsContent() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
         >
-            <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300 mb-4">
-                Selected Works
+            <h1 className="text-4xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300 mb-6 tracking-tighter">
+                Selected <br className="md:hidden" /> Works
             </h1>
-            <p className="text-slate-400 max-w-2xl mb-12">
+            <p className="text-slate-400 text-lg md:text-xl max-w-2xl mb-16 leading-relaxed">
                 A collection of projects ranging from autonomous AI agents to high-performance full-stack applications.
             </p>
         </motion.div>
         
-        {/* Filters and Search */}
-        <div className="flex flex-col lg:flex-row gap-6 mb-12 items-start lg:items-center justify-between">
-            <div className="relative w-full lg:w-96 group">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-emerald-400 transition-colors" />
+        {/* Filters and Search - Removed sticky to avoid overlapping issues */}
+        <div className="flex flex-col lg:flex-row gap-6 mb-12 items-start lg:items-center justify-between py-4 bg-slate-950/50">
+            <div className="relative w-full lg:w-[400px] group">
+                <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-emerald-400 transition-colors" />
                 <input 
                     type="text" 
                     placeholder="Search projects..." 
-                    className="bg-slate-900/50 border border-emerald-500/20 rounded-2xl pl-11 pr-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-emerald-400/50 focus:ring-1 focus:ring-emerald-400/20 w-full transition-all backdrop-blur-sm"
+                    className="bg-slate-900/50 border border-emerald-500/10 rounded-2xl pl-12 pr-6 py-4 text-base text-slate-200 focus:outline-none focus:border-emerald-400/50 focus:ring-1 focus:ring-emerald-400/20 w-full transition-all backdrop-blur-sm"
                     value={search} 
                     onChange={(e) => setSearch(e.target.value)} 
                 />
             </div>
             
-            <div className="flex flex-wrap gap-2 items-center">
-                <div className="flex items-center gap-2 text-slate-500 mr-2 text-xs uppercase tracking-widest font-semibold">
-                    <SlidersHorizontal className="w-3 h-3" /> Filter:
-                </div>
+            <div className="flex flex-wrap gap-2.5 items-center">
                 <button 
                     onClick={() => handleTagChange(null)} 
-                    className={`px-4 py-1.5 rounded-xl text-xs font-medium transition-all ${!selectedTag ? 'bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20' : 'bg-slate-900 text-slate-400 hover:bg-slate-800 border border-emerald-500/10'}`}
+                    className={`px-6 py-2.5 rounded-2xl text-sm font-bold transition-all ${!selectedTag ? 'bg-emerald-500 text-slate-950 shadow-xl shadow-emerald-500/20' : 'bg-slate-900 text-slate-400 hover:bg-slate-800 border border-white/5'}`}
                 >
-                    All
+                    All Works
                 </button>
                 {tags.map(t => (
                     <button 
                         key={t} 
                         onClick={() => handleTagChange(t)} 
-                        className={`px-4 py-1.5 rounded-xl text-xs font-medium transition-all ${selectedTag === t ? 'bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20' : 'bg-slate-900 text-slate-400 hover:bg-slate-800 border border-emerald-500/10'}`}
+                        className={`px-6 py-2.5 rounded-2xl text-sm font-bold transition-all ${selectedTag === t ? 'bg-emerald-500 text-slate-950 shadow-xl shadow-emerald-500/20' : 'bg-slate-900 text-slate-400 hover:bg-slate-800 border border-white/5'}`}
                     >
                         {t}
                     </button>
@@ -99,40 +119,47 @@ function ProjectsContent() {
             </div>
         </div>
 
-        {/* Projects Grid */}
-        <motion.div layout className="min-h-[400px]">
+        {/* Projects Display */}
+        <div className="min-h-[400px]">
             <AnimatePresence mode="popLayout">
                 {filteredProjects.length === 0 ? (
                     <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="flex flex-col items-center justify-center py-20 text-center"
+                        className="flex flex-col items-center justify-center py-32 text-center"
                     >
-                        <div className="p-4 rounded-full bg-slate-900 border border-emerald-500/20 mb-4">
-                            <Search className="w-8 h-8 text-slate-600" />
+                        <div className="p-6 rounded-full bg-slate-900 border border-emerald-500/10 mb-6">
+                            <Search className="w-10 h-10 text-slate-700" />
                         </div>
-                        <h3 className="text-xl font-semibold text-slate-200">No matches found</h3>
-                        <p className="text-slate-500 mt-2">Try adjusting your search or filters to find what you're looking for.</p>
+                        <h3 className="text-2xl font-bold text-slate-200">No projects found</h3>
+                        <p className="text-slate-500 mt-3 text-lg">Try adjusting your search or filters.</p>
                         <Button 
                             variant="link" 
-                            className="text-emerald-400 mt-4"
+                            className="text-emerald-400 mt-6 text-lg"
                             onClick={() => {setSearch(""); handleTagChange(null);}}
                         >
                             Clear all filters
                         </Button>
                     </motion.div>
                 ) : (
-                    <motion.div 
-                        className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-                    >
-                        {filteredProjects.map(p => (
-                            <ProjectCard key={p.title} project={p} />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                        {filteredProjects.map((p, idx) => (
+                            <motion.div 
+                                key={p.title}
+                                layout
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: idx * 0.05 }}
+                                className="h-full sticky top-24 md:relative mb-12 md:mb-0"
+                            >
+                                <ProjectCard project={p} />
+                            </motion.div>
                         ))}
-                    </motion.div>
+                    </div>
                 )}
             </AnimatePresence>
-        </motion.div>
+        </div>
 
         {/* CTA Section */}
         <motion.section 

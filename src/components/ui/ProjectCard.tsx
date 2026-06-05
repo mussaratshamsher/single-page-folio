@@ -1,106 +1,223 @@
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useRef } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, BookOpenText } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 import { Project } from "@/components/ui/PortfolioData";
 
 interface ProjectCardProps {
   project: Project;
   className?: string;
+  isFeatured?: boolean;
+  index?: number; // Added for stacking effects
 }
 
-export function ProjectCard({ project, className }: ProjectCardProps) {
-  const section = {
-    card: "group relative rounded-2xl bg-slate-900/40 border border-emerald-500/10 backdrop-blur-xl overflow-hidden hover:border-emerald-500/30 transition-all duration-500 flex flex-col h-full",
-    badge: "rounded-xl bg-emerald-500/5 border-emerald-500/20 text-emerald-400 text-[10px] py-0 px-2",
+export function ProjectCard({ project, className, isFeatured, index = 0 }: ProjectCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  // Motion values for tilt
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  // Smooth springs
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  // Transform values for 3D effect
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    
+    x.set(xPct);
+    y.set(yPct);
   };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  const section = {
+    card: "group relative rounded-[2rem] bg-slate-900/40 border border-emerald-500/10 backdrop-blur-2xl overflow-hidden hover:border-emerald-500/40 transition-colors duration-700 flex flex-col h-full shadow-2xl",
+    badge: "rounded-lg bg-emerald-500/5 border-emerald-500/20 text-emerald-400 text-[11px] font-semibold py-0.5 px-3 uppercase tracking-wider",
+  };
+
+  if (isFeatured) {
+    return (
+      <motion.div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className={`h-full relative overflow-hidden rounded-[2.5rem] border border-emerald-500/20 bg-slate-950 group shadow-2xl ${className}`}
+      >
+        {/* Background Image with Low Opacity */}
+        <div className="absolute inset-0 z-0">
+          <Image 
+            src={project.image} 
+            alt={project.title} 
+            fill 
+            className="object-cover opacity-40 transition-transform duration-1000 group-hover:scale-110 group-hover:opacity-55"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-950/80 to-emerald-950/20" />
+        </div>
+
+        <div className="relative z-10 flex flex-col h-full p-8 md:p-10 lg:p-12">
+          <div className="flex justify-between items-start mb-6">
+            <Badge className="bg-emerald-500 text-slate-950 border-none font-black text-[10px] px-4 py-1.5 rounded-full shadow-xl uppercase tracking-widest">
+              Featured Masterpiece
+            </Badge>
+            <div className="flex gap-2">
+              {project.tags.slice(0, 3).map((t, i) => (
+                <Badge key={i} variant="outline" className="rounded-lg bg-white/5 border-white/10 text-white/70 text-[10px]">
+                  {t}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-auto max-w-2xl">
+            <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight tracking-tighter">
+              {project.title}
+            </h3>
+            <p className="text-lg lg:text-xl text-slate-300 leading-relaxed mb-8 line-clamp-3 md:line-clamp-none">
+              {project.desc}
+            </p>
+            
+            <div className="flex flex-wrap gap-4">
+              <Button size="lg" asChild className="rounded-2xl bg-emerald-500 text-slate-950 hover:bg-emerald-400 px-8 h-14 font-black text-base shadow-xl shadow-emerald-500/20 transition-all hover:-translate-y-1">
+                <a href={project.link} target="_blank" rel="noreferrer" className="flex items-center gap-2">
+                  Launch Live <ExternalLink className="w-5 h-5" />
+                </a>
+              </Button>
+              <Button variant="outline" size="lg" asChild className="rounded-2xl border-white/10 bg-white/5 text-white hover:bg-white/10 px-8 h-14 font-bold text-base backdrop-blur-md transition-all">
+                <Link href={`/projects/${project.slug}`} className="flex items-center gap-2">
+                  View Case Study <BookOpenText className="w-5 h-5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
-      whileHover={{ y: -8 }}
-      transition={{ duration: 0.3 }}
-      className="h-full"
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+      className={`h-full perspective-1000 ${className}`}
     >
-      <Card className={`${section.card} ${className}`}>
-        {/* Mobile Background Image (Older Version Style) */}
-        <div className="absolute inset-0 md:hidden pointer-events-none">
+      <Card className={`${section.card} border-white/5 relative overflow-hidden group/card`}>
+        {/* Mobile Background Image (Visible only on small screens) */}
+        <div className="absolute inset-0 md:hidden z-0 overflow-hidden">
           <Image 
             src={project.image} 
             alt={project.title} 
             fill 
-            className="object-cover opacity-15"
+            className="object-cover opacity-20 blur-[3px] scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/60 to-slate-950/90" />
         </div>
 
-        {/* Desktop Image Container (Modern Style) */}
-        <div className="hidden md:block relative h-52 w-full overflow-hidden">
+        {/* Project Image Container (Desktop Only) */}
+        <div className="relative hidden md:block h-60 w-full overflow-hidden">
           <Image 
             src={project.image} 
             alt={project.title} 
             fill 
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
+            className="object-cover transition-transform duration-1000 group-hover:scale-110"
           />
-          {/* Subtle Overlays */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent opacity-60" />
-          <div className="absolute inset-0 bg-emerald-500/5 group-hover:bg-transparent transition-colors duration-500" />
+          {/* Enhanced Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-90" />
           
-          {/* Floating Badge (Desktop) */}
-          <div className="absolute top-4 right-4 flex gap-2">
-            {project.tags.slice(0, 1).map((t, i) => (
-              <Badge key={i} className="bg-emerald-500 text-slate-950 border-none font-bold text-[10px]">
-                {t}
-              </Badge>
-            ))}
+          {/* Floating Badge */}
+          <div className="absolute top-6 right-6">
+            <Badge className="bg-emerald-500 text-slate-950 border-none font-black text-[10px] px-3 py-1 rounded-full shadow-xl">
+              {project.tags[0]}
+            </Badge>
+          </div>
+
+          {/* Title on Image */}
+          <div className="absolute bottom-6 left-8 right-8">
+             <h3 className="font-black text-white group-hover:text-emerald-400 transition-colors duration-300 leading-tight text-2xl">
+               {project.title}
+             </h3>
           </div>
         </div>
-
-        <CardHeader className="pt-6 pb-2 relative z-10">
-          <CardTitle className="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors duration-300">
-            {project.title}
-          </CardTitle>
-        </CardHeader>
         
-        <CardContent className="flex-grow flex flex-col px-6 relative z-10">
-          <p className="text-sm text-slate-400 line-clamp-2 mb-6 group-hover:text-slate-300 transition-colors">
+        <CardContent className="flex-grow flex flex-col px-6 pt-8 pb-8 md:px-8 md:pt-8 md:pb-10 relative z-10">
+          {/* Title for mobile (hidden on desktop because it's on the image) */}
+          <div className="md:hidden mb-4">
+            <div className="flex justify-between items-start mb-2">
+              <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/20 text-[9px] px-2 py-0.5 rounded-full">
+                {project.tags[0]}
+              </Badge>
+            </div>
+            <h3 className="font-black text-white text-xl leading-tight">
+              {project.title}
+            </h3>
+          </div>
+
+          <p className="text-sm md:text-base text-slate-400 leading-relaxed mb-6 md:mb-8 line-clamp-3 group-hover:text-slate-200 transition-colors">
             {project.desc}
           </p>
           
-          <div className="mt-auto space-y-6">
+          <div className="mt-auto space-y-6 md:space-y-8">
             <div className="flex flex-wrap gap-2">
               {project.tags.slice(0, 3).map((t, i) => (
-                <Badge key={i} variant="outline" className={section.badge}>
+                <Badge key={i} variant="outline" className={`${section.badge} text-[10px] px-2`}>
                   {t}
                 </Badge>
               ))}
             </div>
             
-            <div className="flex gap-3 pb-4">
-              <Button variant="outline" size="sm" asChild
-                className="rounded-xl border-emerald-500/20 text-slate-300 hover:text-emerald-300 hover:bg-emerald-500/10 hover:border-emerald-500/40 flex-1 transition-all">
+            <div className="flex gap-3 md:gap-4">
+              <Button variant="outline" size="sm" md-size="lg" asChild
+                className="rounded-xl md:rounded-2xl border-emerald-500/20 text-slate-300 hover:text-emerald-300 hover:bg-emerald-500/10 hover:border-emerald-500/40 flex-1 h-10 md:h-12 transition-all font-bold text-xs md:text-sm">
                 <Link href={`/projects/${project.slug}`} className="flex items-center justify-center gap-2" >
                   <span>Details</span>
-                  <BookOpenText className="w-3.5 h-3.5" />
+                  <BookOpenText className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 </Link>
               </Button>
-              <Button size="sm" asChild
-                className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 flex-1 transition-all">
+              <Button size="sm" md-size="lg" asChild
+                className="rounded-xl md:rounded-2xl bg-emerald-500 text-slate-950 hover:bg-emerald-400 flex-1 h-10 md:h-12 transition-all font-black text-xs md:text-sm shadow-lg shadow-emerald-500/20">
                 <a href={project.link} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2" >
                   <span>Live</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <ExternalLink className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 </a>
               </Button>
             </div>
           </div>
         </CardContent>
 
-        {/* Decorative corner glow */}
-        <div className="absolute -bottom-10 -right-10 w-20 h-20 bg-emerald-500/10 blur-2xl group-hover:bg-emerald-500/20 transition-all duration-500" />
+        {/* 3D Reflection Light Effect */}
+        <motion.div 
+          className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+          style={{
+            x: useTransform(mouseXSpring, [-0.5, 0.5], ["-50%", "50%"]),
+            y: useTransform(mouseYSpring, [-0.5, 0.5], ["-50%", "50%"]),
+          }}
+        />
       </Card>
     </motion.div>
   );

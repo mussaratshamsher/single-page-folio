@@ -130,3 +130,12 @@ html {
 .float-orb {
   animation: floatOrb 6s ease-in-out infinite;
 }
+
+/* Hide scrollbar while keeping functionality */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
