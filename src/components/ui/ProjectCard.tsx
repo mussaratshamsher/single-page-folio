@@ -31,6 +31,10 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
 
+  // Reflection transforms
+  const reflectionX = useTransform(mouseXSpring, [-0.5, 0.5], ["-50%", "50%"]);
+  const reflectionY = useTransform(mouseYSpring, [-0.5, 0.5], ["-50%", "50%"]);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
@@ -214,8 +218,8 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
         <motion.div 
           className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
           style={{
-            x: useTransform(mouseXSpring, [-0.5, 0.5], ["-50%", "50%"]),
-            y: useTransform(mouseYSpring, [-0.5, 0.5], ["-50%", "50%"]),
+            x: reflectionX,
+            y: reflectionY,
           }}
         />
       </Card>
