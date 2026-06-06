@@ -158,7 +158,7 @@ export default function Navbar() {
               transition={{ delay: 0.8 }}
               className="mt-auto mb-16"
             >
-              <Button asChild size="lg" className="w-44 py-4 pt-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-400 text-slate-950 font-white text-sm shadow-xl shadow-emerald-500/20">
+              <Button asChild size="lg" className="w-44 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-400 text-slate-950 font-white text-sm shadow-xl shadow-emerald-500/20">
                 <a href={profile.resumeUrl} target="_blank" rel="noreferrer">
                   <Download className="w-6 h-6 mr-1" /> Download Resume
                 </a>

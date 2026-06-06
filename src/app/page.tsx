@@ -156,16 +156,23 @@ export default function Home() {
           <motion.p className={`mt-2 ${section.sub}`} {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.05 }}>From concept to production with quality gates.</motion.p>
           <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {profile.services.map((s, i) => (
-              <motion.div key={i} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.07 }}>
-                <Card className={`${section.card} group`}>
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, scale: 0.95 }} 
+                whileInView={{ opacity: 1, scale: 1 }} 
+                viewport={{ once: true }} 
+                transition={{ duration: 0.5, delay: i * 0.07 }}
+                className="h-full"
+              >
+                <Card className={`${section.card} group h-full flex flex-col`}>
                   <CardHeader>
                     <div className="flex items-center gap-2 text-emerald-300">
                       {s.icon}
                       <CardTitle className="text-base font-semibold text-slate-200">{s.title}</CardTitle>
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-slate-400">{s.desc}</p>
+                  <CardContent className="flex-grow">
+                    <p className="text-sm text-slate-400 line-clamp-3" title={s.desc}>{s.desc}</p>
                   </CardContent>
                 </Card>
               </motion.div>
