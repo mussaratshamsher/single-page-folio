@@ -38,7 +38,7 @@ export default function Contact() {
       return;
     }
 
-    const backendUrl = "https://mussarat123shamsher-porfolio-backend.hf.space";
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "https://mussarat123shamsher-porfolio-backend.hf.space";
 
     try {
       setLoading(true);
