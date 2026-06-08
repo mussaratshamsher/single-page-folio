@@ -6,7 +6,6 @@ import { Mail, Linkedin, Facebook, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import profile from "@/components/ui/PortfolioData";
-import emailjs from "@emailjs/browser";
 
 export default function Contact() {
   const [loading, setLoading] = useState(false);
@@ -21,53 +20,49 @@ export default function Contact() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const wordCount = formData.message.trim().split(/\s+/).length;
+    const wordCount = formData.message.trim().split(/\s+/).length;
 
-  if (!formData.name || !formData.email || !formData.message) {
-    alert("All fields are required.");
-    return;
-  }
-
-  if (wordCount < 10) {
-    alert("Message must be at least 10 words.");
-    return;
-  }
-  if (wordCount > 250) {
-    alert("Message must not exceed 250 words.");
-    return;
-  }
-  try {
-    const serviceId = process.env.NEXT_PUBLIC_SERVICE_ID;
-    const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID;
-    const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
-
-    if (!serviceId || !templateId || !publicKey) {
-      throw new Error("EmailJS environment variables are not configured.");
+    if (!formData.name || !formData.email || !formData.message) {
+      alert("All fields are required.");
+      return;
     }
 
-    setLoading(true);
-    await emailjs.send(
-      serviceId,
-      templateId,
-      {
-        from_name: formData.name,
-        from_email: formData.email,
-        message: formData.message,
-      },
-      publicKey
-    );
+    if (wordCount < 10) {
+      alert("Message must be at least 10 words.");
+      return;
+    }
+    if (wordCount > 250) {
+      alert("Message must not exceed 250 words.");
+      return;
+    }
 
-    alert("Message sent successfully ✅");
-    setFormData({ name: "", email: "", message: "" });
-  } catch (error) {
-    console.error(error);
-    alert("Failed to send message ❌");
-  } finally {
-    setLoading(false);
-  }
-};
+    const backendUrl = "https://mussarat123shamsher-porfolio-backend.hf.space";
+
+    try {
+      setLoading(true);
+      const response = await fetch(`${backendUrl}/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message via backend.");
+      }
+
+      alert("Message sent successfully ✅");
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error(error);
+      alert("Failed to send message ❌");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section
