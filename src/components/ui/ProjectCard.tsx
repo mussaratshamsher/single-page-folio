@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink, BookOpenText } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { m, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 import { Project } from "@/components/ui/PortfolioData";
 
@@ -62,7 +62,7 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
 
   if (isFeatured) {
     return (
-      <motion.div
+      <m.div
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
@@ -72,8 +72,9 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
         <div className="absolute inset-0 z-0">
           <Image 
             src={project.image} 
-            alt={project.title} 
+            alt={`${project.title} - ${project.desc.substring(0, 100)}...`} 
             fill 
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover opacity-40 transition-transform duration-1000 group-hover:scale-110 group-hover:opacity-55"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-950/80 to-emerald-950/20" />
@@ -115,12 +116,12 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
             </div>
           </div>
         </div>
-      </motion.div>
+      </m.div>
     );
   }
 
   return (
-    <motion.div
+    <m.div
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -136,8 +137,9 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
         <div className="absolute inset-0 md:hidden z-0 overflow-hidden">
           <Image 
             src={project.image} 
-            alt={project.title} 
+            alt={`${project.title} - ${project.desc.substring(0, 100)}...`} 
             fill 
+            sizes="100vw"
             className="object-cover opacity-20 blur-[3px] scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/60 to-slate-950/90" />
@@ -147,8 +149,9 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
         <div className="relative hidden md:block h-60 w-full overflow-hidden">
           <Image 
             src={project.image} 
-            alt={project.title} 
+            alt={`${project.title} - ${project.desc.substring(0, 100)}...`} 
             fill 
+            sizes="(max-width: 1200px) 50vw, 33vw"
             className="object-cover transition-transform duration-1000 group-hover:scale-110"
           />
           {/* Enhanced Overlays */}
@@ -215,7 +218,7 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
         </CardContent>
 
         {/* 3D Reflection Light Effect */}
-        <motion.div 
+        <m.div 
           className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
           style={{
             x: reflectionX,
@@ -223,6 +226,6 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
           }}
         />
       </Card>
-    </motion.div>
+    </m.div>
   );
 }

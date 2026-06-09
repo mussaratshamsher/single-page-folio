@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import profile from "@/components/ui/PortfolioData";
 import Navbar from "@/components/Navbar";
+import Chatbot from "@/components/Chatbot";
+import { FramerProvider } from "@/components/FramerProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,14 +32,16 @@ export const metadata: Metadata = {
   },
   description: profile.tagline,
   keywords: [
+    "Agentic AI Developer",
+    "AI Workflow Automation Specialist",
+    "Custom AI Agent Development",
+    "Hire Full-Stack AI Developer Pakistan",
+    "Next.js AI Integration Services",
+    "Retrieval-Augmented Generation (RAG) Expert",
     "Full-Stack Developer",
-    "AI Integrator",
-    "Next.js",
     "Python",
     "FastAPI",
-    "AI Agents",
-    "Mussarat Shamsher",
-    "freelance developer Pakistan"
+    "Mussarat Shamsher"
   ],
   authors: [{ name: profile.name, url: siteUrl }],
   creator: profile.name,
@@ -93,7 +97,37 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
-        {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": profile.name,
+              "url": siteUrl,
+              "jobTitle": profile.role,
+              "description": profile.tagline,
+              "image": `${siteUrl}og-image.png`,
+              "sameAs": [
+                profile.socials.linkedin,
+                profile.socials.twitter,
+                profile.socials.facebook
+              ],
+              "knowsAbout": [
+                "Next.js",
+                "AI Agents",
+                "Full-Stack Development",
+                "Python",
+                "SEO",
+                "FastAPI"
+              ]
+            })
+          }}
+        />
+        <FramerProvider>
+          {children}
+        </FramerProvider>
+        <Chatbot />
       </body>
     </html>
   );

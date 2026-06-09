@@ -1,0 +1,9 @@
+venv
+__pycache__
+*.pyc
+.env
+.git
+.gitignore
+resume.pdf
+ingest.py
+PortfolioData.tsx

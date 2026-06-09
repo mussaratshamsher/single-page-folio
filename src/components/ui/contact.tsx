@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Mail, Linkedin, Facebook, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -71,7 +71,7 @@ export default function Contact() {
     >
       <div className="mx-auto max-w-6xl px-6 py-16 grid md:grid-cols-2 gap-8 items-start">
         {/* Left side - Info */}
-        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+        <m.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
           <h2 className="text-2xl md:text-3xl font-bold">Let’s build something great</h2>
           <p className="mt-3 text-slate-300/90">
             Tell me a bit about your project and timeline. <br />
@@ -99,10 +99,10 @@ export default function Contact() {
                 target="_blank" rel="noreferrer"> Twitter </a>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Right side - Form */}
-        <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+        <m.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
           <Card className="bg-slate-900/70">
             <CardContent className="pt-6">
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -131,7 +131,7 @@ export default function Contact() {
               </form>
             </CardContent>
           </Card>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

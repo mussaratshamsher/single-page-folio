@@ -1,4 +1,5 @@
 import React from "react";
+import { Metadata } from "next";
 import profile from "@/components/ui/PortfolioData";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -6,6 +7,27 @@ import { ChevronLeft, ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const project = profile.projects.find((p) => p.slug === slug);
+  if (!project) return { title: 'Project Not Found' };
+  return {
+    title: `${project.title} | ${profile.name}`,
+    description: project.desc,
+    openGraph: {
+      title: `${project.title} | ${profile.name}`,
+      description: project.desc,
+      images: [{ url: project.image }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} | ${profile.name}`,
+      description: project.desc,
+      images: [project.image],
+    },
+  };
+}
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -49,7 +71,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <div className="relative aspect-video w-full rounded-3xl overflow-hidden border border-emerald-500/20 mb-16 shadow-2xl shadow-emerald-500/5">
           <Image 
             src={project.image} 
-            alt={project.title} 
+            alt={`${project.title} - ${project.longDescription?.substring(0, 100) || project.desc.substring(0, 100)}...`} 
             fill 
             className="object-cover"
             priority

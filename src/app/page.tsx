@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, motion, AnimatePresence } from "framer-motion";
 import {
   Mail, Linkedin, ChevronRight, Phone, MapPin, ExternalLink, Download,
   Rocket, Layers, ShieldCheck, Laptop, Facebook, Twitter, Search, Sparkles
@@ -55,15 +55,15 @@ export default function Home() {
       {/* HERO */}
       <section className="mx-auto max-w-6xl px-6 pt-16 lg:pt-24 py-20 grid md:grid-cols-2 gap-10 items-center">
         <div>
-          <motion.p className="text-sm uppercase tracking-wider text-emerald-400/80 mb-3" {...fadeIn}>Agentic AI Developer</motion.p>
-          <motion.h1 className="text-3xl md:text-4xl font-extrabold leading-tight" 
+          <m.p className="text-sm uppercase tracking-wider text-emerald-400/80 mb-3" {...fadeIn}>Agentic AI Developer</m.p>
+          <m.h1 className="text-3xl md:text-4xl font-extrabold leading-tight" 
             {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.05 }}>
             Building <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300">autonomous</span> products with
             <br /> clarity, quality & care.
-          </motion.h1>
-          <motion.p className="mt-4 text-slate-300/90 max-w-xl" 
-            {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.1 }}>{profile.tagline}</motion.p>
-          <motion.div className="mt-6 flex flex-wrap items-center gap-3" 
+          </m.h1>
+          <m.p className="mt-4 text-slate-300/90 max-w-xl" 
+            {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.1 }}>{profile.tagline}</m.p>
+          <m.div className="mt-6 flex flex-wrap items-center gap-3" 
             {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.15 }}>
             <Button asChild className="rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-400 text-slate-900 hover:opacity-90">
               <a href="#contact">Contact Me <ChevronRight className="w-4 h-4 ml-1" /></a>
@@ -83,10 +83,10 @@ export default function Home() {
                 <Twitter className="w-4 h-4 mr-2" /> Twitter
               </a>
             </Button>
-          </motion.div>
+          </m.div>
         </div>
         {/* Right Visual: stacked stat cards with AOS replacement */}
-        <motion.div className="relative" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+        <m.div className="relative" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[ 
               { icon: Rocket, title: "Performance", desc: "Core Web Vitals" }, 
@@ -94,7 +94,7 @@ export default function Home() {
               { icon: Layers, title: "Scalability", desc: "APIs, Caching" }, 
               { icon: Laptop, title: "DX", desc: "Clean Architecture" }
             ].map((item, i) => (
-              <motion.div
+              <m.div
                 key={i}
                 className="p-5 rounded-2xl bg-slate-900/60 border border-emerald-500/20 backdrop-blur-xl hover:border-emerald-400/30 transition"
                 initial={{ opacity: 0, y: 20 }}
@@ -105,20 +105,20 @@ export default function Home() {
                 <item.icon className="w-5 h-5 text-emerald-300" />
                 <div className="mt-2 font-semibold text-slate-200">{item.title}</div>
                 <div className="text-sm text-slate-400">{item.desc}</div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
 
           {/* Floating orb with CSS animation */}
           <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-emerald-500/20 blur-2xl float-orb" />
-        </motion.div>
+        </m.div>
       </section>
 
       {/* ABOUT */}
       <section id="about" className="relative border-t border-white/5">
         <div className="absolute inset-x-0 -top-8 h-8 bg-gradient-to-b from-emerald-500/10 to-transparent" />
         <div className="mx-auto max-w-6xl px-6 py-16 grid md:grid-cols-3 gap-8 items-start">
-          <motion.div className="md:col-span-2" 
+          <m.div className="md:col-span-2" 
             initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
             <h2 className={`text-2xl md:text-3xl font-bold ${section.title}`}>About</h2>
             <p className="mt-4 text-slate-300/90 leading-relaxed">
@@ -133,8 +133,8 @@ export default function Home() {
               <Badge variant="outline" className={`rounded-xl ${section.badge}`}>Contract / Part‑time</Badge>
               <Badge variant="secondary" className="rounded-xl bg-white/5 text-slate-200">UTC+5</Badge>
             </div>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+          </m.div>
+          <m.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
             <Card className={section.card}>
               <CardHeader>
                 <CardTitle className="text-slate-200">Contact</CardTitle>
@@ -145,18 +145,18 @@ export default function Home() {
                 <div className="flex items-center gap-2"><MapPin className="w-4 h-4 text-emerald-300" /><span className="text-slate-300">{profile.location}</span></div>
               </CardContent>
             </Card>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
       {/* SERVICES */}
       <section id="services" className="border-y border-white/5">
         <div className="mx-auto max-w-6xl px-6 py-16">
-          <motion.h2 className={`text-2xl md:text-3xl font-bold ${section.title}`} {...fadeIn}>Services</motion.h2>
-          <motion.p className={`mt-2 ${section.sub}`} {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.05 }}>From concept to production with quality gates.</motion.p>
+          <m.h2 className={`text-2xl md:text-3xl font-bold ${section.title}`} {...fadeIn}>Services</m.h2>
+          <m.p className={`mt-2 ${section.sub}`} {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.05 }}>From concept to production with quality gates.</m.p>
           <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {profile.services.map((s, i) => (
-              <motion.div 
+              <m.div 
                 key={i} 
                 initial={{ opacity: 0, scale: 0.95 }} 
                 whileInView={{ opacity: 1, scale: 1 }} 
@@ -175,7 +175,7 @@ export default function Home() {
                     <p className="text-sm text-slate-400 line-clamp-3" title={s.desc}>{s.desc}</p>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -187,14 +187,15 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6 py-16">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <motion.h2 className={`text-2xl md:text-4xl font-black ${section.title}`} {...fadeIn}>Selected Projects</motion.h2>
-              <motion.p className={`mt-2 max-w-xl ${section.sub}`} {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.05 }}>
+              <m.h2 className={`text-2xl md:text-4xl font-black ${section.title}`} {...fadeIn}>Selected Projects</m.h2>
+              <m.p className={`mt-2 max-w-xl ${section.sub}`} {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.05 }}>
                 A showcase of AI agents, intelligent systems, and high-performance web applications.
-              </motion.p>
+              </m.p>
+
             </div>
             
             {/* Filter Bar (Non-Sticky as requested) */}
-            <motion.div 
+            <m.div 
               className="flex flex-wrap gap-2"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -216,7 +217,7 @@ export default function Home() {
                   {t}
                 </button>
               ))}
-            </motion.div>
+            </m.div>
           </div>
           
           {/* Projects Display */}
@@ -228,7 +229,7 @@ export default function Home() {
                   {/* Horizontal Slider (First 3) */}
                   <div className="flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory scrollbar-hide -mx-6 px-6">
                     {filteredProjects.slice(0, 3).map((p, idx) => (
-                      <motion.div 
+                      <m.div 
                         key={p.title}
                         className="min-w-[85vw] snap-center"
                         initial={{ opacity: 0, x: 20 }}
@@ -236,7 +237,7 @@ export default function Home() {
                         transition={{ duration: 0.4, delay: idx * 0.05 }}
                       >
                         <ProjectCard project={p} />
-                      </motion.div>
+                      </m.div>
                     ))}
                   </div>
                   
@@ -253,7 +254,7 @@ export default function Home() {
                 <div className="flex flex-col gap-0 -mx-6 px-6">
                   <AnimatePresence mode="popLayout">
                     {filteredProjects.map((p, idx) => (
-                      <motion.div 
+                      <m.div 
                         key={p.title}
                         className="sticky top-20 mb-10"
                         initial={{ opacity: 0, y: 30 }}
@@ -261,7 +262,7 @@ export default function Home() {
                         transition={{ duration: 0.5, delay: idx * 0.1 }}
                       >
                         <ProjectCard project={p} />
-                      </motion.div>
+                      </m.div>
                     ))}
                   </AnimatePresence>
                   
@@ -281,7 +282,7 @@ export default function Home() {
             <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 auto-rows-[450px]">
               <AnimatePresence mode="popLayout">
                 {filteredProjects.map((p, idx) => (
-                  <motion.div 
+                  <m.div 
                     key={p.title}
                     layout
                     className={`${idx === 0 ? 'md:col-span-2' : ''}`}
@@ -291,13 +292,13 @@ export default function Home() {
                     transition={{ duration: 0.5, delay: idx * 0.05 }}
                   >
                     <ProjectCard project={p} isFeatured={idx === 0} />
-                  </motion.div>
+                  </m.div>
                 ))}
               </AnimatePresence>
             </div>
           </div>
 
-          <motion.div 
+          <m.div 
             className="mt-16 text-center md:block"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -313,7 +314,7 @@ export default function Home() {
                   </Link>
                </Button>
              )}
-          </motion.div>
+          </m.div>
         </div>
       </section>
 

@@ -81,7 +81,7 @@ export default function Navbar() {
             <Image 
               className="w-16 h-16 md:w-20 md:h-20" 
               src="/logo.png" 
-              alt="logo" 
+              alt={`${profile.name} - Professional Portfolio Logo`} 
               width={80} 
               height={80} 
               priority 
