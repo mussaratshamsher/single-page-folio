@@ -94,7 +94,7 @@ export default function Navbar() {
             {navItems.map((item) => (
               <Link
                 key={item.id}
-                href={isHome ? `#${item.id}` : `/#${item.id}`}
+                href={item.id === "projects" ? "/projects" : (isHome ? `#${item.id}` : `/#${item.id}`)}
                 className="px-4 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-emerald-300 transition-colors"
               >
                 {item.label}
@@ -142,7 +142,7 @@ export default function Navbar() {
                   variants={navLinkVariants}
                 >
                   <Link
-                    href={isHome ? `#${item.id}` : `/#${item.id}`}
+                    href={item.id === "projects" ? "/projects" : (isHome ? `#${item.id}` : `/#${item.id}`)}
                     onClick={() => setIsOpen(false)}
                     className="text-sm font-bold text-slate-200 hover:text-emerald-400 transition-colors"
                   >
