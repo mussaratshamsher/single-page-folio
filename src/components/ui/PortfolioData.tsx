@@ -5,6 +5,14 @@ import {
   Bot,
 } from "lucide-react";
 
+export interface Expertise {
+  title: string;
+  icon: string; // Icon name as string
+  desc: string;
+  tags: string[];
+  colSpan: string;
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -30,7 +38,8 @@ export interface Profile {
     linkedin: string;
     twitter: string;
   };
-  services: { icon: React.ReactNode; title: string; desc: string }[];
+  services: { icon: React.ReactNode; title: string; desc: string; tags: string[] }[];
+  expertise: Expertise[];
   skills: string[];
   projects: Project[];
 }
@@ -49,22 +58,59 @@ const profile: Profile = {
     twitter: "https://twitter.com/MussaratShams",
   },
   services: [
-{ icon: <Bot className="w-5 h-5" />, title: "AI Agent Development", desc: "Custom AI agents with memory, tool calling, multi-step reasoning, and autonomous task execution."},
-{icon: <Workflow className="w-5 h-5" />, title: "Agentic Workflow Automation", desc: "AI-powered workflows that automate research, content creation, data processing, and business operations."},
-{icon: <MessageSquare className="w-5 h-5" />, title: "AI Chatbots & Assistants", desc: "Intelligent conversational assistants powered by OpenAI, Gemini, and multi-agent architectures."},
-{ icon: <Database className="w-5 h-5" />, title: "RAG & Knowledge Systems", desc: "Retrieval-Augmented Generation with vector databases, document search, and private knowledge bases."},
-    {icon: <Layers className="w-5 h-5" />,title: "Full-Stack Development",desc: "From Next.js frontends to Python FastAPI backends, I build complete, scalable solutions."},
-    { icon: <Code2 className="w-5 h-5" />, title: "Frontend Engineering", desc: "HTML • CSS • TypeScript • Tailwind • Next.js • shadcn/ui • framer-motion • AOS • daisy UI" },
-    { icon: <Server className="w-5 h-5" />, title: "Backend & APIs", desc: "Python • FastAPI • Auth • Railway • Hugging Face • Streamlit •Chainlit • Agents SDK" },
-    { icon: <Sparkles className="w-5 h-5" />, title: "AI Agents", desc: "Agentic AI • OpenAI SDK • Chainlit •Streamlit •Gemini API •Groq API • LLM Tool calling" },
-    { icon: <Rocket className="w-5 h-5" />, title: "Deployment & Hosting", desc: "•Git • GitHub •Github Actions • Railway • Hugging Face • Vercel • Netlify " },
-    { icon: <Database className="w-5 h-5" />, title: "Data Layer", desc: "Integration • Sanity CMS • Firebase • Postgre SQL • MySQL • MongoDB • Supabase • Qdrant" },
-    { icon: <Code2 className="w-5 h-5" />, title: "Template Clone", desc: "I convert Figma template designs into pixel-perfect, responsive, functional websites."},
-    { icon: <Rocket className="w-5 h-5" />, title: "Web Redesign & Maintenance",desc: "I modernize outdated websites, improve performance, and provide long-term support."},
-    { icon: <Search className="w-5 h-5" />, title: "SEO Optimization", desc: "Technical SEO • On/Off-Page SEO • Keywords Research • Personal/Product Branding •SEO Content" },
-    { icon: <PenTool className="w-5 h-5" />, title: "Content Writing", desc: "SEO-friendly Articles • Web content • Blogs • Product Descriptions" },
-    { icon: <Palette className="w-5 h-5" />, title: "Graphic Design", desc: "Logos • Branding • UI Mockups • Bussiness Cards • Posters • Flyiers" },
-     ],
+    { icon: <Bot className="w-5 h-5" />, title: "AI Agent Development", desc: "Custom AI agents with memory, tool calling, multi-step reasoning, and autonomous task execution.", tags: ["AI", "Agents", "Reasoning"]},
+    {icon: <Workflow className="w-5 h-5" />, title: "Agentic Workflow Automation", desc: "AI-powered workflows that automate research, content creation, data processing, and business operations.", tags: ["Automation", "Workflow", "AI"]},
+    {icon: <MessageSquare className="w-5 h-5" />, title: "AI Chatbots & Assistants", desc: "Intelligent conversational assistants powered by OpenAI, Gemini, and multi-agent architectures.", tags: ["Chatbots", "LLMs", "Assistants"]},
+    { icon: <Database className="w-5 h-5" />, title: "RAG & Knowledge Systems", desc: "Retrieval-Augmented Generation with vector databases, document search, and private knowledge bases.", tags: ["RAG", "VectorDB", "AI"]},
+    {icon: <Layers className="w-5 h-5" />,title: "Full-Stack Development",desc: "From Next.js frontends to Python FastAPI backends, I build complete, scalable solutions.", tags: ["Next.js", "FastAPI", "FullStack"]},
+    { icon: <Code2 className="w-5 h-5" />, title: "Frontend Engineering", desc: "HTML • CSS • TypeScript • Tailwind • Next.js • shadcn/ui • framer-motion • AOS • daisy UI", tags: ["Frontend", "React", "Next.js"]},
+    { icon: <Server className="w-5 h-5" />, title: "Backend & APIs", desc: "Python • FastAPI • Auth • Railway • Hugging Face • Streamlit •Chainlit • Agents SDK", tags: ["Backend", "Python", "API"]},
+    { icon: <Sparkles className="w-5 h-5" />, title: "AI Agents", desc: "Agentic AI • OpenAI SDK • Chainlit •Streamlit •Gemini API •Groq API • LLM Tool calling", tags: ["AI", "Agents", "LLM"]},
+    { icon: <Rocket className="w-5 h-5" />, title: "Deployment & Hosting", desc: "•Git • GitHub •Github Actions • Railway • Hugging Face • Vercel • Netlify ", tags: ["DevOps", "Hosting", "Cloud"]},
+    { icon: <Database className="w-5 h-5" />, title: "Data Layer", desc: "Integration • Sanity CMS • Firebase • Postgre SQL • MySQL • MongoDB • Supabase • Qdrant", tags: ["Database", "SQL", "NoSQL"]},
+    { icon: <Code2 className="w-5 h-5" />, title: "Template Clone", desc: "I convert Figma template designs into pixel-perfect, responsive, functional websites.", tags: ["Figma", "UI/UX", "Conversion"]},
+    { icon: <Rocket className="w-5 h-5" />, title: "Web Redesign & Maintenance",desc: "I modernize outdated websites, improve performance, and provide long-term support.", tags: ["Maintenance", "Performance", "Optimization"]},
+    { icon: <Search className="w-5 h-5" />, title: "SEO Optimization", desc: "Technical SEO • On/Off-Page SEO • Keywords Research • Personal/Product Branding •SEO Content", tags: ["SEO", "Marketing", "Branding"]},
+    { icon: <PenTool className="w-5 h-5" />, title: "Content Writing", desc: "SEO-friendly Articles • Web content • Blogs • Product Descriptions", tags: ["Writing", "Content", "SEO"]},
+    { icon: <Palette className="w-5 h-5" />, title: "Graphic Design", desc: "Logos • Branding • UI Mockups • Bussiness Cards • Posters • Flyiers", tags: ["Design", "Branding", "UI"]},
+  ],
+  expertise: [
+    {
+      title: "Agentic AI",
+      icon: "Bot",
+      desc: "Custom AI agents with memory, tool calling, and multi-step reasoning capabilities.",
+      tags: ["LLMs", "Agents SDK", "Reasoning", "Python", "FastAPI", "RAG"],
+      colSpan: "md:col-span-2",
+    },
+    {
+      title: "Full-Stack Development",
+      icon: "Layers",
+      desc: "Scalable web solutions from Next.js frontends to Python FastAPI backends.",
+      tags: ["Next.js", "Tailwind" , "React", "Framer", "TypeScript", "JavaScript", "FastAPI", "Python", "HTML5", "CSS"],
+      colSpan: "md:col-span-1",
+    },
+    {
+      title: "Cloud & Deployment",
+      icon: "Cloud",
+      desc: "Optimized hosting, CI/CD pipelines, and cloud infrastructure management.",
+      tags: ["Vercel", "Netlify","Google Cloud","Hugging Face", "Railway", "Git"],
+      colSpan: "md:col-span-1",
+    },
+    {
+      title: "Frontend Engineering",
+      icon: "Code2",
+      desc: "Pixel-perfect, responsive UI design with modern frameworks and animations.",
+      tags: ["Next.js", "Tailwind", "React", "Framer", "HTML5", "CSS"],
+      colSpan: "md:col-span-1",
+    },
+    {
+      title: "SEO & Design",
+      icon: "Search",
+      desc: "Technical SEO optimization and professional graphic branding assets.",
+      tags: ["On-page SEO","off-page SEO","Content Writing", "Logos", "Posters/Flyers","Branding"],
+      colSpan: "md:col-span-1",
+    },
+  ],
   skills: [
     "Next.js", "HTML", "CSS", "JavaScript", "TypeScript","Tailwind","shadcn/ui", "daisyUI", "Framer Motion","AOS", "swiper-js",
     "Python","FastAPI","Python","OpenAI sdk","Sanity CMS","Stripe","OAuth","Clerk","Netlify","Vercel","Railway","Streamlit", "Chainlit",

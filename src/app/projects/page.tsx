@@ -120,7 +120,7 @@ function ProjectsContent() {
         </div>
 
         {/* Projects Display */}
-        <div className="min-h-[400px]">
+        <div className="min-h-[300px]">
             <AnimatePresence mode="popLayout">
                 {filteredProjects.length === 0 ? (
                     <motion.div 
@@ -151,7 +151,7 @@ function ProjectsContent() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: idx * 0.05 }}
-                                className="h-full sticky top-24 md:relative mb-12 md:mb-0"
+                                className="h-full"
                             >
                                 <ProjectCard project={p} />
                             </motion.div>

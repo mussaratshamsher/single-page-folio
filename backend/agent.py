@@ -101,14 +101,15 @@ def notify_mussarat(name: str, email: str, message: str):
     Send an email notification to Mussarat about a new inquiry.
     """
     service_id = os.getenv("EMAILJS_SERVICE_ID")
-    template_id = os.getenv("EMAILJS_TEMPLATE_ID")
+    template_id = "template_5i4wans" # Explicitly setting the provided ID
     public_key = os.getenv("EMAILJS_PUBLIC_KEY")
     private_key = os.getenv("EMAILJS_PRIVATE_KEY")
     
-    if not service_id or not public_key or not private_key:
-        print(f"Email configuration missing: service_id={bool(service_id)}, public_key={bool(public_key)}, private_key={bool(private_key)}")
+    if not service_id or not public_key:
+        print(f"Email configuration missing: service_id={bool(service_id)}, public_key={bool(public_key)}")
         return "Email service is not configured on the server."
     
+    # Structure for EmailJS /api/v1.0/email/send
     payload = {
         "service_id": service_id,
         "template_id": template_id,
@@ -128,11 +129,14 @@ def notify_mussarat(name: str, email: str, message: str):
             json=payload,
             timeout=10
         )
-        if response.status_code == 200:
+        
+        # EmailJS returns 200 even for some logic errors, check the text
+        if response.status_code == 200 and response.text == "OK":
+            print("EmailJS: Successfully sent.")
             return "Notification sent successfully. Mussarat will get back to you soon."
         else:
-            print(f"EmailJS Error: {response.status_code} - {response.text}")
-            return f"Failed to send notification: {response.text}"
+            print(f"EmailJS Error (Status {response.status_code}): {response.text}")
+            return f"Failed to send notification. Please try again later."
     except Exception as e:
         print(f"EmailJS Exception: {str(e)}")
         return f"Error triggering notification: {str(e)}"

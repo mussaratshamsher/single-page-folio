@@ -12,11 +12,14 @@ import { Badge } from "@/components/ui/badge";
 import profile from "@/components/ui/PortfolioData";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import Link from "next/link";
+import { TechArsenal } from "@/components/tech-arsenal/TechArsenal";
+import { ExpertiseGrid } from "@/components/tech-arsenal/ExpertiseGrid";
 import Contact from "@/components/ui/contact";
 
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [viewAllMobile, setViewAllMobile] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const section = {
     title: "text-emerald-300 tracking-tight",
@@ -45,7 +48,7 @@ export default function Home() {
   }, [selectedTag]);
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 selection:bg-emerald-400/30 overflow-hidden">
+    <main className="min-h-screen pt-20 bg-slate-950 text-slate-100 selection:bg-emerald-400/30 overflow-hidden">
       {/* Top Gradient Glow */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
         <div className="absolute -top-32 -left-24 h-72 w-72 rounded-full bg-emerald-600/10 blur-3xl" />
@@ -117,29 +120,35 @@ export default function Home() {
       {/* ABOUT */}
       <section id="about" className="relative border-t border-white/5">
         <div className="absolute inset-x-0 -top-8 h-8 bg-gradient-to-b from-emerald-500/10 to-transparent" />
-        <div className="mx-auto max-w-6xl px-6 py-16 grid md:grid-cols-3 gap-8 items-start">
-          <m.div className="md:col-span-2" 
-            initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+        <div className="mx-auto max-w-6xl px-6 py-16 grid md:grid-cols-2 gap-12 items-start">
+          <m.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
             <h2 className={`text-2xl md:text-3xl font-bold ${section.title}`}>About</h2>
-            <p className="mt-4 text-slate-300/90 leading-relaxed">
+            <p className={`mt-4 text-slate-300/90 leading-relaxed text-justify ${isExpanded ? '' : 'line-clamp-4'}`}>
               I’m the Co-Founder of <Link href="https://www.innolyze.com/" target="_blank" className="text-emerald-300 hover:underline">ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒</Link>,
               and an Agentic AI Developer & Full-Stack Engineer passionate about building intelligent software that solves 
               real-world problems. I specialize in Next.js, Python, FastAPI, and modern AI technologies, creating scalable web applications and autonomous AI systems.
               From transforming Figma designs into pixel-perfect experiences to architecting AI-powered workflows, I enjoy turning ideas into products that are fast, 
               functional, and impactful. With additional expertise in graphic design and SEO, I focus on delivering solutions that not only work seamlessly but also provide exceptional user experiences.
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
+            <button 
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="mt-2 text-emerald-400 text-sm font-semibold hover:underline"
+            >
+                {isExpanded ? 'Read Less' : 'Read More'}
+            </button>
+            <div className="mt-6 flex flex-wrap gap-3 justify-start">
               <Badge className="rounded-xl bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">Remote Friendly</Badge>
               <Badge variant="outline" className={`rounded-xl ${section.badge}`}>Contract / Part‑time</Badge>
               <Badge variant="secondary" className="rounded-xl bg-white/5 text-slate-200">UTC+5</Badge>
             </div>
           </m.div>
-          <m.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-            <Card className={section.card}>
+          <m.div className="mt-0 flex items-center justify-center md:h-full" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }}>
+            <Card className={`${section.card} w-full max-w-sm`}>
               <CardHeader>
                 <CardTitle className="text-slate-200">Contact</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3 text-sm">
+              <CardContent className="space-y-3 text-sm flex flex-col items-start">
                 <div className="flex items-center gap-2"><Mail className="w-4 h-4 text-emerald-300" /><a href={`mailto:${profile.email}`} className="hover:underline text-slate-300">{profile.email}</a></div>
                 <div className="flex items-center gap-2"><Phone className="w-4 h-4 text-emerald-300" /><span className="text-slate-300">{profile.phone}</span></div>
                 <div className="flex items-center gap-2"><MapPin className="w-4 h-4 text-emerald-300" /><span className="text-slate-300">{profile.location}</span></div>
@@ -151,7 +160,7 @@ export default function Home() {
 
       {/* SERVICES */}
       <section id="services" className="border-y border-white/5">
-        <div className="mx-auto max-w-6xl px-6 py-16">
+        <div className="mx-auto max-w-6xl px-6 py-16 text-justify">
           <m.h2 className={`text-2xl md:text-3xl font-bold ${section.title}`} {...fadeIn}>Services</m.h2>
           <m.p className={`mt-2 ${section.sub}`} {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.05 }}>From concept to production with quality gates.</m.p>
           <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -164,17 +173,30 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: i * 0.07 }}
                 className="h-full"
               >
-                <Card className={`${section.card} group h-full flex flex-col`}>
-                  <CardHeader>
-                    <div className="flex items-center gap-2 text-emerald-300">
-                      {s.icon}
-                      <CardTitle className="text-base font-semibold text-slate-200">{s.title}</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="flex-grow">
-                    <p className="text-sm text-slate-400 line-clamp-3" title={s.desc}>{s.desc}</p>
-                  </CardContent>
-                </Card>
+                  <Card className={`${section.card} group h-full flex flex-col p-4`}>
+                      <div className="flex items-start gap-2.5">
+                        <div className="shrink-0 text-emerald-300 mt-0.5">
+                          {React.cloneElement(s.icon as React.ReactElement<{ className?: string }>, { className: "w-5 h-5" })}
+                        </div>
+                        <h3 className="text-sm font-semibold text-slate-100 leading-snug flex-1">
+                          {s.title}
+                        </h3>
+                      </div>
+                      
+                      <div className="flex-grow">
+                        <p className="text-[13px] text-slate-400 text-justify leading-snug line-clamp-3">
+                          {s.desc}
+                        </p>
+                      </div>
+
+                      <div className=" border-t border-emerald-500/10 flex flex-wrap gap-1">
+                        {s.tags.slice(0, 4).map(tag => (
+                          <span key={tag} className="text-[9px] px-1.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-300/80 font-medium">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                  </Card>
               </m.div>
             ))}
           </div>
@@ -185,7 +207,7 @@ export default function Home() {
       <section id="projects" className="relative">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-blue-950/30 to-transparent" />
         <div className="mx-auto max-w-6xl px-6 py-16">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="flex flex-col items-center text-center gap-6">
             <div>
               <m.h2 className={`text-2xl md:text-4xl font-black ${section.title}`} {...fadeIn}>Selected Projects</m.h2>
               <m.p className={`mt-2 max-w-xl ${section.sub}`} {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.05 }}>
@@ -194,9 +216,9 @@ export default function Home() {
 
             </div>
             
-            {/* Filter Bar (Non-Sticky as requested) */}
+            {/* Filter Bar */}
             <m.div 
-              className="flex flex-wrap gap-2"
+              className="flex flex-wrap gap-2 justify-center"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -279,7 +301,7 @@ export default function Home() {
             </div>
 
             {/* Desktop: Refined Bento Grid */}
-            <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 auto-rows-[450px]">
+            <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 auto-rows-fr">
               <AnimatePresence mode="popLayout">
                 {filteredProjects.map((p, idx) => (
                   <m.div 
@@ -299,68 +321,23 @@ export default function Home() {
           </div>
 
           <m.div 
-            className="mt-16 text-center md:block"
+            className="mt-16 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            animate={viewAllMobile ? { height: 0, opacity: 0, overflow: "hidden", marginTop: 0 } : {}}
           >
-             {/* Adjusted Button Height (Reduced from py-6) */}
-             {!viewAllMobile && (
-               <Button asChild className="group rounded-2xl bg-slate-900 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/10 px-10 py-4 h-auto text-base font-bold transition-all shadow-lg shadow-emerald-500/10 hidden md:inline-flex">
-                  <Link href="/projects" className="flex items-center gap-3">
-                    View All Projects 
-                    <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform text-emerald-400" />
-                  </Link>
-               </Button>
-             )}
+             <Button asChild className="group rounded-2xl bg-slate-900 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/10 px-10 py-4 h-auto text-base font-bold transition-all shadow-lg shadow-emerald-500/10">
+                <Link href="/projects" className="flex items-center gap-3">
+                  View All Projects 
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform text-emerald-400" />
+                </Link>
+             </Button>
           </m.div>
         </div>
       </section>
 
-      {/* SKILLS cloud */}
-      <section id="skills" className="border-t border-white/5">
-        <div className="mx-auto max-w-6xl px-6 py-16">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-100">Tech Arsenal</h2>
-          <p className="mt-2 text-slate-400">Tools I use frequently.</p>
-
-          <div className="mt-8 space-y-6">
-            {/* First row - left to right */}
-            <div className="overflow-hidden relative group">
-              <div className="flex gap-3 animate-marquee group-hover:[animation-play-state:paused]">
-                {profile.skills.map((skill, i) => (
-                  <Badge key={`row1-${i}`} variant="secondary"
-                    className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
-                       {skill} 
-                    </Badge>
-                ))}
-                {profile.skills.map((skill, i) => (
-                  <Badge key={`row1-dup-${i}`} variant="secondary"
-                  className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
-                       {skill} 
-                    </Badge>
-                ))}
-              </div>
-            </div>
-
-            {/* Second row - right to left */}
-            <div className="overflow-hidden relative group">
-              <div className="flex gap-3 animate-marquee-reverse group-hover:[animation-play-state:paused]">
-                {profile.skills.map((skill, i) => (
-                  <Badge key={`row2-${i}`} variant="secondary"
-                  className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
-                    {skill} </Badge>
-                ))}
-                {profile.skills.map((skill, i) => (
-                  <Badge key={`row2-dup-${i}`} variant="secondary"
-                  className="rounded-xl bg-white/5 text-slate-200 border border-white/10 hover:bg-white/10">
-                    {skill} </Badge>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <TechArsenal skills={profile.skills} />
+      <ExpertiseGrid />
 
       {/* CONTACT */}
       <Contact />

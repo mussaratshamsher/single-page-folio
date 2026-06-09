@@ -146,7 +146,7 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
         </div>
 
         {/* Project Image Container (Desktop Only) */}
-        <div className="relative hidden md:block h-60 w-full overflow-hidden">
+        <div className="relative hidden md:block h-48 w-full overflow-hidden">
           <Image 
             src={project.image} 
             alt={`${project.title} - ${project.desc.substring(0, 100)}...`} 
@@ -158,39 +158,39 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-90" />
           
           {/* Floating Badge */}
-          <div className="absolute top-6 right-6">
+          <div className="absolute top-4 right-4">
             <Badge className="bg-emerald-500 text-slate-950 border-none font-black text-[10px] px-3 py-1 rounded-full shadow-xl">
               {project.tags[0]}
             </Badge>
           </div>
 
           {/* Title on Image */}
-          <div className="absolute bottom-6 left-8 right-8">
-             <h3 className="font-black text-white group-hover:text-emerald-400 transition-colors duration-300 leading-tight text-2xl">
+          <div className="absolute bottom-4 left-6 right-6">
+             <h3 className="font-black text-white group-hover:text-emerald-400 transition-colors duration-300 leading-tight text-xl">
                {project.title}
              </h3>
           </div>
         </div>
         
-        <CardContent className="flex-grow flex flex-col px-6 pt-8 pb-8 md:px-8 md:pt-8 md:pb-10 relative z-10">
+        <CardContent className="flex-grow flex flex-col px-2 pt-2 pb-2 relative z-10">
           {/* Title for mobile (hidden on desktop because it's on the image) */}
-          <div className="md:hidden mb-4">
+          <div className="md:hidden mb-3">
             <div className="flex justify-between items-start mb-2">
               <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/20 text-[9px] px-2 py-0.5 rounded-full">
                 {project.tags[0]}
               </Badge>
             </div>
-            <h3 className="font-black text-white text-xl leading-tight">
+            <h3 className="font-black text-white text-lg leading-tight">
               {project.title}
             </h3>
           </div>
 
-          <p className="text-sm md:text-base text-slate-400 leading-relaxed mb-6 md:mb-8 line-clamp-3 group-hover:text-slate-200 transition-colors">
+          <p className="text-xs md:text-sm text-slate-400 leading-relaxed mb-4 md:mb-6 line-clamp-3 group-hover:text-slate-200 transition-colors">
             {project.desc}
           </p>
           
-          <div className="mt-auto space-y-6 md:space-y-8">
-            <div className="flex flex-wrap gap-2">
+          <div className="mt-auto space-y-4 md:space-y-6">
+            <div className="flex flex-wrap gap-1.5">
               {project.tags.slice(0, 3).map((t, i) => (
                 <Badge key={i} variant="outline" className={`${section.badge} text-[10px] px-2`}>
                   {t}
@@ -198,19 +198,19 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
               ))}
             </div>
             
-            <div className="flex gap-3 md:gap-4">
-              <Button variant="outline" size="sm" md-size="lg" asChild
-                className="rounded-xl md:rounded-2xl border-emerald-500/20 text-slate-300 hover:text-emerald-300 hover:bg-emerald-500/10 hover:border-emerald-500/40 flex-1 h-10 md:h-12 transition-all font-bold text-xs md:text-sm">
-                <Link href={`/projects/${project.slug}`} className="flex items-center justify-center gap-2" >
+            <div className="flex gap-2 md:gap-3">
+              <Button variant="outline" size="sm" asChild
+                className="rounded-lg border-emerald-500/20 text-slate-300 hover:text-emerald-300 hover:bg-emerald-500/10 hover:border-emerald-500/40 flex-1 h-8 md:h-9 px-2 md:px-4 transition-all font-bold text-[10px] md:text-[11px]">
+                <Link href={`/projects/${project.slug}`} className="flex items-center justify-center gap-1" >
                   <span>Details</span>
-                  <BookOpenText className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                  <BookOpenText className="w-3 h-3" />
                 </Link>
               </Button>
-              <Button size="sm" md-size="lg" asChild
-                className="rounded-xl md:rounded-2xl bg-emerald-500 text-slate-950 hover:bg-emerald-400 flex-1 h-10 md:h-12 transition-all font-black text-xs md:text-sm shadow-lg shadow-emerald-500/20">
-                <a href={project.link} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2" >
+              <Button size="sm" asChild
+                className="rounded-lg bg-emerald-500 text-slate-950 hover:bg-emerald-400 flex-1 h-8 md:h-9 px-2 md:px-4 transition-all font-black text-[10px] md:text-[11px] shadow-lg shadow-emerald-500/20">
+                <a href={project.link} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1" >
                   <span>Live</span>
-                  <ExternalLink className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                  <ExternalLink className="w-3 h-3" />
                 </a>
               </Button>
             </div>
