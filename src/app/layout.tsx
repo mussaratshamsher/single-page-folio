@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import profile from "@/components/ui/PortfolioData";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import { FramerProvider } from "@/components/FramerProvider";
 
@@ -94,7 +95,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="!scroll-smooth dark" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-950 text-slate-100`}
       >
         <Navbar />
         <script
@@ -126,6 +127,7 @@ export default function RootLayout({
         />
         <FramerProvider>
           {children}
+          <Footer />
         </FramerProvider>
         <Chatbot />
       </body>

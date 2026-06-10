@@ -4,6 +4,18 @@ from groq import Groq
 from dotenv import load_dotenv
 from supabase import create_client, Client
 import requests
+from pydantic import BaseModel, Field, EmailStr, ValidationError
+from typing import Optional, List
+
+# LangSmith Tracing Setup
+# To enable: Add LANGCHAIN_TRACING_V2=true and LANGCHAIN_API_KEY to .env
+try:
+    from langsmith import traceable
+    LANGSMITH_AVAILABLE = True
+except ImportError:
+    LANGSMITH_AVAILABLE = False
+    def traceable(*args, **kwargs):
+        return lambda func: func
 
 # Load environment variables
 load_dotenv()
@@ -19,9 +31,19 @@ HF_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 groq_client = Groq(api_key=GROQ_API_KEY)
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY) if SUPABASE_URL and SUPABASE_KEY else None
 
+# Pydantic Models for Tool Robustness
+class SearchPortfolioParams(BaseModel):
+    query: str = Field(..., min_length=2, description="The search query for the portfolio knowledge base.")
+
+class NotifyMussaratParams(BaseModel):
+    name: str = Field(..., min_length=2, description="The name of the person reaching out.")
+    email: EmailStr = Field(..., description="A valid email address for contact.")
+    message: str = Field(..., min_length=10, description="The message or inquiry.")
+
 # Lazy load model to avoid overhead if not needed
 _embedding_model = None
 
+@traceable(name="Generate Embedding")
 def get_embedding(text):
     """
     Generate embedding for a query string using local sentence-transformers.
@@ -54,9 +76,10 @@ def get_embedding(text):
             print(f"API embedding error: {api_e}")
             return None
 
+@traceable(name="Search Portfolio")
 def search_portfolio(query: str):
     """
-    Search the portfolio knowledge base for relevant information.
+    Search the portfolio knowledge base for relevant information using Hybrid Search.
     """
     if not query or len(query.strip()) < 2:
         return "Please provide a more specific search query."
@@ -69,13 +92,16 @@ def search_portfolio(query: str):
         return "Could not process the search query (Embedding failure)."
     
     try:
-        # Call the RPC function defined in Supabase
+        # Call the Hybrid Search RPC function defined in Supabase
         result = supabase.rpc(
-            "match_portfolio_embeddings",
+            "hybrid_search_portfolio",
             {
+                "query_text": query,
                 "query_embedding": embedding,
-                "match_threshold": 0.3, # Slightly lower threshold for better recall
-                "match_count": 8
+                "match_threshold": 0.2, # Lower threshold to catch more candidates for hybrid scoring
+                "match_count": 10,
+                "full_text_weight": 0.4,
+                "vector_weight": 0.6
             }
         ).execute()
         
@@ -96,7 +122,7 @@ def search_portfolio(query: str):
     except Exception as e:
         return f"Error searching portfolio: {str(e)}"
 
-def notify_mussarat(name: str, email: str, message: str):
+def notify_mussarat(name: str, email: str, message: str, recaptcha_token: str = None):
     """
     Send an email notification to Mussarat about a new inquiry.
     """
@@ -122,6 +148,10 @@ def notify_mussarat(name: str, email: str, message: str):
             "to_name": "Mussarat Shamsher"
         }
     }
+
+    # Add reCAPTCHA token if provided
+    if recaptcha_token:
+        payload["g-recaptcha-response"] = recaptcha_token
     
     try:
         response = requests.post(
@@ -182,19 +212,24 @@ portfolio_agent = Agent(
         "- Phone/WhatsApp: +92 3182593455"
         "- Resume/CV: https://canva.link/7x0ifqadikv7iad"
         "- Location: Pakistan (Remote)"
-        "- Core Tech: Next.js, FastAPI, Groq, Supabase, Qdrant, Docusaurus, Agents SDK."
+        "- Core Tech Stack: Next.js, FastAPI, Groq, Supabase, Qdrant, Docusaurus, Agents SDK, Python, PostgreSQL, MongoDB, OpenAI, Gemini."
+        "\n\nAUTONOMOUS PROJECTS & AGENTS:"
+        "- Digital FTE: AI-powered digital employee platform (https://mussarat-digital-fte.vercel.app/)"
+        "- Rishty Wali: Matchmaking AI Assistant (https://meet-rishtey-wali.streamlit.app/)"
+        "- Translator Agent: Multilingual translation agent (https://multilingual-agent.streamlit.app/)"
+        "- Weather App: LLM-based weather assistant (https://weather-assistant.streamlit.app/)"
         "\n\nBRAIN GUIDELINES:"
-        "1. ALWAYS SEARCH: Before saying 'I don't know', use 'search_portfolio'. "
-        "2. COLLABORATION: Before using the 'notify_mussarat' tool, you MUST have the user's name and email address. If they haven't provided these, ask for them politely before triggering the notification. Never use placeholders like 'Your Name' or Mussarat's own email as the sender."
-        "4. NO RAW JSON: NEVER output tool calls, JSON, or code-like JSON blocks directly to the user. Always wrap tool results in a natural, human-like conversational response."
-        "If you need more information from the user (like their name or email), ASK for it. Do not guess or use placeholders."
+        "1. COMPREHENSIVE SEARCH: When asked about skills, tech stack, or experience, ALWAYS use 'search_portfolio' first. Even if you know some info, the database contains much more detail (e.g., specific libraries, databases, and deployment tools). "
+        "2. SYNTHESIZE DATA: Do not just list what's in your system prompt. Combine your internal knowledge with the search results to provide a complete and professional answer. "
+        "3. COLLABORATION: Before using the 'notify_mussarat' tool, you MUST have the user's name and email address. "
+        "4. NO RAW JSON: NEVER output tool calls or JSON directly to the user."
     ),
     tools=[
         {
             "type": "function",
             "function": {
                 "name": "search_portfolio",
-                "description": "Search the portfolio database for projects, skills, and experience.",
+                "description": "Search the portfolio database for projects, skills, experience, and full tech stack details.",
                 "parameters": {
                     "type": "object",
                     "properties": {"query": {"type": "string"}},
@@ -221,105 +256,107 @@ portfolio_agent = Agent(
     ]
 )
 
+@traceable(name="Run Conversation")
 def run_conversation(history: list):
     """
-    Orchestrates the Multi-Agent workflow: Guardrail -> Portfolio.
+    Orchestrates the Multi-Agent workflow: Safety Guardrail -> Portfolio Agent.
     """
     last_user_message = history[-1]["content"] if history else ""
     print(f"--- New Query: {last_user_message} ---")
 
-    # STEP 1: Call the Guardrail Agent
-    guard_response = groq_client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-        messages=[
-            {"role": "system", "content": guardrail_agent.instructions},
-            {"role": "user", "content": f"Analyze this input: {last_user_message}"}
-        ]
-    )
-    
-    guard_verdict = guard_response.choices[0].message.content
-    print(f"Guardrail Verdict: {guard_verdict}")
-    
-    if "STATUS: BLOCKED" in guard_verdict:
-        explanation = guard_verdict.replace("STATUS: BLOCKED", "").replace(":", "").strip()
-        if not explanation:
-            explanation = "I'm sorry, but I can only assist with inquiries related to Mussarat Shamsher's professional portfolio."
+    # STEP 1: Lightweight Safety & Relevance Check
+    # We use a more reliable model and a clearer prompt to avoid over-blocking
+    try:
+        guard_response = groq_client.chat.completions.create(
+            model="llama-3-8b-8192",
+            messages=[
+                {"role": "system", "content": "You are a safety and relevance filter. Your task is to determine if a user's query is safe and related to a professional portfolio. Queries about AI, agents, software, and career are HIGHLY RELEVANT. Respond with ONLY 'SAFE' or 'UNSAFE'."},
+                {"role": "user", "content": last_user_message}
+            ],
+            max_tokens=5
+        )
+        guard_verdict = guard_response.choices[0].message.content.strip().upper()
+        print(f"Safety Verdict: {guard_verdict}")
         
-        # Create a generator-like object for the streaming response
-        class MockResponse:
-            def __init__(self, content):
-                # Mimic the structure expected by main.py
-                self.choices = [type('obj', (object,), {
-                    'delta': type('obj', (object,), {'content': content})()
-                })()]
-        
-        return [MockResponse(explanation)]
+        if "UNSAFE" in guard_verdict:
+            explanation = "I'm sorry, but I cannot assist with that request as it appears to be outside the professional scope of this portfolio or violates safety guidelines."
+            
+            # Create a generator-compatible mock response
+            def mock_stream():
+                yield explanation
+            return mock_stream()
+            
+    except Exception as e:
+        print(f"Guardrail Exception: {e}")
+        # Fallback to proceeding if guardrail fails
 
-    # STEP 2: Call the Portfolio Agent if Approved
-    # We use a consistent system prompt throughout the conversation turns
+    # STEP 2: Call the Portfolio Agent with Tool Support
     messages = [
         {"role": "system", "content": portfolio_agent.instructions},
-        {"role": "system", "content": "IMPORTANT: Use ONLY the provided tools: 'search_portfolio' and 'notify_mussarat'. DO NOT invent other tool names. If you call a tool, do not provide conversational text."}
+        {"role": "system", "content": "You are an expert assistant. When you need to search or notify, use the provided tools. DO NOT use XML tags or invent your own format. Provide valid JSON tool calls."}
     ] + history
     
-    # Loop to handle sequential tool calls (e.g., if one search leads to another)
     for turn in range(3):
-        response = groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=messages,
-            tools=portfolio_agent.tools,
-            tool_choice="auto"
-        )
-        
-        response_message = response.choices[0].message
-        tool_calls = response_message.tool_calls
-        
-        if not tool_calls:
-            break
+        try:
+            response = groq_client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=messages,
+                tools=portfolio_agent.tools,
+                tool_choice="auto"
+            )
             
-        print(f"Turn {turn+1} - Tool Calls Detected: {[tc.function.name for tc in tool_calls]}")
-        
-        # Strip conversational text from messages that contain tool calls to prevent JSON leakage
-        if response_message.content:
-            response_message.content = ""
+            response_message = response.choices[0].message
+            tool_calls = response_message.tool_calls
             
-        messages.append(response_message)
-
-        for tool_call in tool_calls:
-            function_name = tool_call.function.name
-            try:
-                function_args = json.loads(tool_call.function.arguments)
-            except Exception as e:
-                print(f"Error parsing tool arguments: {e}")
-                function_args = {}
-            
-            if function_name == "search_portfolio":
-                query = function_args.get("query", "")
-                print(f"Searching portfolio for: {query}")
-                function_response = search_portfolio(query=query)
-            elif function_name == "notify_mussarat":
-                print(f"Sending notification for: {function_args.get('name')}")
-                function_response = notify_mussarat(
-                    name=function_args.get("name"),
-                    email=function_args.get("email"),
-                    message=function_args.get("message")
-                )
-            else:
-                function_response = "Tool not found."
+            if not tool_calls:
+                # If there's no tool call, we can just stream the final response
+                # But since this loop handles turns, we'll exit and do a streaming call at the end
+                break
                 
-            messages.append({
-                "tool_call_id": tool_call.id,
-                "role": "tool",
-                "name": function_name,
-                "content": function_response
-            })
+            print(f"Turn {turn+1} - Tool Calls: {[tc.function.name for tc in tool_calls]}")
+            
+            # Reset content to avoid repeating tool call text if model outputted any
+            messages.append(response_message)
+
+            for tool_call in tool_calls:
+                function_name = tool_call.function.name
+                try:
+                    function_args = json.loads(tool_call.function.arguments)
+                    
+                    if function_name == "search_portfolio":
+                        validated_args = SearchPortfolioParams(**function_args)
+                        function_response = search_portfolio(query=validated_args.query)
+                    elif function_name == "notify_mussarat":
+                        validated_args = NotifyMussaratParams(**function_args)
+                        function_response = notify_mussarat(
+                            name=validated_args.name,
+                            email=str(validated_args.email),
+                            message=validated_args.message
+                        )
+                    else:
+                        function_response = "Error: Tool not found."
+                        
+                except Exception as e:
+                    print(f"Tool execution error: {e}")
+                    function_response = f"Error executing {function_name}: {str(e)}"
+                    
+                messages.append({
+                    "tool_call_id": tool_call.id,
+                    "role": "tool",
+                    "name": function_name,
+                    "content": function_response
+                })
+        except Exception as e:
+            print(f"Groq API Error in turn {turn}: {e}")
+            # If we hit a 400 error due to tool call formatting, try one more time without tools
+            if "tool_use_failed" in str(e) or "400" in str(e):
+                break 
+            raise e
     
-    # Final call to generate the response 
+    # Final streaming response
     return groq_client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=messages,
-        tools=portfolio_agent.tools,
-        tool_choice="none", # Force conversational response
         stream=True
     )
 

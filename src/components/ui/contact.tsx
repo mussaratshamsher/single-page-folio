@@ -1,15 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast, { Toaster } from "react-hot-toast";
 import { m, AnimatePresence } from "framer-motion";
-import { Mail, Linkedin, Facebook, Twitter, Loader2 } from "lucide-react";
+import { Mail, Linkedin, Facebook, Twitter, Loader2, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import profile from "@/components/ui/PortfolioData";
 import { contactSchema, type ContactFormData } from "@/lib/contact-schema";
+import ReCAPTCHA from "react-google-recaptcha";
+import emailjs from "@emailjs/browser";
 
 const shakeVariants = {
   error: { x: [-5, 5, -5, 5, 0], transition: { duration: 0.4 } },
@@ -17,6 +19,8 @@ const shakeVariants = {
 
 export default function Contact() {
   const [loading, setLoading] = useState(false);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+
   const {
     register,
     handleSubmit,
@@ -27,204 +31,248 @@ export default function Contact() {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    const backendUrl =
-      process.env.NEXT_PUBLIC_API_URL ||
-      "https://mussarat123shamsher-porfolio-backend.hf.space";
+    const recaptchaToken = recaptchaRef.current?.getValue();
+
+    if (!recaptchaToken) {
+      toast.error("Please verify that you are not a robot 🤖");
+      return;
+    }
 
     setLoading(true);
-    try {
-      const response = await fetch(`${backendUrl}/contact`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
 
-      if (!response.ok) {
-        throw new Error("Failed to send message via backend.");
-      }
+    try {
+      const serviceId = process.env.NEXT_PUBLIC_SERVICE_ID!;
+      const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID!;
+      const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY!;
+
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          name: data.name,
+          email: data.email,
+          message: data.message,
+          "g-recaptcha-response": recaptchaToken,
+        },
+        publicKey
+      );
 
       toast.success("Message sent successfully ✅");
       reset();
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to send message ❌");
+      recaptchaRef.current?.reset();
+    } catch (emailjsError) {
+      console.warn("EmailJS failed, trying backend fallback...", emailjsError);
+      const backendUrl =
+        process.env.NEXT_PUBLIC_API_URL ||
+        "https://mussarat123shamsher-porfolio-backend.hf.space";
+
+      try {
+        const response = await fetch(`${backendUrl}/contact`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...data, recaptcha_token: recaptchaToken }),
+        });
+
+        if (!response.ok) throw new Error("Backend failed");
+
+        toast.success("Message sent via backup server ✅");
+        reset();
+        recaptchaRef.current?.reset();
+      } catch (backendError) {
+        toast.error("Failed to send message ❌");
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section
-      id="contact"
-      className="border-y border-white/5 bg-gradient-to-b from-slate-950 to-blue-950/20"
-    >
+    <section id="contact" className="relative py-24 overflow-hidden bg-slate-950">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent" />
+      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
+      
       <Toaster position="bottom-right" />
-      <div className="mx-auto max-w-6xl px-6 py-16 grid md:grid-cols-2 gap-8 items-start">
-        {/* Left side - Info */}
-        <m.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        >
-          <h2 className="text-2xl md:text-3xl font-bold">
-            Let’s build something great
-          </h2>
-          <p className="mt-3 text-slate-300/90">
-            Tell me a bit about your project and timeline. <br />
-            or visit our company website{" "}
-            <a
-              href="https://www.innolyze.com/"
-              target="_blank"
-              className="text-emerald-300 ml-1 mr-1"
-            >
-              ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒
-            </a>{" "}
-            to see our Services & detailed projects
-          </p>
-
-          <div className="mt-6 space-y-3 text-sm text-slate-300">
-            <div className="flex items-center gap-2">
-              <Mail className="w-4 h-4" />
-              <a className="hover:underline" href={`mailto:${profile.email}`}>
-                {profile.email}{" "}
-              </a>
-            </div>
-            <div className="flex items-center gap-2">
-              {" "}
-              <Linkedin className="w-4 h-4" />
-              <a
-                className="hover:underline"
-                href={profile.socials.linkedin}
-                target="_blank"
-                rel="noreferrer"
+      
+      <div className="container mx-auto max-w-6xl px-6">
+        <div className="grid lg:grid-cols-12 gap-12 items-start">
+          
+          {/* Left Column: Info & Branding */}
+          <m.div 
+            className="lg:col-span-5 space-y-8"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <div>
+              <m.span 
+                className="inline-block px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-4"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
               >
-                LinkedIn{" "}
-              </a>
+                Get In Touch
+              </m.span>
+              <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
+                Let’s build <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300">something great</span>
+              </h2>
+              <p className="mt-6 text-slate-400 text-lg leading-relaxed max-w-md">
+                Have an idea? Let's turn it into reality. Reach out for collaborations or just a friendly chat.
+              </p>
             </div>
-            <div className="flex items-center gap-2">
-              {" "}
-              <Facebook className="w-4 h-4" />
-              <a
-                className="hover:underline"
-                href={profile.socials.facebook}
-                target="_blank"
-                rel="noreferrer"
+
+            {/* Contact Action Cards */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-4">
+              <a 
+                href={`mailto:${profile.email}`}
+                className="group p-4 rounded-2xl bg-slate-900/40 border border-white/5 hover:border-emerald-500/30 transition-all duration-300 flex items-center gap-4"
               >
-                Facebook
+                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
+                  <Mail className="w-6 h-6 text-emerald-400" />
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Email Me</p>
+                  <p className="text-slate-200 font-medium truncate max-w-[180px] sm:max-w-none">{profile.email}</p>
+                </div>
               </a>
+
+              <div className="flex gap-4">
+                {[
+                  { icon: Linkedin, href: profile.socials.linkedin, label: "LinkedIn" },
+                  { icon: Facebook, href: profile.socials.facebook, label: "Facebook" },
+                  { icon: Twitter, href: profile.socials.twitter, label: "Twitter" }
+                ].map((social, i) => (
+                  <a 
+                    key={i}
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex-1 p-4 rounded-2xl bg-slate-900/40 border border-white/5 hover:border-emerald-500/30 transition-all duration-300 flex items-center justify-center group"
+                    title={social.label}
+                  >
+                    <social.icon className="w-6 h-6 text-slate-400 group-hover:text-emerald-400 transition-colors" />
+                  </a>
+                ))}
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              {" "}
-              <Twitter className="w-4 h-4" />
-              <a
-                className="hover:underline"
-                href={profile.socials.twitter}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {" "}
-                Twitter{" "}
-              </a>
+
+            {/* Company Link Badge */}
+            <div className="pt-4">
+              <p className="text-sm text-slate-500">
+                Representing <a href="https://www.innolyze.com/" target="_blank" className="text-emerald-400 font-bold hover:underline transition-all">ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒</a>
+              </p>
             </div>
-          </div>
-        </m.div>
+          </m.div>
 
-        {/* Right side - Form */}
-        <m.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        >
-          <Card className="bg-slate-900/70 shadow-[0_0_20px_rgba(16,185,129,0.1)] border-white/5">
-            <CardContent className="pt-6">
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                {/* Name Input */}
-                <m.div animate={errors.name ? "error" : ""} variants={shakeVariants}>
-                  <label className="text-sm font-medium text-slate-200">
-                    Name
-                  </label>
-                  <input
-                    {...register("name")}
-                    className="mt-1 w-full rounded-xl border border-white/10 bg-slate-950/60 px-3 py-2 text-slate-100 focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all"
-                  />
-                  <AnimatePresence>
-                    {errors.name && (
-                      <m.p
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -5 }}
-                        className="text-red-400 text-xs mt-1"
-                      >
-                        {errors.name.message}
-                      </m.p>
+          {/* Right Column: The Form */}
+          <m.div 
+            className="lg:col-span-7"
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/5 shadow-2xl rounded-3xl p-1">
+              {/* Inner Glow Effect */}
+              <div className="absolute -top-24 -left-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+              
+              <CardContent className="p-6 md:p-8">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                  
+                  {/* Name & Email Group */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <m.div animate={errors.name ? "error" : ""} variants={shakeVariants}>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">
+                        Full Name
+                      </label>
+                      <input
+                        {...register("name")}
+                        placeholder="John Doe"
+                        className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-slate-100 placeholder:text-slate-600 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 outline-none transition-all"
+                      />
+                      <AnimatePresence>
+                        {errors.name && (
+                          <m.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="text-red-400 text-[10px] mt-1 ml-1 font-bold">
+                            {errors.name.message}
+                          </m.p>
+                        )}
+                      </AnimatePresence>
+                    </m.div>
+
+                    <m.div animate={errors.email ? "error" : ""} variants={shakeVariants}>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        {...register("email")}
+                        placeholder="john@example.com"
+                        className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-slate-100 placeholder:text-slate-600 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 outline-none transition-all"
+                      />
+                      <AnimatePresence>
+                        {errors.email && (
+                          <m.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="text-red-400 text-[10px] mt-1 ml-1 font-bold">
+                            {errors.email.message}
+                          </m.p>
+                        )}
+                      </AnimatePresence>
+                    </m.div>
+                  </div>
+
+                  {/* Message Field */}
+                  <m.div animate={errors.message ? "error" : ""} variants={shakeVariants}>
+                    <label className="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">
+                      Your Message
+                    </label>
+                    <textarea
+                      {...register("message")}
+                      rows={4}
+                      placeholder="Tell me about your project..."
+                      className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-slate-100 placeholder:text-slate-600 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 outline-none transition-all resize-none"
+                    />
+                    <AnimatePresence>
+                      {errors.message && (
+                        <m.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="text-red-400 text-[10px] mt-1 ml-1 font-bold">
+                          {errors.message.message}
+                        </m.p>
+                      )}
+                    </AnimatePresence>
+                  </m.div>
+
+                  {/* reCAPTCHA Wrapper - Adjusted for scaling on mobile */}
+                  <div className="flex justify-start overflow-hidden py-1">
+                    <div className="origin-left scale-[0.85] sm:scale-100">
+                      <ReCAPTCHA
+                        ref={recaptchaRef}
+                        sitekey={process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY || ""}
+                        theme="dark"
+                      />
+                    </div>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full h-14 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-black text-base hover:opacity-90 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-3 shadow-xl shadow-emerald-500/20 disabled:opacity-50"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <>
+                        Send Message
+                        <div className="w-6 h-6 rounded-full bg-slate-950/20 flex items-center justify-center">
+                          <ChevronRight className="w-4 h-4" />
+                        </div>
+                      </>
                     )}
-                  </AnimatePresence>
-                </m.div>
-
-                {/* Email Input */}
-                <m.div animate={errors.email ? "error" : ""} variants={shakeVariants}>
-                  <label className="text-sm font-medium text-slate-200">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    {...register("email")}
-                    className="mt-1 w-full rounded-xl border border-white/10 bg-slate-950/60 px-3 py-2 text-slate-100 focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all"
-                  />
-                  <AnimatePresence>
-                    {errors.email && (
-                      <m.p
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -5 }}
-                        className="text-red-400 text-xs mt-1"
-                      >
-                        {errors.email.message}
-                      </m.p>
-                    )}
-                  </AnimatePresence>
-                </m.div>
-
-                {/* Message Input */}
-                <m.div animate={errors.message ? "error" : ""} variants={shakeVariants}>
-                  <label className="text-sm font-medium text-slate-200">
-                    Message
-                  </label>
-                  <textarea
-                    {...register("message")}
-                    rows={4}
-                    className="mt-1 w-full rounded-xl border border-white/10 bg-slate-950/60 px-3 py-2 text-slate-100 focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all"
-                  />
-                  <AnimatePresence>
-                    {errors.message && (
-                      <m.p
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -5 }}
-                        className="text-red-400 text-xs mt-1"
-                      >
-                        {errors.message.message}
-                      </m.p>
-                    )}
-                  </AnimatePresence>
-                </m.div>
-
-                <Button
-                  type="submit"
-                  className="rounded-xl w-full bg-gradient-to-r from-emerald-500 to-cyan-400 text-slate-900 hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-                  disabled={loading}
-                >
-                  {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-                  {loading ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-        </m.div>
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </m.div>
+        </div>
       </div>
     </section>
   );

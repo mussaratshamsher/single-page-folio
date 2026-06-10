@@ -39,6 +39,7 @@ class ContactRequest(BaseModel):
     name: str
     email: str
     message: str
+    recaptcha_token: Optional[str] = None
 
 @app.get("/")
 async def root():
@@ -99,7 +100,7 @@ async def contact(request: ContactRequest):
         raise HTTPException(status_code=400, detail="All fields are required.")
     
     try:
-        result = notify_mussarat(request.name, request.email, request.message)
+        result = notify_mussarat(request.name, request.email, request.message, request.recaptcha_token)
         return {"result": result}
     except Exception as e:
         print(f"Contact error: {e}")

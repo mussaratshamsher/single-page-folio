@@ -3,8 +3,11 @@ uvicorn
 groq
 supabase
 pydantic
+email-validator
 pypdf
 sentence-transformers
 python-dotenv
 openai
 requests
+langsmith
+deepeval

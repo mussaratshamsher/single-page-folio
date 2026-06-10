@@ -48,7 +48,7 @@ export default function Home() {
   }, [selectedTag]);
 
   return (
-    <main className="min-h-screen pt-20 bg-slate-950 text-slate-100 selection:bg-emerald-400/30 overflow-hidden">
+    <main className="min-h-screen pt-20 selection:bg-emerald-400/30 overflow-hidden">
       {/* Top Gradient Glow */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
         <div className="absolute -top-32 -left-24 h-72 w-72 rounded-full bg-emerald-600/10 blur-3xl" />
@@ -341,15 +341,6 @@ export default function Home() {
 
       {/* CONTACT */}
       <Contact />
-
-      {/* FOOTER */}
-      <footer className="border-t border-white/5">
-        <div className="mx-auto max-w-6xl px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-400">
-          <p>© {new Date().getFullYear()} {profile.name}. All rights reserved.  
-          <Link href="https://www.innolyze.com/" target="_blank">Visit our company  
-           <span className="text-emerald-300 ml-1">ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒</span> </Link></p>
-        </div>
-      </footer>
     </main>
   );
 }
