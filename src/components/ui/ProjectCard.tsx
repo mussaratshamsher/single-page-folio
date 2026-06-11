@@ -36,6 +36,7 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
   const reflectionY = useTransform(mouseYSpring, [-0.5, 0.5], ["-50%", "50%"]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) return;
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const width = rect.width;
@@ -74,6 +75,7 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
             src={project.image} 
             alt={`${project.title} - ${project.desc.substring(0, 100)}...`} 
             fill 
+            priority={isFeatured}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover opacity-40 transition-transform duration-1000 group-hover:scale-110 group-hover:opacity-55"
           />
@@ -133,16 +135,9 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
       className={`h-full perspective-1000 ${className}`}
     >
       <Card className={`${section.card} border-white/5 relative overflow-hidden group/card`}>
-        {/* Mobile Background Image (Visible only on small screens) */}
-        <div className="absolute inset-0 md:hidden z-0 overflow-hidden">
-          <Image 
-            src={project.image} 
-            alt={`${project.title} - ${project.desc.substring(0, 100)}...`} 
-            fill 
-            sizes="100vw"
-            className="object-cover opacity-20 blur-[3px] scale-110"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/60 to-slate-950/90" />
+        {/* Mobile Background Image (Visible only on small screens) - Simplified for performance */}
+        <div className="absolute inset-0 md:hidden z-0 overflow-hidden bg-slate-900/90">
+          <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/5 to-slate-950" />
         </div>
 
         {/* Project Image Container (Desktop Only) */}
@@ -151,6 +146,7 @@ export function ProjectCard({ project, className, isFeatured, index = 0 }: Proje
             src={project.image} 
             alt={`${project.title} - ${project.desc.substring(0, 100)}...`} 
             fill 
+            priority={index < 2}
             sizes="(max-width: 1200px) 50vw, 33vw"
             className="object-cover transition-transform duration-1000 group-hover:scale-110"
           />

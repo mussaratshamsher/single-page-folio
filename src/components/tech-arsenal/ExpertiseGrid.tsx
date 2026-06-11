@@ -1,3 +1,5 @@
+"use client";
+
 import React, { JSX } from "react";
 import { m } from "framer-motion";
 import { Bot, Layers, Cloud, Code2, Search } from "lucide-react";

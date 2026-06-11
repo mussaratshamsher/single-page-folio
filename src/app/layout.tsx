@@ -4,7 +4,7 @@ import "./globals.css";
 import profile from "@/components/ui/PortfolioData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Chatbot from "@/components/Chatbot";
+import ClientChatbot from "@/components/ClientChatbot";
 import { FramerProvider } from "@/components/FramerProvider";
 
 const geistSans = Geist({
@@ -129,7 +129,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </FramerProvider>
-        <Chatbot />
+        <ClientChatbot />
       </body>
     </html>
   );
