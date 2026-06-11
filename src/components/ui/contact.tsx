@@ -87,58 +87,58 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-24 overflow-hidden bg-slate-950">
+    <section id="contact" className="relative py-12 md:py-24 overflow-hidden bg-slate-950">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent" />
       <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
       
       <Toaster position="bottom-right" />
       
-      <div className="container mx-auto max-w-6xl px-6">
-        <div className="grid lg:grid-cols-12 gap-12 items-start">
+      <div className="container mx-auto max-w-6xl px-4">
+        <div className="flex flex-col lg:grid lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           
           {/* Left Column: Info & Branding */}
           <m.div 
-            className="lg:col-span-5 space-y-8"
+            className="w-full lg:col-span-5 space-y-6 md:space-y-8"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div>
+            <div className="text-left">
               <m.span 
-                className="inline-block px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-4"
+                className="inline-block px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-4"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
               >
                 Get In Touch
               </m.span>
-              <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
-                Let’s build <br />
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-[1.1] md:leading-tight break-words">
+                Let’s build <br className="hidden xs:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300">something great</span>
               </h2>
-              <p className="mt-6 text-slate-400 text-lg leading-relaxed max-w-md">
+              <p className="mt-4 md:mt-6 text-slate-400 text-sm md:text-lg leading-relaxed max-w-md">
                 Have an idea? Let's turn it into reality. Reach out for collaborations or just a friendly chat.
               </p>
             </div>
 
             {/* Contact Action Cards */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-4">
+            <div className="flex flex-col gap-4">
               <a 
                 href={`mailto:${profile.email}`}
-                className="group p-4 rounded-2xl bg-slate-900/40 border border-white/5 hover:border-emerald-500/30 transition-all duration-300 flex items-center gap-4"
+                className="group p-3 sm:p-4 rounded-2xl bg-slate-900/40 border border-white/5 hover:border-emerald-500/30 transition-all duration-300 flex items-center gap-3 sm:gap-4 overflow-hidden"
               >
-                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
-                  <Mail className="w-6 h-6 text-emerald-400" />
+                <div className="shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
+                  <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400" />
                 </div>
-                <div>
-                  <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Email Me</p>
-                  <p className="text-slate-200 font-medium truncate max-w-[180px] sm:max-w-none">{profile.email}</p>
+                <div className="min-w-0 flex-1 text-left">
+                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Email Me</p>
+                  <p className="text-sm sm:text-base text-slate-200 font-medium break-all sm:truncate">{profile.email}</p>
                 </div>
               </a>
 
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-3">
                 {[
                   { icon: Linkedin, href: profile.socials.linkedin, label: "LinkedIn" },
                   { icon: Facebook, href: profile.socials.facebook, label: "Facebook" },
@@ -149,18 +149,18 @@ export default function Contact() {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex-1 p-4 rounded-2xl bg-slate-900/40 border border-white/5 hover:border-emerald-500/30 transition-all duration-300 flex items-center justify-center group"
+                    className="flex-1 min-w-[60px] p-3 sm:p-4 rounded-2xl bg-slate-900/40 border border-white/5 hover:border-emerald-500/30 transition-all duration-300 flex items-center justify-center group"
                     title={social.label}
                   >
-                    <social.icon className="w-6 h-6 text-slate-400 group-hover:text-emerald-400 transition-colors" />
+                    <social.icon className="w-5 h-5 sm:w-6 sm:h-6 text-slate-400 group-hover:text-emerald-400 transition-colors" />
                   </a>
                 ))}
               </div>
             </div>
 
             {/* Company Link Badge */}
-            <div className="pt-4">
-              <p className="text-sm text-slate-500">
+            <div className="pt-2 text-left">
+              <p className="text-xs sm:text-sm text-slate-500 font-medium">
                 Representing <a href="https://www.innolyze.com/" target="_blank" className="text-emerald-400 font-bold hover:underline transition-all">ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒</a>
               </p>
             </div>
@@ -168,7 +168,7 @@ export default function Contact() {
 
           {/* Right Column: The Form */}
           <m.div 
-            className="lg:col-span-7"
+            className="w-full lg:col-span-7"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -178,19 +178,19 @@ export default function Contact() {
               {/* Inner Glow Effect */}
               <div className="absolute -top-24 -left-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
               
-              <CardContent className="p-6 md:p-8">
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <CardContent className="p-4 sm:p-6 md:p-8">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
                   
                   {/* Name & Email Group */}
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <m.div animate={errors.name ? "error" : ""} variants={shakeVariants}>
-                      <label className="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">
+                  <div className="flex flex-col md:grid md:grid-cols-2 gap-4 md:gap-6">
+                    <m.div animate={errors.name ? "error" : ""} variants={shakeVariants} className="w-full text-left">
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1.5 ml-1">
                         Full Name
                       </label>
                       <input
                         {...register("name")}
                         placeholder="John Doe"
-                        className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-slate-100 placeholder:text-slate-600 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 outline-none transition-all"
+                        className="w-full rounded-xl sm:rounded-2xl border border-white/10 bg-slate-950/40 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-slate-100 placeholder:text-slate-600 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 outline-none transition-all"
                       />
                       <AnimatePresence>
                         {errors.name && (
@@ -201,15 +201,15 @@ export default function Contact() {
                       </AnimatePresence>
                     </m.div>
 
-                    <m.div animate={errors.email ? "error" : ""} variants={shakeVariants}>
-                      <label className="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">
+                    <m.div animate={errors.email ? "error" : ""} variants={shakeVariants} className="w-full text-left">
+                      <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1.5 ml-1">
                         Email Address
                       </label>
                       <input
                         type="email"
                         {...register("email")}
                         placeholder="john@example.com"
-                        className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-slate-100 placeholder:text-slate-600 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 outline-none transition-all"
+                        className="w-full rounded-xl sm:rounded-2xl border border-white/10 bg-slate-950/40 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-slate-100 placeholder:text-slate-600 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 outline-none transition-all"
                       />
                       <AnimatePresence>
                         {errors.email && (
@@ -222,15 +222,15 @@ export default function Contact() {
                   </div>
 
                   {/* Message Field */}
-                  <m.div animate={errors.message ? "error" : ""} variants={shakeVariants}>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2 ml-1">
+                  <m.div animate={errors.message ? "error" : ""} variants={shakeVariants} className="text-left">
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1.5 ml-1">
                       Your Message
                     </label>
                     <textarea
                       {...register("message")}
                       rows={4}
                       placeholder="Tell me about your project..."
-                      className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-slate-100 placeholder:text-slate-600 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 outline-none transition-all resize-none"
+                      className="w-full rounded-xl sm:rounded-2xl border border-white/10 bg-slate-950/40 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-slate-100 placeholder:text-slate-600 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 outline-none transition-all resize-none"
                     />
                     <AnimatePresence>
                       {errors.message && (
@@ -241,9 +241,9 @@ export default function Contact() {
                     </AnimatePresence>
                   </m.div>
 
-                  {/* reCAPTCHA Wrapper - Adjusted for scaling on mobile */}
-                  <div className="flex justify-start overflow-hidden py-1">
-                    <div className="origin-left scale-[0.85] sm:scale-100">
+                  {/* reCAPTCHA Wrapper - High Precision Scaling */}
+                  <div className="flex justify-start py-1 overflow-hidden">
+                    <div className="origin-left scale-[0.75] xs:scale-[0.85] sm:scale-100">
                       <ReCAPTCHA
                         ref={recaptchaRef}
                         sitekey={process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY || ""}
@@ -254,16 +254,16 @@ export default function Contact() {
 
                   <Button
                     type="submit"
-                    className="w-full h-14 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-black text-base hover:opacity-90 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-3 shadow-xl shadow-emerald-500/20 disabled:opacity-50"
+                    className="w-full h-12 sm:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-black text-sm sm:text-base hover:opacity-90 transition-all flex items-center justify-center gap-2 sm:gap-3 shadow-xl shadow-emerald-500/20 disabled:opacity-50"
                     disabled={loading}
                   >
                     {loading ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (
                       <>
-                        Send Message
-                        <div className="w-6 h-6 rounded-full bg-slate-950/20 flex items-center justify-center">
-                          <ChevronRight className="w-4 h-4" />
+                        <span className="truncate">Send Message</span>
+                        <div className="shrink-0 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-950/20 flex items-center justify-center">
+                          <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
                         </div>
                       </>
                     )}
