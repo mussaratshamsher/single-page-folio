@@ -15,7 +15,7 @@ const iconMap: { [key: string]: JSX.Element } = {
 
 export const ExpertiseGrid = () => {
   return (
-    <section className="py-20 bg-slate-950">
+    <section className="pb-5 md:pb-10 lg:pb-20 bg-slate-950">
       <div className="max-w-6xl mx-auto px-6">
         <div className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-slate-100">Areas of Expertise</h2>

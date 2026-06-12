@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { Download, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import profile from "@/components/ui/PortfolioData";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -123,7 +123,7 @@ export default function Navbar() {
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <m.div
             initial="closed"
             animate="opened"
             exit="closed"
@@ -136,7 +136,7 @@ export default function Navbar() {
 
             <nav className="flex flex-col gap-6">
               {navItems.map((item, i) => (
-                <motion.div
+                <m.div
                   key={item.id}
                   custom={i}
                   variants={navLinkVariants}
@@ -148,11 +148,11 @@ export default function Navbar() {
                   >
                     {item.label}
                   </Link>
-                </motion.div>
+                </m.div>
               ))}
             </nav>
 
-            <motion.div 
+            <m.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
@@ -163,8 +163,8 @@ export default function Navbar() {
                   <Download className="w-6 h-6 mr-1" /> Download Resume
                 </a>
               </Button>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

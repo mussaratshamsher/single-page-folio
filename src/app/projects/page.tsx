@@ -4,8 +4,8 @@ import profile from "@/components/ui/PortfolioData";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { ChevronLeft, Search, SlidersHorizontal, Sparkles } from "lucide-react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { ChevronLeft, ChevronRight, Search, SlidersHorizontal, Sparkles } from "lucide-react";
+import { m, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Suspense, useRef } from "react";
@@ -23,12 +23,12 @@ function ProjectStackCard({ project, index, total }: { project: any, index: numb
   
   return (
     <div ref={container} className="sticky top-24 md:static mb-12 md:mb-0 last:mb-0 h-[80vh] md:h-auto flex items-center justify-center">
-       <motion.div 
+       <m.div 
          style={{ scale, opacity }}
          className="w-full h-full md:h-auto"
        >
          <ProjectCard project={project} index={index} />
-       </motion.div>
+       </m.div>
     </div>
   );
 }
@@ -40,12 +40,25 @@ function ProjectsContent() {
   const [search, setSearch] = useState("");
   const initialTag = searchParams.get("tag");
   const [selectedTag, setSelectedTag] = useState<string | null>(initialTag);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Sync state with URL 
   useEffect(() => {
     const tag = searchParams.get("tag");
     setSelectedTag(tag);
   }, [searchParams]);
+
+  // Click outside listener
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleTagChange = (tag: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -55,6 +68,7 @@ function ProjectsContent() {
       params.delete("tag");
     }
     router.push(`/projects?${params.toString()}`, { scroll: false });
+    setIsDropdownOpen(false);
   };
 
   const tags = useMemo(() => {
@@ -74,7 +88,7 @@ function ProjectsContent() {
 
   return (
     <div className="mx-auto max-w-6xl">
-        <motion.div
+        <m.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
@@ -85,45 +99,94 @@ function ProjectsContent() {
             <p className="text-slate-400 text-lg md:text-xl max-w-2xl mb-16 leading-relaxed">
                 A collection of projects ranging from autonomous AI agents to high-performance full-stack applications.
             </p>
-        </motion.div>
+        </m.div>
         
-        {/* Filters and Search - Removed sticky to avoid overlapping issues */}
-        <div className="flex flex-col lg:flex-row gap-6 mb-12 items-start lg:items-center justify-between py-4 bg-slate-950/50">
-            <div className="relative w-full lg:w-[400px] group">
-                <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-emerald-400 transition-colors" />
-                <input 
-                    type="text" 
-                    placeholder="Search projects..." 
-                    className="bg-slate-900/50 border border-emerald-500/10 rounded-2xl pl-12 pr-6 py-4 text-base text-slate-200 focus:outline-none focus:border-emerald-400/50 focus:ring-1 focus:ring-emerald-400/20 w-full transition-all backdrop-blur-sm"
-                    value={search} 
-                    onChange={(e) => setSearch(e.target.value)} 
-                />
-            </div>
-            
-            <div className="flex flex-wrap gap-2.5 items-center">
-                <button 
-                    onClick={() => handleTagChange(null)} 
-                    className={`px-6 py-2.5 rounded-2xl text-sm font-bold transition-all ${!selectedTag ? 'bg-emerald-500 text-slate-950 shadow-xl shadow-emerald-500/20' : 'bg-slate-900 text-slate-400 hover:bg-slate-800 border border-white/5'}`}
-                >
-                    All Works
-                </button>
-                {tags.map(t => (
-                    <button 
-                        key={t} 
-                        onClick={() => handleTagChange(t)} 
-                        className={`px-6 py-2.5 rounded-2xl text-sm font-bold transition-all ${selectedTag === t ? 'bg-emerald-500 text-slate-950 shadow-xl shadow-emerald-500/20' : 'bg-slate-900 text-slate-400 hover:bg-slate-800 border border-white/5'}`}
+        {/* Unified Search & Filter Column */}
+        <div className="relative mb-12 z-40" ref={dropdownRef}>
+            <m.div 
+                className={`w-full bg-slate-900/40 border ${isDropdownOpen ? 'border-emerald-500/50 ring-1 ring-emerald-500/20' : 'border-emerald-500/10'} rounded-2xl p-4 flex items-center justify-between cursor-pointer transition-all backdrop-blur-sm group`}
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                whileHover={{ border: '1px solid rgba(16, 185, 129, 0.4)' }}
+            >
+                <div className="flex items-center gap-4 flex-1 min-w-0">
+                    <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 group-hover:scale-110 transition-transform">
+                        <SlidersHorizontal className="w-5 h-5" />
+                    </div>
+                    <div className="flex flex-col text-left overflow-hidden">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Filter & Search</span>
+                        <span className="text-slate-200 font-bold truncate">
+                            {selectedTag ? `Keyword: ${selectedTag}` : (search ? `Searching: "${search}"` : "All Projects & Technologies")}
+                        </span>
+                    </div>
+                </div>
+                <div className="flex items-center gap-4">
+                    <div className="h-8 w-px bg-white/5 mx-2" />
+                    <m.div
+                        animate={{ rotate: isDropdownOpen ? 90 : 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="text-slate-500"
                     >
-                        {t}
-                    </button>
-                ))}
-            </div>
+                        <ChevronRight className="w-5 h-5" />
+                    </m.div>
+                </div>
+            </m.div>
+
+            {/* Dropdown Content */}
+            <AnimatePresence>
+                {isDropdownOpen && (
+                    <m.div
+                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full left-0 right-0 mt-3 p-3 bg-slate-900/95 border border-emerald-500/20 rounded-3xl backdrop-blur-xl shadow-2xl flex flex-col gap-2 max-h-[70vh] md:max-h-[500px]"
+                    >
+                        {/* Internal Search Bar */}
+                        <div className="relative group/search mb-2 px-2">
+                            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within/search:text-emerald-400 transition-colors" />
+                            <input 
+                                type="text" 
+                                placeholder="Type to search projects..." 
+                                className="w-full bg-slate-950/50 border border-white/5 rounded-xl pl-12 pr-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-emerald-500/30 transition-all"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                onClick={(e) => e.stopPropagation()}
+                            />
+                        </div>
+
+                        {/* Keyword List */}
+                        <div className="overflow-y-auto pr-1 flex-1 custom-scrollbar">
+                            <div className="px-2 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 mb-1">
+                                Filter by Keyword
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1">
+                                <button 
+                                    onClick={() => handleTagChange(null)}
+                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${!selectedTag ? 'bg-emerald-500 text-slate-950' : 'text-slate-400 hover:bg-emerald-500/10 hover:text-emerald-400'}`}
+                                >
+                                    All Keywords
+                                </button>
+                                {tags.map(t => (
+                                    <button 
+                                        key={t}
+                                        onClick={() => handleTagChange(t)}
+                                        className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-left transition-all ${selectedTag === t ? 'bg-emerald-500 text-slate-950' : 'text-slate-400 hover:bg-emerald-500/10 hover:text-emerald-400'}`}
+                                    >
+                                        {t}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </m.div>
+                )}
+            </AnimatePresence>
         </div>
 
         {/* Projects Display */}
         <div className="min-h-[300px]">
             <AnimatePresence mode="popLayout">
                 {filteredProjects.length === 0 ? (
-                    <motion.div 
+                    <m.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -141,11 +204,11 @@ function ProjectsContent() {
                         >
                             Clear all filters
                         </Button>
-                    </motion.div>
+                    </m.div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                         {filteredProjects.map((p, idx) => (
-                            <motion.div 
+                            <m.div 
                                 key={p.title}
                                 layout
                                 initial={{ opacity: 0, y: 20 }}
@@ -154,7 +217,7 @@ function ProjectsContent() {
                                 className="h-full"
                             >
                                 <ProjectCard project={p} />
-                            </motion.div>
+                            </m.div>
                         ))}
                     </div>
                 )}
@@ -162,7 +225,7 @@ function ProjectsContent() {
         </div>
 
         {/* CTA Section */}
-        <motion.section 
+        <m.section 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -192,7 +255,7 @@ function ProjectsContent() {
             {/* Background elements */}
             <div className="absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-emerald-500/10 blur-[80px]" />
             <div className="absolute -top-24 -left-24 h-64 w-64 rounded-full bg-blue-500/10 blur-[80px]" />
-        </motion.section>
+        </m.section>
     </div>
   );
 }

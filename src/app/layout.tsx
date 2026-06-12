@@ -97,35 +97,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-950 text-slate-100`}
       >
-        <Navbar />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              "name": profile.name,
-              "url": siteUrl,
-              "jobTitle": profile.role,
-              "description": profile.tagline,
-              "image": `${siteUrl}og-image.png`,
-              "sameAs": [
-                profile.socials.linkedin,
-                profile.socials.twitter,
-                profile.socials.facebook
-              ],
-              "knowsAbout": [
-                "Next.js",
-                "AI Agents",
-                "Full-Stack Development",
-                "Python",
-                "SEO",
-                "FastAPI"
-              ]
-            })
-          }}
-        />
         <FramerProvider>
+          <Navbar />
           {children}
           <Footer />
         </FramerProvider>

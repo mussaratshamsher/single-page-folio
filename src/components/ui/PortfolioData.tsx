@@ -58,21 +58,42 @@ const profile: Profile = {
     twitter: "https://twitter.com/MussaratShams",
   },
   services: [
-    { icon: <Bot className="w-5 h-5" />, title: "AI Agent Development", desc: "Custom AI agents with memory, tool calling, multi-step reasoning, and autonomous task execution.", tags: ["AI", "Agents", "Reasoning"]},
-    {icon: <Workflow className="w-5 h-5" />, title: "Agentic Workflow Automation", desc: "AI-powered workflows that automate research, content creation, data processing, and business operations.", tags: ["Automation", "Workflow", "AI"]},
-    {icon: <MessageSquare className="w-5 h-5" />, title: "AI Chatbots & Assistants", desc: "Intelligent conversational assistants powered by OpenAI, Gemini, and multi-agent architectures.", tags: ["Chatbots", "LLMs", "Assistants"]},
-    { icon: <Database className="w-5 h-5" />, title: "RAG & Knowledge Systems", desc: "Retrieval-Augmented Generation with vector databases, document search, and private knowledge bases.", tags: ["RAG", "VectorDB", "AI"]},
-    {icon: <Layers className="w-5 h-5" />,title: "Full-Stack Development",desc: "From Next.js frontends to Python FastAPI backends, I build complete, scalable solutions.", tags: ["Next.js", "FastAPI", "FullStack"]},
-    { icon: <Code2 className="w-5 h-5" />, title: "Frontend Engineering", desc: "HTML • CSS • TypeScript • Tailwind • Next.js • shadcn/ui • framer-motion • AOS • daisy UI", tags: ["Frontend", "React", "Next.js"]},
-    { icon: <Server className="w-5 h-5" />, title: "Backend & APIs", desc: "Python • FastAPI • Auth •Firebase •Supabase •Qdrant •NeonDb •PostGrSQL •SQL• Railway • Hugging Face • Streamlit •Chainlit • Agents SDK", tags: ["Backend", "Python", "API"]},
-    { icon: <Sparkles className="w-5 h-5" />, title: "AI Agents", desc: "Agentic AI • OpenAI SDK • Chainlit •Streamlit •Gemini API •Groq API • LLM Tool calling", tags: ["AI", "Agents", "LLM"]},
-    { icon: <Rocket className="w-5 h-5" />, title: "Deployment & Hosting", desc: "•Git • GitHub •Github Actions • Railway • Hugging Face • Vercel • Netlify ", tags: ["DevOps", "Hosting", "Cloud"]},
-    { icon: <Database className="w-5 h-5" />, title: "Data Layer", desc: "Integration • Sanity CMS • Firebase • Postgre SQL • MySQL • MongoDB • Supabase • Qdrant", tags: ["Database", "SQL", "NoSQL"]},
-    { icon: <Code2 className="w-5 h-5" />, title: "Template Clone", desc: "I convert Figma template designs into pixel-perfect, responsive, functional websites.", tags: ["Figma", "UI/UX", "Conversion"]},
-    { icon: <Rocket className="w-5 h-5" />, title: "Web Redesign & Maintenance",desc: "I modernize outdated websites, improve performance, and provide long-term support.", tags: ["Maintenance", "Performance", "Optimization"]},
-    { icon: <Search className="w-5 h-5" />, title: "SEO Optimization", desc: "Technical SEO • On/Off-Page SEO • Keywords Research • Personal/Product Branding •SEO Content", tags: ["SEO", "Marketing", "Branding"]},
-    { icon: <PenTool className="w-5 h-5" />, title: "Content Writing", desc: "SEO-friendly Articles • Web content • Blogs • Product Descriptions", tags: ["Writing", "Content", "SEO"]},
-    { icon: <Palette className="w-5 h-5" />, title: "Graphic Design", desc: "Logos • Branding • UI Mockups • Bussiness Cards • Posters • Flyiers", tags: ["Design", "Branding", "UI"]},
+    { 
+      icon: <Bot className="w-5 h-5" />, 
+      title: "AI Agent Development", 
+      desc: "Custom AI agents with memory, tool calling, and multi-step reasoning. I build intelligent systems using OpenAI, Gemini, and RAG architectures with VectorDBs.", 
+      tags: ["AI Agents", "LLMs", "RAG"]
+    },
+    {
+      icon: <Workflow className="w-5 h-5" />, 
+      title: "Agentic Workflow Automation", 
+      desc: "AI-powered workflows that automate research, content creation, and business operations using modern Agent SDKs and multi-agent orchestration.", 
+      tags: ["Automation", "Workflow", "Python"]
+    },
+    {
+      icon: <Layers className="w-5 h-5" />,
+      title: "Full-Stack Engineering",
+      desc: "End-to-end development from pixel-perfect Next.js frontends to robust Python FastAPI backends, focusing on scalable and type-safe architectures.", 
+      tags: ["Next.js", "FastAPI", "TypeScript"]
+    },
+    { 
+      icon: <Rocket className="w-5 h-5" />, 
+      title: "Deployment & Optimization", 
+      desc: "Managing cloud infrastructure on Vercel and Railway, implementing CI/CD pipelines, and modernizing outdated websites for peak performance.", 
+      tags: ["DevOps", "Vercel", "Performance"]
+    },
+    { 
+      icon: <Search className="w-5 h-5" />, 
+      title: "SEO & Digital Strategy", 
+      desc: "Technical SEO, keyword research, and performance optimization to boost online presence. I align technical builds with branding and marketing goals.", 
+      tags: ["SEO", "Analytics", "Branding"]
+    },
+    { 
+      icon: <Palette className="w-5 h-5" />, 
+      title: "Design & UI/UX", 
+      desc: "Crafting professional logos, branding assets, and high-fidelity UI mockups in Figma, ensuring a cohesive and modern visual identity across all platforms.", 
+      tags: ["Figma", "Branding", "UI/UX"]
+    },
   ],
   expertise: [
     {
