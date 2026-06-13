@@ -25,7 +25,7 @@ function ProjectStackCard({ project, index }: { project: Project, index: number 
   return (
     <div ref={container} className="sticky top-24 mb-10 h-[70vh] flex items-center justify-center">
       <m.div 
-        style={{ scale, opacity }}
+        style={{ scale, opacity, willChange: "transform, opacity" }}
         className="w-full h-full origin-top"
       >
         <ProjectCard project={project} index={index} />
@@ -64,10 +64,10 @@ export function ProjectShowcase({ projects }: ProjectShowcaseProps) {
 
   return (
     <section id="projects" className="relative">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-blue-950/30 to-transparent" />
+      <div className="absolute inset-0 -z-10 bg-linear-to-b from-blue-950/30 to-transparent" />
       <div className="mx-auto max-w-6xl px-6 py-16">
-        <div className="flex flex-col items-center text-center gap-6">
-          <div>
+        <div className="flex flex-col md:grid md:grid-cols-2 items-center text-center md:text-left gap-6">
+          <div className="col-span-1 md:col-span-1">
             <m.h2 className={`text-2xl md:text-4xl font-black ${section.title}`} {...fadeIn}>Selected Projects</m.h2>
             <m.p className={`mt-2 max-w-xl ${section.sub}`} {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.05 }}>
               A showcase of AI agents, intelligent systems, and high-performance web applications.
@@ -76,7 +76,7 @@ export function ProjectShowcase({ projects }: ProjectShowcaseProps) {
           
           {/* Filter Bar */}
           <m.div 
-            className="flex flex-wrap gap-2 justify-center"
+            className="flex flex-wrap gap-2 justify-center md:justify-start"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -120,14 +120,6 @@ export function ProjectShowcase({ projects }: ProjectShowcaseProps) {
                     </m.div>
                   ))}
                 </div>
-                
-                {/* View All Button for Mobile Slider */}
-                <Button 
-                  onClick={() => setViewAllMobile(true)}
-                  className="w-full py-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold hover:bg-emerald-500/20 transition-all"
-                >
-                  View All Projects <ChevronRight className="w-4 h-4 ml-2" />
-                </Button>
               </div>
             ) : (
               /* Full Vertical Stacking List */
@@ -154,7 +146,7 @@ export function ProjectShowcase({ projects }: ProjectShowcaseProps) {
           </div>
 
           {/* Desktop: Refined Bento Grid */}
-          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 auto-rows-fr">
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-fr ">
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((p, idx) => (
                 <m.div 

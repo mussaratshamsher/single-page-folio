@@ -26,8 +26,12 @@ export const ExpertiseGrid = () => {
           {profile.expertise.map((item, i) => (
             <m.div
               key={i}
+              className={`${item.colSpan} p-2 md:p-4 rounded-3xl bg-slate-900/50 border border-white/5 hover:border-emerald-500/30 transition-all group`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.25, 1, 0.5, 1] }}
               whileHover={{ y: -5 }}
-              className={`${item.colSpan} p-6 rounded-3xl bg-slate-900/50 border border-white/5 hover:border-emerald-500/30 transition-all group`}
             >
               <div className="mb-4">{iconMap[item.icon]}</div>
               <h3 className="text-xl font-bold text-slate-100 mb-2">{item.title}</h3>

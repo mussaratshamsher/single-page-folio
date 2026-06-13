@@ -87,7 +87,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-12 md:py-24 overflow-hidden bg-slate-950">
+    <section id="contact" className="relative py-5 md:py-24 overflow-hidden bg-slate-950">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent" />
       <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
@@ -240,10 +240,11 @@ export default function Contact() {
                       )}
                     </AnimatePresence>
                   </m.div>
-
+                {/* reCAPTCHA and button section */}
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0">
                   {/* reCAPTCHA Wrapper - High Precision Scaling */}
-                  <div className="flex justify-start py-1 overflow-hidden">
-                    <div className="origin-left scale-[0.75] xs:scale-[0.85] sm:scale-100">
+                  <div className="py-1 overflow-hidden">
+                    <div className="md:origin-left scale-[0.75] xs:scale-[0.85] sm:scale-100">
                       <ReCAPTCHA
                         ref={recaptchaRef}
                         sitekey={process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY || ""}
@@ -251,23 +252,25 @@ export default function Contact() {
                       />
                     </div>
                   </div>
-
+                 {/* submit button */}
                   <Button
                     type="submit"
-                    className="w-full h-12 sm:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-black text-sm sm:text-base hover:opacity-90 transition-all flex items-center justify-center gap-2 sm:gap-3 shadow-xl shadow-emerald-500/20 disabled:opacity-50"
+                    className="w-48 md:w-60 lg:w-44 h-12 sm:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-black text-sm sm:text-base hover:opacity-90 transition-all flex items-center justify-center gap-2 sm:gap-3 shadow-xl shadow-emerald-500/20 disabled:opacity-50"
                     disabled={loading}
                   >
                     {loading ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (
                       <>
-                        <span className="truncate">Send Message</span>
+                        <span className="truncate">Send</span>
                         <div className="shrink-0 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-950/20 flex items-center justify-center">
                           <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
                         </div>
                       </>
                     )}
                   </Button>
+                </div>
+                
                 </form>
               </CardContent>
             </Card>

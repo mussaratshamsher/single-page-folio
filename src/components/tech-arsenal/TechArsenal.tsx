@@ -40,6 +40,7 @@ const MarqueeRow = ({ skills, direction = 1 }: { skills: string[], direction?: 1
     >
       <m.div
         className="flex gap-6 whitespace-nowrap"
+        style={{ willChange: "transform" }}
         animate={{ x: direction === 1 ? [0, -1000] : [-1000, 0] }}
         transition={{ 
           repeat: Infinity, 

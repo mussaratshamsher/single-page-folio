@@ -10,11 +10,13 @@ import { FramerProvider } from "@/components/FramerProvider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: 'swap',
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: 'swap',
 });
 
 const siteUrl = "https://mussarat-web-dev.vercel.app/"; 

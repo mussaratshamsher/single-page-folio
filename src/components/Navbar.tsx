@@ -85,7 +85,7 @@ export default function Navbar() {
               width={80} 
               height={80} 
               priority 
-              quality={100} 
+              quality={80} 
             /> 
           </Link>
 

@@ -115,7 +115,7 @@ function ProjectsContent() {
                     <div className="flex flex-col text-left overflow-hidden">
                         <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Filter & Search</span>
                         <span className="text-slate-200 font-bold truncate">
-                            {selectedTag ? `Keyword: ${selectedTag}` : (search ? `Searching: "${search}"` : "All Projects & Technologies")}
+                            {selectedTag ? `${selectedTag}` : (search ? `Searching: "${search}"` : "All Projects & Technologies")}
                         </span>
                     </div>
                 </div>

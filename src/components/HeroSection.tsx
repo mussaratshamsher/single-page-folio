@@ -11,27 +11,50 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ tagline, socials }: HeroSectionProps) {
-  const fadeIn = {
+  const fadeInUp = {
     initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-40px" },
-    transition: { duration: 0.7, ease: [0.25, 1, 0.5, 1] }
-  } as const;
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.7, ease: [0.25, 1, 0.5, 1] as const }
+  };
 
   return (
     <section className="mx-auto max-w-6xl px-6 pt-16 lg:pt-24 py-20 grid md:grid-cols-2 gap-10 items-center">
       <div>
-        <m.p className="text-sm uppercase tracking-wider text-emerald-400/80 mb-3" {...fadeIn}>Agentic AI Developer</m.p>
-         <m.h1 className="text-3xl md:text-4xl font-extrabold leading-tight" 
-          {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.05 }}>
-           Build <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300">AI-powered</span> products that
+        <m.p 
+          className="text-sm uppercase tracking-wider text-emerald-400/80 mb-3"
+          variants={fadeInUp}
+          initial="initial"
+          animate="animate"
+        >
+          Agentic AI Developer
+        </m.p>
+        <m.h1 
+          className="text-3xl md:text-4xl font-extrabold leading-tight"
+          variants={fadeInUp}
+          initial="initial"
+          animate="animate"
+          transition={{ ...fadeInUp.transition, delay: 0.1 }}
+        >
+          Build <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300">AI-powered</span> products that
 <br /> automate, accelerate & grow businesses.
         </m.h1>   
        
-        <m.p className="mt-4 text-slate-300/90 max-w-xl" 
-          {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.1 }}>{tagline}</m.p>
-        <m.div className="mt-6 flex flex-wrap items-center gap-3" 
-          {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.15 }}>
+        <m.p 
+          className="mt-4 text-slate-300/90 max-w-xl"
+          variants={fadeInUp}
+          initial="initial"
+          animate="animate"
+          transition={{ ...fadeInUp.transition, delay: 0.2 }}
+        >
+          {tagline}
+        </m.p>
+        <m.div 
+          className="mt-6 flex flex-wrap items-center gap-3"
+          variants={fadeInUp}
+          initial="initial"
+          animate="animate"
+          transition={{ ...fadeInUp.transition, delay: 0.3 }}
+        >
           <Button asChild className="rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-400 text-slate-900 hover:opacity-90">
             <a href="#contact">Contact Me <ChevronRight className="w-4 h-4 ml-1" /></a>
           </Button>
@@ -53,7 +76,7 @@ export function HeroSection({ tagline, socials }: HeroSectionProps) {
         </m.div>
       </div>
       {/* Right Visual: stacked stat cards */}
-      <m.div className="relative" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+      <div className="relative">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {[ 
             { icon: Rocket, title: "Performance", desc: "Core Web Vitals" }, 
@@ -66,8 +89,8 @@ export function HeroSection({ tagline, socials }: HeroSectionProps) {
               className="p-5 rounded-2xl bg-slate-900/60 border border-emerald-500/20 backdrop-blur-md md:backdrop-blur-xl hover:border-emerald-400/30 transition"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: i * 0.1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.7, delay: 0.4 + i * 0.1, ease: [0.25, 1, 0.5, 1] }}
             >
               <item.icon className="w-5 h-5 text-emerald-300" />
               <div className="mt-2 font-semibold text-slate-200">{item.title}</div>
@@ -78,7 +101,7 @@ export function HeroSection({ tagline, socials }: HeroSectionProps) {
 
         {/* Floating orb with CSS animation */}
         <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-emerald-500/20 blur-2xl float-orb" />
-      </m.div>
+      </div>
     </section>
   );
 }

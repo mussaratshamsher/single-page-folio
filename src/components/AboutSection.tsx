@@ -25,7 +25,11 @@ export function AboutSection({ profile }: AboutSectionProps) {
       <div className="absolute inset-x-0 -top-8 h-8 bg-linear-to-b from-emerald-500/10 to-transparent" />
       <div className="mx-auto max-w-6xl px-6 py-16 grid md:grid-cols-2 gap-12 items-start">
         <m.div
-          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
+        >
           <h2 className={`text-2xl md:text-3xl mt-5 lg:mt-8 font-bold ${section.title}`}>About</h2>
           <p className={`mt-4 text-slate-300/90 leading-relaxed text-justify ${isExpanded ? '' : 'line-clamp-4'}`}>
             I’m the Co-Founder of <Link href="https://www.innolyze.com/" target="_blank" className="text-emerald-300 hover:underline">ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒</Link>,
@@ -46,7 +50,13 @@ export function AboutSection({ profile }: AboutSectionProps) {
             <Badge variant="secondary" className="rounded-xl bg-white/5 text-slate-200">UTC+5</Badge>
           </div>
         </m.div>
-        <m.div className="mt-0 flex items-center justify-center md:h-full" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }}>
+        <m.div 
+          className="mt-0 flex items-center justify-center md:h-full"
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 1, 0.5, 1] }}
+        >
           <Card className={`${section.card} w-full max-w-sm`}>
             <CardHeader>
               <CardTitle className="text-slate-200">Contact</CardTitle>

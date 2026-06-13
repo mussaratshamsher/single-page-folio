@@ -1,3 +1,5 @@
+'use client';
+
 import React from "react";
 import profile from "@/components/ui/PortfolioData";
 import { TechArsenal } from "@/components/tech-arsenal/TechArsenal";
@@ -7,6 +9,7 @@ import { HeroSection } from "@/components/HeroSection";
 import { AboutSection } from "@/components/AboutSection";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
 import { Card } from "@/components/ui/card";
+import { m } from "framer-motion";
 
 export default function Home() {
   const section = {
@@ -35,9 +38,13 @@ export default function Home() {
           <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3
            gap-6">
             {profile.services.map((s, i) => (
-              <div 
+              <m.div 
                 key={i} 
                 className="h-full"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: [0.25, 1, 0.5, 1] }}
               >
                   <Card className={`${section.card} group h-full flex flex-col p-4`}>
                       <div className="flex items-start gap-2.5">
@@ -63,7 +70,7 @@ export default function Home() {
                         ))}
                       </div>
                   </Card>
-              </div>
+              </m.div>
             ))}
           </div>
         </div>
