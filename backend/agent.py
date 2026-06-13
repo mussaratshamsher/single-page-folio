@@ -126,10 +126,17 @@ def notify_mussarat(name: str, email: str, message: str, recaptcha_token: str = 
     """
     Send an email notification to Mussarat about a new inquiry.
     """
-    service_id = os.getenv("EMAILJS_SERVICE_ID", "").strip()
-    template_id = os.getenv("EMAILJS_TEMPLATE_ID", "template_5i4wans").strip()
-    public_key = os.getenv("EMAILJS_PUBLIC_KEY", "").strip()
-    private_key = os.getenv("EMAILJS_PRIVATE_KEY", "").strip()
+    # Defensive parsing of environment variables (handles quotes and spaces)
+    def clean_env(key, default=""):
+        val = os.getenv(key, default)
+        if val:
+            return val.strip().strip("'\"")
+        return default
+
+    service_id = clean_env("EMAILJS_SERVICE_ID")
+    template_id = clean_env("EMAILJS_TEMPLATE_ID", "template_5i4wans")
+    public_key = clean_env("EMAILJS_PUBLIC_KEY")
+    private_key = clean_env("EMAILJS_PRIVATE_KEY")
     
     if not service_id or not public_key:
         print(f"Email configuration missing: service_id={bool(service_id)}, public_key={bool(public_key)}")
@@ -141,7 +148,7 @@ def notify_mussarat(name: str, email: str, message: str, recaptcha_token: str = 
     message = message.strip() if message else "No message provided."
 
     # Structure for EmailJS /api/v1.0/email/send
-    # We include g-recaptcha-response both at top level and in params to be safe
+    # According to docs, g-recaptcha-response should be INSIDE template_params for the REST API
     template_params = {
         "name": name,
         "email": email,
@@ -159,10 +166,6 @@ def notify_mussarat(name: str, email: str, message: str, recaptcha_token: str = 
         "accessToken": private_key,
         "template_params": template_params
     }
-
-    # Also add at top level as per REST API docs
-    if recaptcha_token:
-        payload["g-recaptcha-response"] = recaptcha_token
     
     try:
         response = requests.post(
@@ -176,10 +179,15 @@ def notify_mussarat(name: str, email: str, message: str, recaptcha_token: str = 
             print("EmailJS: Successfully sent.")
             return "Notification sent successfully. Mussarat will get back to you soon."
         else:
-            print(f"EmailJS Error (Status {response.status_code}): {response.text}")
-            # If we get a 400, it's likely a configuration issue
+            error_msg = response.text
+            print(f"EmailJS Error (Status {response.status_code}): {error_msg}")
+            
+            # Specific hint for 400 errors
             if response.status_code == 400:
-                return f"Configuration error (400). Please check your EmailJS Service ID, Template ID, and API keys."
+                if "parameters are invalid" in error_msg.lower():
+                    return "EmailJS reported invalid parameters. Please verify your Service ID, Template ID, and API Keys in the dashboard."
+                return f"Configuration error (400): {error_msg}"
+                
             return f"Failed to send notification (Status {response.status_code})."
     except Exception as e:
         print(f"EmailJS Exception: {str(e)}")

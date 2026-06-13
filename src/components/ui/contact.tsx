@@ -58,7 +58,7 @@ export default function Contact() {
           message: data.message,
           "g-recaptcha-response": recaptchaToken,
         },
-        publicKey
+        { publicKey: publicKey }
       );
 
       toast.success("Message sent successfully ✅");
