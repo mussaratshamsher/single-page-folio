@@ -41,9 +41,13 @@ export default function Contact() {
     setLoading(true);
 
     try {
-      const serviceId = process.env.NEXT_PUBLIC_SERVICE_ID!;
-      const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID!;
-      const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY!;
+      const serviceId = process.env.NEXT_PUBLIC_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
+
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error("EmailJS credentials missing in frontend");
+      }
 
       await emailjs.send(
         serviceId,
@@ -73,13 +77,19 @@ export default function Contact() {
           body: JSON.stringify({ ...data, recaptcha_token: recaptchaToken }),
         });
 
-        if (!response.ok) throw new Error("Backend failed");
+        const result = await response.json();
+        
+        if (!response.ok || (result.result && result.result.includes("Failed"))) {
+          throw new Error(result.result || "Backend failed");
+        }
 
         toast.success("Message sent via backup server ✅");
         reset();
         recaptchaRef.current?.reset();
-      } catch (backendError) {
-        toast.error("Failed to send message ❌");
+      } catch (backendError: any) {
+        console.error("Contact Error:", backendError);
+        toast.error(backendError.message || "Failed to send message ❌");
+        toast.error("Please check if your EmailJS Service/Template IDs are correct.", { duration: 5000 });
       }
     } finally {
       setLoading(false);
