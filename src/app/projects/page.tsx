@@ -25,7 +25,7 @@ function ProjectStackCard({ project, index, total }: { project: any, index: numb
     <div ref={container} className="sticky top-24 md:static mb-12 md:mb-0 last:mb-0 h-[80vh] md:h-auto flex items-center justify-center">
        <m.div 
          style={{ scale, opacity }}
-         className="w-full h-full md:h-auto"
+         className="w-full h-full md:h-auto origin-top"
        >
          <ProjectCard project={project} index={index} />
        </m.div>
@@ -206,18 +206,14 @@ function ProjectsContent() {
                         </Button>
                     </m.div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 md:gap-10">
                         {filteredProjects.map((p, idx) => (
-                            <m.div 
-                                key={p.title}
-                                layout
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: idx * 0.05 }}
-                                className="h-full"
-                            >
-                                <ProjectCard project={p} />
-                            </m.div>
+                            <ProjectStackCard 
+                                key={p.title} 
+                                project={p} 
+                                index={idx} 
+                                total={filteredProjects.length} 
+                            />
                         ))}
                     </div>
                 )}

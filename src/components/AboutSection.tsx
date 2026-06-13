@@ -22,11 +22,11 @@ export function AboutSection({ profile }: AboutSectionProps) {
 
   return (
     <section id="about" className="relative border-t border-white/5">
-      <div className="absolute inset-x-0 -top-8 h-8 bg-gradient-to-b from-emerald-500/10 to-transparent" />
+      <div className="absolute inset-x-0 -top-8 h-8 bg-linear-to-b from-emerald-500/10 to-transparent" />
       <div className="mx-auto max-w-6xl px-6 py-16 grid md:grid-cols-2 gap-12 items-start">
         <m.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-          <h2 className={`text-2xl md:text-3xl font-bold ${section.title}`}>About</h2>
+          <h2 className={`text-2xl md:text-3xl mt-5 lg:mt-8 font-bold ${section.title}`}>About</h2>
           <p className={`mt-4 text-slate-300/90 leading-relaxed text-justify ${isExpanded ? '' : 'line-clamp-4'}`}>
             I’m the Co-Founder of <Link href="https://www.innolyze.com/" target="_blank" className="text-emerald-300 hover:underline">ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒</Link>,
             and an Agentic AI Developer & Full-Stack Engineer passionate about building intelligent software that solves 

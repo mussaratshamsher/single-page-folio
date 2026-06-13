@@ -30,7 +30,7 @@ export default function Home() {
       {/* SERVICES - Static enough to keep here if we use standard HTML/Tailwind for entrance */}
       <section id="services" className="border-y border-white/5">
         <div className="mx-auto max-w-6xl px-6 py-16 text-justify">
-          <h2 className={`text-2xl md:text-3xl font-bold ${section.title}`}>Services</h2>
+          <h2 className={`text-2xl md:text-3xl font-bold mt-5 lg:mt-8 ${section.title}`}>Services</h2>
           <p className={`mt-2 ${section.sub}`}>From concept to production with quality gates.</p>
           <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3
            gap-6">

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useMemo } from "react";
-import { m, AnimatePresence } from "framer-motion";
+import React, { useState, useMemo, useRef } from "react";
+import { m, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProjectCard } from "@/components/ui/ProjectCard";
@@ -10,6 +10,28 @@ import { Project } from "@/components/ui/PortfolioData";
 
 interface ProjectShowcaseProps {
   projects: Project[];
+}
+
+function ProjectStackCard({ project, index }: { project: Project, index: number }) {
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start end", "start start"]
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.6, 1]);
+
+  return (
+    <div ref={container} className="sticky top-24 mb-10 h-[70vh] flex items-center justify-center">
+      <m.div 
+        style={{ scale, opacity }}
+        className="w-full h-full origin-top"
+      >
+        <ProjectCard project={project} index={index} />
+      </m.div>
+    </div>
+  );
 }
 
 export function ProjectShowcase({ projects }: ProjectShowcaseProps) {
@@ -112,15 +134,11 @@ export function ProjectShowcase({ projects }: ProjectShowcaseProps) {
               <div className="flex flex-col gap-0 -mx-6 px-6">
                 <AnimatePresence mode="popLayout">
                   {filteredProjects.map((p, idx) => (
-                    <m.div 
+                    <ProjectStackCard 
                       key={p.title}
-                      className="sticky top-20 mb-10"
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: idx * 0.1 }}
-                    >
-                      <ProjectCard project={p} />
-                    </m.div>
+                      project={p}
+                      index={idx}
+                    />
                   ))}
                 </AnimatePresence>
                 
