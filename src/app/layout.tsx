@@ -94,11 +94,46 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: profile.name,
+    url: siteUrl.replace(/\/$/, ""),
+    image: `${siteUrl.replace(/\/$/, "")}/og-image.png`,
+    jobTitle: profile.role,
+    description: profile.tagline,
+    email: profile.email,
+    telephone: profile.phone,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: profile.location,
+    },
+    sameAs: [
+      profile.socials.facebook,
+      profile.socials.linkedin,
+      profile.socials.twitter,
+    ],
+    knowsAbout: [
+      "Agentic AI",
+      "Full-Stack Development",
+      "Next.js",
+      "Python",
+      "FastAPI",
+      "AI Agent Development",
+      "RAG",
+      "SEO Optimization",
+    ],
+  };
+
   return (
     <html lang="en" className="!scroll-smooth dark" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-950 text-slate-100`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <FramerProvider>
           <Navbar />
           {children}
