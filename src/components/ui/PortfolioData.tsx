@@ -168,6 +168,34 @@ const profile: Profile = {
       ],
       solution: "Utilized Docusaurus for its robust documentation features and integrated Qdrant for vector-based semantic search. This allows students to ask natural language questions and find relevant sections of the book instantly."
     },
+
+   {
+  slug: "content-analyzer", title: "AI Content Analyzer", tags: ["Next.js","TypeScript","OpenAI","Tailwind CSS","AI", "NLP"],
+  desc: "AI-powered content analysis platform for evaluating text quality, readability, sentiment, and overall writing effectiveness.",
+  image: "/img20.png", link: "https://ms-content-analyzer.vercel.app/",
+  longDescription: "An intelligent content analysis application that leverages modern AI models to evaluate written content. It provides insights into readability, tone, grammar, sentiment, clarity, and overall content quality, helping users improve articles, blogs, reports, and professional writing through detailed AI-generated feedback.",
+  challenges: [ "Designing an intuitive interface for presenting multiple AI analysis results.",
+    "Managing AI responses while maintaining a smooth user experience.",
+    "Structuring content evaluation into clear, actionable insights."],
+  solution: "Built using Next.js and TypeScript with a responsive Tailwind CSS interface. Integrated AI-powered text analysis to generate comprehensive reports covering readability, sentiment, grammar, and content quality in an organized dashboard."},
+{slug: "multilingual-agent", title: "Multilingual AI Agent", tags: [ "Next.js", "TypeScript", "OpenAI Agents SDK", "Tailwind CSS", "AI","Translation" ],
+  desc: "An intelligent multilingual AI assistant capable of understanding and responding across multiple languages.",
+  image: "/img21.png", link: "https://multilingual-agent.vercel.app/",
+  longDescription: "A conversational AI assistant built to communicate seamlessly in multiple languages. The application enables users to ask questions, translate content, and receive context-aware responses regardless of language, demonstrating multilingual natural language processing and AI agent capabilities.",
+  challenges: ["Maintaining conversational context across different languages.",
+    "Handling multilingual input and generating accurate responses.",
+    "Creating a clean and responsive chat interface for real-time interaction."
+  ], solution:"Developed with Next.js and TypeScript while integrating AI agent capabilities for multilingual conversations. The application detects user intent, processes multilingual prompts, and delivers natural, context-aware responses through an intuitive chat experience."},
+{slug: "digital-wallet-fraud-investigator", title: "Digital Wallet & Fraud Investigator", tags: [ "Python", "Streamlit","Machine Learning","Fraud Detection","AI", "Data Analysis"],
+  desc: "AI-driven fraud detection system that analyzes digital wallet transactions to identify suspicious activities and financial risks.",
+  image: "/img22.png", link: "https://digital-wallet-and-fraud-investigator.streamlit.app/",
+  longDescription: "A machine learning-powered fraud investigation platform that analyzes digital wallet transaction data to detect suspicious behavior and potential financial fraud. The system assists users by identifying anomalies, evaluating transaction patterns, and providing AI-supported insights for fraud prevention.",
+  challenges: [ "Processing transaction datasets efficiently for real-time analysis.",
+    "Identifying anomalous transaction patterns with high accuracy.",
+    "Presenting fraud investigation results in a clear and understandable format."
+  ], solution:"Built using Python and Streamlit with machine learning models for anomaly detection and transaction analysis. The application provides interactive visualizations, fraud risk assessments, and AI-assisted insights to support financial investigation workflows."},
+
+  
   {slug: "photo-gallery", title: "Photo Gallery", tags: ["HTML", "CSS", "JavaScript"], desc: "Modern photo gallery application with responsive layouts and optimized image presentation.", image: "/img16.png", link: "https://photogallery-indol.vercel.app/",
       longDescription: "This project is a modern photo gallery application designed to showcase images in a visually appealing and responsive manner. It features optimized image loading, intuitive navigation, and a clean, minimalist design that puts the focus on the photos themselves.",
       challenges: [ "Creating a responsive layout that adapts seamlessly to different screen sizes and orientations.",
