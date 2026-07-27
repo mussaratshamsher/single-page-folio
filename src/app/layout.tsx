@@ -119,6 +119,7 @@ export default function RootLayout({
       "Next.js",
       "Python",
       "FastAPI",
+      "Prompt Engineering",
       "AI Agent Development",
       "RAG",
       "SEO Optimization",

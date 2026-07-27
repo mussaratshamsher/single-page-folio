@@ -194,7 +194,12 @@ const profile: Profile = {
     "Identifying anomalous transaction patterns with high accuracy.",
     "Presenting fraud investigation results in a clear and understandable format."
   ], solution:"Built using Python and Streamlit with machine learning models for anomaly detection and transaction analysis. The application provides interactive visualizations, fraud risk assessments, and AI-assisted insights to support financial investigation workflows."},
-
+{slug:"digital-attendence-system", title:"Digital Attendence System", tags:["Python","Streamlit","AI","Face Recognition","Attendance Management"],
+  desc:"AI-powered digital attendance system that uses facial recognition to automate attendance tracking and management.", image:"/img23.png",link: "https://mussarat123shamsher-attendence_system.hf.space",
+ longDescription:"An intelligent attendance management system that leverages facial recognition technology to automate the process of tracking and recording attendance. The system enhances accuracy, reduces manual effort, and provides real-time attendance data for organizations and educational institutions.",
+challenges:["Ensuring accurate facial recognition across diverse lighting conditions and angles.", "To reduce load time of camera as the application starts.", "Implementing a secure and efficient database for storing attendance records.", "Designing an intuitive user interface for administrators to monitor attendance." ,
+"Integrating real-time attendance tracking with user-friendly reporting features."],
+ solution:"Developed using Python and Streamlit with facial recognition libraries for accurate identification. The system captures images, processes them for facial features, and records attendance in a secure database. Real-time reporting and analytics were implemented to provide administrators with actionable insights."},
   
   {slug: "photo-gallery", title: "Photo Gallery", tags: ["HTML", "CSS", "JavaScript"], desc: "Modern photo gallery application with responsive layouts and optimized image presentation.", image: "/img16.png", link: "https://photogallery-indol.vercel.app/",
       longDescription: "This project is a modern photo gallery application designed to showcase images in a visually appealing and responsive manner. It features optimized image loading, intuitive navigation, and a clean, minimalist design that puts the focus on the photos themselves.",
