@@ -56,8 +56,8 @@ export function HeroSection({ tagline, socials }: HeroSectionProps) {
           transition={{ ...fadeInUp.transition, delay: 0.3 }}
         >
           <Button asChild className="rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-400 text-slate-900 hover:opacity-90">
-            <a href="https://github.com/mussaratshamsher" target="_blank" rel="noreferrer">
-              GitHub <Github className="w-4 h-4 ml-1" />
+            <a href={socials.github} target="_blank" rel="noreferrer">
+              GitHub <Github className="w-4 h-4 ml-1 text-white" />
             </a>
           </Button>
           <Button variant="outline" asChild className="rounded-xl border-emerald-500/30 text-emerald-300 hover:bg-white/5">

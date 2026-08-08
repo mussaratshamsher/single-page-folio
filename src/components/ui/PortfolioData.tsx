@@ -38,6 +38,7 @@ role: string;
     facebook: string;
     linkedin: string;
     twitter: string;
+    github: string;
   };
   services: { icon: React.ReactNode; title: string; desc: string; tags: string[] }[];
   expertise: Expertise[];
@@ -58,6 +59,7 @@ phone: "+92 3182593455",
     facebook: "https://www.facebook.com/profile.php?id=61556406399229",
     linkedin: "https://www.linkedin.com/in/mussarat-shamsher-7618a6380/",
     twitter: "https://twitter.com/MussaratShams",
+    github: "https://github.com/mussaratshamsher",
   },
   services: [
     { 

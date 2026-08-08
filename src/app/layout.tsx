@@ -109,6 +109,7 @@ export default function RootLayout({
       addressLocality: profile.location,
     },
     sameAs: [
+      profile.socials.github,
       profile.socials.facebook,
       profile.socials.linkedin,
       profile.socials.twitter,
