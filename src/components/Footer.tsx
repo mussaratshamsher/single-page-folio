@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { m } from 'framer-motion';
-import { Linkedin, Twitter, Facebook, Github, Mail, Globe, ArrowUpRight } from 'lucide-react';
+import { Linkedin, Twitter, Facebook, Github, Mail, Globe, ArrowUpRight, CalendarClock } from 'lucide-react';
 import profile from '@/components/ui/PortfolioData';
 
 const Footer = () => {
@@ -67,6 +67,17 @@ const Footer = () => {
                   <social.icon className="w-5 h-5" />
                 </m.a>
               ))}
+<m.a
+                href={profile.calendlyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -5, scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-3 px-6 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 hover:opacity-90 transition-all group shadow-lg"
+              >
+                <CalendarClock className="w-5 h-5" />
+                <span className="text-sm font-bold uppercase tracking-wider hidden sm:inline">Book a Consultation</span>
+              </m.a>
               <m.a
                 href="#contact"
                 whileHover={{ y: -5, scale: 1.05 }}

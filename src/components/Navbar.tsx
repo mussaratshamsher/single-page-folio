@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Download, Menu, X } from "lucide-react";
+import { Download, Menu, X, CalendarClock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import profile from "@/components/ui/PortfolioData";
 import { m, AnimatePresence } from "framer-motion";
@@ -100,10 +100,15 @@ export default function Navbar() {
                 {item.label}
               </Link>
             ))}
-            <div className="ml-4">
+<div className="ml-2 flex items-center gap-2">
               <Button asChild size="sm" className="btn text-emerald-300 hover:text-slate-200">
                 <a href={profile.resumeUrl} target="_blank" rel="noreferrer">
                   <Download className="w-4 h-4 mr-2" /> Resume
+                </a>
+              </Button>
+              <Button asChild size="sm" className="btn text-emerald-300 hover:text-slate-200">
+                <a href={profile.calendlyUrl} target="_blank" rel="noreferrer">
+                  <CalendarClock className="w-4 h-4 mr-2" /> Book a Call
                 </a>
               </Button>
             </div>
@@ -152,15 +157,20 @@ export default function Navbar() {
               ))}
             </nav>
 
-            <m.div 
+<m.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="mt-auto mb-16"
+              className="mt-auto mb-16 flex flex-col gap-4"
             >
               <Button asChild size="lg" className="w-44 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-400 text-slate-950 font-white text-sm shadow-xl shadow-emerald-500/20">
                 <a href={profile.resumeUrl} target="_blank" rel="noreferrer">
                   <Download className="w-6 h-6 mr-1" /> Download Resume
+                </a>
+              </Button>
+              <Button asChild size="lg" className="w-44 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-400 text-slate-950 font-white text-sm shadow-xl shadow-emerald-500/20">
+                <a href={profile.calendlyUrl} target="_blank" rel="noreferrer">
+                  <CalendarClock className="w-6 h-6 mr-1" /> Book a Call
                 </a>
               </Button>
             </m.div>

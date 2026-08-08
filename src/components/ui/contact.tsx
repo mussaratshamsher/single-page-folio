@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast, { Toaster } from "react-hot-toast";
 import { m, AnimatePresence } from "framer-motion";
-import { Mail, Linkedin, Facebook, Twitter, Loader2, ChevronRight } from "lucide-react";
+import { Mail, Linkedin, Facebook, Twitter, Loader2, ChevronRight, CalendarClock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import profile from "@/components/ui/PortfolioData";
@@ -133,19 +133,22 @@ export default function Contact() {
               </p>
             </div>
 
-            {/* Contact Action Cards */}
+{/* Contact Action Cards */}
             <div className="flex flex-col gap-4">
               <a 
-                href={`mailto:${profile.email}`}
-                className="group p-3 sm:p-4 rounded-2xl bg-slate-900/40 border border-white/5 hover:border-emerald-500/30 transition-all duration-300 flex items-center gap-3 sm:gap-4 overflow-hidden"
+                href={profile.calendlyUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="group p-3 sm:p-4 rounded-2xl bg-gradient-to-r from-emerald-500/15 to-cyan-500/15 border border-emerald-500/30 hover:border-emerald-400/50 transition-all duration-300 flex items-center gap-3 sm:gap-4 overflow-hidden"
               >
-                <div className="shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
-                  <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400" />
+                <div className="shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center group-hover:bg-emerald-500/30 transition-colors">
+                  <CalendarClock className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400" />
                 </div>
                 <div className="min-w-0 flex-1 text-left">
-                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Email Me</p>
-                  <p className="text-sm sm:text-base text-slate-200 font-medium break-all sm:truncate">{profile.email}</p>
+                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Book a Consultation</p>
+                  <p className="text-sm sm:text-base text-slate-200 font-medium">Schedule a free 30-min call</p>
                 </div>
+                <ChevronRight className="w-5 h-5 text-emerald-400 shrink-0 group-hover:translate-x-1 transition-transform" />
               </a>
 
               <div className="flex flex-wrap gap-3">
@@ -166,13 +169,6 @@ export default function Contact() {
                   </a>
                 ))}
               </div>
-            </div>
-
-            {/* Company Link Badge */}
-            <div className="pt-2 text-left">
-              <p className="text-xs sm:text-sm text-slate-500 font-medium">
-                Representing <a href="https://www.innolyze.com/" target="_blank" className="text-emerald-400 font-bold hover:underline transition-all">ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒</a>
-              </p>
             </div>
           </m.div>
 

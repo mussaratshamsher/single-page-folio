@@ -27,12 +27,13 @@ export interface Project {
 
 export interface Profile {
   name: string;
-  role: string;
+role: string;
   tagline: string;
   email: string;
   phone: string;
   location: string;
   resumeUrl: string;
+  calendlyUrl: string;
   socials: {
     facebook: string;
     linkedin: string;
@@ -49,9 +50,10 @@ const profile: Profile = {
   role: "Agentic AI Developer | Full-Stack Engineer | SEO Professional",
   tagline: "I build autonomous, intelligent AI agents and high-performance web systems that scale.",
   email: "musaratskhan@gmail.com",
-  phone: "+92 3182593455",
+phone: "+92 3182593455",
   location: "Pakistan (Remote)",
   resumeUrl: "https://canva.link/7x0ifqadikv7iad",
+  calendlyUrl: "https://calendly.com/mussaratskhan7/30min",
   socials: {
     facebook: "https://www.facebook.com/profile.php?id=61556406399229",
     linkedin: "https://www.linkedin.com/in/mussarat-shamsher-7618a6380/",
