@@ -2,7 +2,7 @@
 
 import React from "react";
 import { m } from "framer-motion";
-import { ChevronRight, Facebook, Linkedin, Twitter, Rocket, ShieldCheck, Layers, Laptop } from "lucide-react";
+import { ChevronRight, Facebook, Linkedin, Twitter, Rocket, ShieldCheck, Layers, Laptop, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface HeroSectionProps {
@@ -56,7 +56,9 @@ export function HeroSection({ tagline, socials }: HeroSectionProps) {
           transition={{ ...fadeInUp.transition, delay: 0.3 }}
         >
           <Button asChild className="rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-400 text-slate-900 hover:opacity-90">
-            <a href="#contact">Contact Me <ChevronRight className="w-4 h-4 ml-1" /></a>
+            <a href="https://github.com/mussaratshamsher" target="_blank" rel="noreferrer">
+              GitHub <Github className="w-4 h-4 ml-1" />
+            </a>
           </Button>
           <Button variant="outline" asChild className="rounded-xl border-emerald-500/30 text-emerald-300 hover:bg-white/5">
             <a href={socials.facebook} target="_blank" rel="noreferrer" className="flex items-center">
