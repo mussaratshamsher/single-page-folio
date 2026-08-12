@@ -48,11 +48,11 @@ role: string;
 
 const profile: Profile = {
   name: "Mussarat Shamsher",
-  role: "Agentic AI Developer | Full-Stack Engineer | SEO Professional",
+  role: "Agentic AI Developer | Full-Stack Engineer | Design & SEO Professional",
   tagline: "I build autonomous, intelligent AI agents and high-performance web systems that scale.",
   email: "musaratskhan@gmail.com",
 phone: "+92 3182593455",
-  location: "Pakistan (Remote)",
+  location: "Pakistan (Karachi)",
   resumeUrl: "https://canva.link/7x0ifqadikv7iad",
   calendlyUrl: "https://calendly.com/mussaratskhan7/30min",
   socials: {
@@ -69,12 +69,6 @@ phone: "+92 3182593455",
       tags: ["AI Agents", "LLMs", "RAG"]
     },
     {
-      icon: <Workflow className="w-5 h-5" />, 
-      title: "Agentic Workflow Automation", 
-      desc: "AI-powered workflows that automate research, content creation, and business operations using modern Agent SDKs and multi-agent orchestration.", 
-      tags: ["Automation", "Workflow", "Python"]
-    },
-    {
       icon: <Layers className="w-5 h-5" />,
       title: "Full-Stack Engineering",
       desc: "End-to-end development from pixel-perfect Next.js frontends to robust Python FastAPI backends, focusing on scalable and type-safe architectures.", 
@@ -87,17 +81,11 @@ phone: "+92 3182593455",
       tags: ["DevOps", "Vercel", "Performance"]
     },
     { 
-      icon: <Search className="w-5 h-5" />, 
-      title: "SEO & Digital Strategy", 
-      desc: "Technical SEO, keyword research, and performance optimization to boost online presence. I align technical builds with branding and marketing goals.", 
-      tags: ["SEO", "Analytics", "Branding"]
-    },
-    { 
-      icon: <Palette className="w-5 h-5" />, 
-      title: "Design & UI/UX", 
-      desc: "Crafting professional logos, branding assets, and high-fidelity UI mockups in Figma, ensuring a cohesive and modern visual identity across all platforms.", 
-      tags: ["Figma", "Branding", "UI/UX"]
-    },
+  icon: <Palette className="w-5 h-5" />, 
+  title: "Design & Brand Strategy", 
+  desc: "End-to-end design from professional logos and branding assets to pixel-perfect UI mockups in Figma. I also handle technical SEO and performance optimization to ensure your product looks great and gets found.", 
+  tags: ["Figma", "Branding", "UI/UX", "SEO"]
+}
   ],
   expertise: [
     {
@@ -146,7 +134,7 @@ phone: "+92 3182593455",
   projects: [
     { slug: "digital-fte", title: "Digital FTE", tags: ["Next.js", "Tailwind CSS", "Gmail automation","Supabase", "Hugging Face", "Python" ,"OpenAI Agents sdk"], 
       desc: "AI-powered digital employee platform with intelligent automation and modern responsive design.",image: "/img13.png",link: "https://mussarat-digital-fte.vercel.app/",
-      longDescription: "Digital FTE is a cutting-edge platform designed to deploy 'Digital Full-Time Employees'. These AI agents are capable of handling complex business workflows, from automated email responses via Gmail to sophisticated data processing using Hugging Face models, all managed through a sleek Next.js interface.",
+      longDescription: "Digital FTE is a cutting-edge platform designed to deploy 'Digital Full-Time Employees'. These AI agents are capable of handling complex business workflows, from automated email responses via Gmail to sophisticated data processing using Hugging Face models, and helps to write email follow up, projects planning, writing proposal and social posts and all managed through a sleek Next.js interface.",
       challenges: [ "Controlling API costs caused by high token usage across long-running AI conversations.",
   "Maintaining response quality while using smaller, more cost-effective language models.",
   "Optimizing context retrieval and memory management for efficient agent performance."
@@ -173,17 +161,16 @@ phone: "+92 3182593455",
       solution: "Utilized Docusaurus for its robust documentation features and integrated Qdrant for vector-based semantic search. This allows students to ask natural language questions and find relevant sections of the book instantly."
     },
 
-   {
-  slug: "content-analyzer", title: "AI Content Analyzer", tags: ["Next.js","TypeScript","OpenAI","Tailwind CSS","AI", "NLP"],
+   { slug: "content-analyzer", title: "AI Content Analyzer", tags: ["Next.js","TypeScript","OpenAI","Tailwind CSS","AI", "NLP"],
   desc: "AI-powered content analysis platform for evaluating text quality, readability, sentiment, and overall writing effectiveness.",
   image: "/img20.png", link: "https://ms-content-analyzer.vercel.app/",
-  longDescription: "An intelligent content analysis application that leverages modern AI models to evaluate written content. It provides insights into readability, tone, grammar, sentiment, clarity, and overall content quality, helping users improve articles, blogs, reports, and professional writing through detailed AI-generated feedback.",
+  longDescription: "An intelligent content analysis application that leverages modern AI models to evaluate written content. It provides insights into readability, tone, grammar, sentiment, clarity, and overall content quality and gives short summaries, helping users improve articles, blogs, reports, and professional writing through detailed AI-generated feedback.",
   challenges: [ "Designing an intuitive interface for presenting multiple AI analysis results.",
     "Managing AI responses while maintaining a smooth user experience.",
     "Structuring content evaluation into clear, actionable insights."],
   solution: "Built using Next.js and TypeScript with a responsive Tailwind CSS interface. Integrated AI-powered text analysis to generate comprehensive reports covering readability, sentiment, grammar, and content quality in an organized dashboard."},
 {slug: "multilingual-agent", title: "Multilingual AI Agent", tags: [ "Next.js", "TypeScript", "OpenAI Agents SDK", "Tailwind CSS", "AI","Translation" ],
-  desc: "An intelligent multilingual AI assistant capable of understanding and responding across multiple languages.",
+  desc: "An intelligent multilingual AI assistant capable of ansering user's different questions and helps to translate and write content across multiple languages.",
   image: "/img21.png", link: "https://multilingual-agent.vercel.app/",
   longDescription: "A conversational AI assistant built to communicate seamlessly in multiple languages. The application enables users to ask questions, translate content, and receive context-aware responses regardless of language, demonstrating multilingual natural language processing and AI agent capabilities.",
   challenges: ["Maintaining conversational context across different languages.",

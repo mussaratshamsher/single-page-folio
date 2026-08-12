@@ -32,12 +32,11 @@ export function AboutSection({ profile }: AboutSectionProps) {
         >
           <h2 className={`text-2xl md:text-3xl mt-5 lg:mt-8 font-bold ${section.title}`}>About</h2>
           <p className={`mt-4 text-slate-300/90 leading-relaxed text-justify ${isExpanded ? '' : 'line-clamp-4'}`}>
-            I’m the Co-Founder of <Link href="https://www.innolyze.com/" target="_blank" className="text-emerald-300 hover:underline">ℐ𝓃𝓃𝑜𝓁𝓎𝓏𝑒</Link>,
-            and an Agentic AI Developer & Full-Stack Engineer passionate about building intelligent software that solves 
-            real-world problems. I specialize in Next.js, Python, FastAPI, and modern AI technologies, creating scalable web applications and autonomous AI systems.
-            From transforming Figma designs into pixel-perfect experiences to architecting AI-powered workflows, I enjoy turning ideas into products that are fast, 
-            functional, and impactful. With additional expertise in graphic design and SEO, I focus on delivering solutions that not only work seamlessly but also provide exceptional user experiences.
-          </p>
+            I’m an Agentic AI Developer & Full-Stack Engineer passionate about building intelligent software that solves 
+            real-world problems. I specialize in Next.js, React, TypeScript, Python, FastAPI, and modern AI technologies, creating scalable web applications and autonomous AI systems.
+From transforming Figma designs into pixel-perfect experiences to architecting AI-powered workflows with LLMs, Agentic AI, and APIs, 
+I enjoy turning ideas into products that are fast, functional, and impactful. With additional expertise in graphic design and SEO, I focus on delivering solutions that not only work seamlessly but also provide exceptional user experiences.
+ </p>
           <button 
               onClick={() => setIsExpanded(!isExpanded)}
               className="mt-2 text-emerald-400 text-sm font-semibold hover:underline"
