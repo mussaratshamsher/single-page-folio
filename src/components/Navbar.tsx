@@ -107,7 +107,7 @@ export default function Navbar() {
                 </a>
               </Button>
               <Button asChild size="sm" className="btn text-emerald-300 hover:text-slate-200">
-                <a href={profile.calendlyUrl} target="_blank" rel="noreferrer">
+                <a href={profile.calUrl} target="_blank" rel="noreferrer">
                   <CalendarClock className="w-4 h-4 mr-2" /> Book a Call
                 </a>
               </Button>
@@ -169,7 +169,7 @@ export default function Navbar() {
                 </a>
               </Button>
               <Button asChild size="lg" className="w-44 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-400 text-slate-950 font-white text-sm shadow-xl shadow-emerald-500/20">
-                <a href={profile.calendlyUrl} target="_blank" rel="noreferrer">
+                <a href={profile.calUrl} target="_blank" rel="noreferrer">
                   <CalendarClock className="w-6 h-6 mr-1" /> Book a Call
                 </a>
               </Button>

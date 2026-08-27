@@ -136,7 +136,7 @@ export default function Contact() {
 {/* Contact Action Cards */}
             <div className="flex flex-col gap-4">
               <a 
-                href={profile.calendlyUrl}
+                href={profile.calUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="group p-3 sm:p-4 rounded-2xl bg-gradient-to-r from-emerald-500/15 to-cyan-500/15 border border-emerald-500/30 hover:border-emerald-400/50 transition-all duration-300 flex items-center gap-3 sm:gap-4 overflow-hidden"

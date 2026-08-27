@@ -33,7 +33,7 @@ role: string;
   phone: string;
   location: string;
   resumeUrl: string;
-  calendlyUrl: string;
+  calUrl: string;
   socials: {
     facebook: string;
     linkedin: string;
@@ -54,7 +54,7 @@ const profile: Profile = {
 phone: "+92 3182593455",
   location: "Pakistan (Karachi)",
   resumeUrl: "https://canva.link/7x0ifqadikv7iad",
-  calendlyUrl: "https://calendly.com/mussaratskhan7/30min",
+  calUrl: "https://cal.com/mussarat-shamsher/30min",
   socials: {
     facebook: "https://www.facebook.com/profile.php?id=61556406399229",
     linkedin: "https://www.linkedin.com/in/mussarat-shamsher-7618a6380/",

@@ -67,8 +67,8 @@ const Footer = () => {
                   <social.icon className="w-5 h-5" />
                 </m.a>
               ))}
-<m.a
-                href={profile.calendlyUrl}
+              <m.a
+                href={profile.calUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ y: -5, scale: 1.05 }}

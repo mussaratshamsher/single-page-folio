@@ -9,7 +9,7 @@ describe("PortfolioData", () => {
     expect(profile.phone).toBe("+92 3182593455");
     expect(profile.location).toBe("Pakistan (Karachi)");
     expect(profile.resumeUrl).toBeTruthy();
-    expect(profile.calendlyUrl).toBeTruthy();
+    expect(profile.calUrl).toBeTruthy();
   });
 
   it("has social links", () => {
