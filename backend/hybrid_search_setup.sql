@@ -59,3 +59,10 @@ begin
   limit match_count;
 end;
 $$;
+
+-- Step 5: Create a table for chat logs
+create table if not exists chat_logs (
+  id bigint generated always as identity primary key,
+  user_message text not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
