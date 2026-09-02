@@ -24,7 +24,7 @@ const siteUrl = "https://mussarat-web-dev.vercel.app/";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${profile.name} | ${profile.role}`,
+    default: `${profile.name} | AI & Full-Stack Developer`,
     template: `%s | ${profile.name}`,
   },
   icons: {
@@ -33,8 +33,10 @@ export const metadata: Metadata = {
     shortcut: "/logo.png", 
     other: [ { rel: 'apple-touch-icon-precomposed', url: '/logo.png' } ]
   },
-  description: profile.tagline,
+  description: `${profile.name} is an Agentic AI & Full-Stack Developer. ${profile.tagline}`,
   keywords: [
+    "Mussarat Shamsher",
+    "Mussarat Shamsher Portfolio",
     "Agentic AI Developer",
     "AI Workflow Automation Specialist",
     "Custom AI Agent Development",
@@ -43,14 +45,13 @@ export const metadata: Metadata = {
     "Retrieval-Augmented Generation (RAG) Expert",
     "Full-Stack Developer",
     "Python",
-    "FastAPI",
-    "Mussarat Shamsher"
+    "FastAPI"
   ],
   authors: [{ name: profile.name, url: siteUrl }],
   creator: profile.name,
   openGraph: {
-    title: `${profile.name} | ${profile.role}`,
-    description: profile.tagline,
+    title: `${profile.name} | AI & Full-Stack Developer`,
+    description: `${profile.name} is an Agentic AI & Full-Stack Developer. ${profile.tagline}`,
     url: siteUrl,
     siteName: profile.name,
     images: [
@@ -64,8 +65,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${profile.name} | ${profile.role}`,
-    description: profile.tagline,
+    title: `${profile.name} | AI & Full-Stack Developer`,
+    description: `${profile.name} is an Agentic AI & Full-Stack Developer. ${profile.tagline}`,
     creator: "@MussaratShams",
     images: [
       { url: "/og-image.png", alt: `${profile.name}'s Portfolio` },

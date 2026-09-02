@@ -35,6 +35,7 @@ export function HeroSection({ tagline, socials }: HeroSectionProps) {
           animate="animate"
           transition={{ ...fadeInUp.transition, delay: 0.1 }}
         >
+        <span className="block text-2xl md:text-3xl text-emerald-400/90 mb-2 font-bold">Hi, I'm Mussarat Shamsher.</span>
         I Build <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300">Autonomous</span> AI Agents that work
 <br /> so your business scales without you.
         </m.h1>   
